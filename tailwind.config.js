@@ -8,6 +8,7 @@ module.exports = {
         "gray-color": "#A5A5A5",
         "light-color": "#9E9292",
         "background-color": "#F5F1EE",
+        "dark-brown": "#311f13",
       },
     },
   },
