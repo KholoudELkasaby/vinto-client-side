@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Category } from '../../../models/category.model';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-category',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './category.component.html',
-  styleUrl: './category.component.css'
+  styleUrl: './category.component.css',
 })
-export class CategoryComponent {
-
+export class CategoryComponent implements OnInit {
+  categories: Category[] = [];
+  constructor(private categoryService: CategoryService) {}
+  ngOnInit(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (response) => {
+        this.categories = response.data.categories;
+        console.log('Fetched Categories:', this.categories);
+      },
+      error: (err) => console.error('Error fetching categories:', err),
+    });
+  }
 }
