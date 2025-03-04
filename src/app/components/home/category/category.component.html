@@ -1,9 +1,9 @@
 <div
-  class="container-fluid flex flex-wrap justify-evenly items-center py-10 px-4 gap-2"
+  class="container-fluid flex flex-wrap justify-evenly items-center py-16 px-4 gap-2"
 >
   <div
     *ngFor="let category of categories"
-    class="category-card flex flex-col items-center justify-center gap-2 w-60"
+    class="category-card flex flex-col items-center justify-center gap-2 w-60 cursor-pointer transition-all hover:scale-105 active:scale-95"
   >
     <img
       [src]="category.img"
