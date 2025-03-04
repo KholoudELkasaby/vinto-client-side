@@ -12,6 +12,11 @@ import { CardComponent } from './card/card.component';
 })
 export class HomeComponent {
   @ViewChild('tabsSection') tabsSection!: ElementRef;
+  @ViewChild('cardSection') cardSection!: ElementRef;
+
+  Category() {
+    this.cardSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
 
   Explore() {
     this.tabsSection.nativeElement.scrollIntoView({ behavior: 'smooth' });

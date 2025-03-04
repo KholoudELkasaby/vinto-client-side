@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Category } from '../../../models/category.model';
 import { CategoryService } from '../../../services/category.service';
 
@@ -10,6 +10,8 @@ import { CategoryService } from '../../../services/category.service';
   styleUrl: './category.component.css',
 })
 export class CategoryComponent implements OnInit {
+  @Output() Category = new EventEmitter<void>();
+
   categories: Category[] = [];
   constructor(private categoryService: CategoryService) {}
   ngOnInit(): void {
