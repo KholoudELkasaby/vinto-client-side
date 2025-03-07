@@ -9,10 +9,14 @@
   </section>
   <!-- Tabs Section -->
   <section #tabsSection>
-    <app-tabs />
+    <app-tabs (activeTabChange)="updateActiveTab($event)" />
   </section>
   <!-- Card Section -->
   <section #cardSection>
-    <app-card />
+    <app-card [activeTab]="activeTab" />
+  </section>
+  <!-- ViewMore -->
+  <section>
+    <app-view-btn />
   </section>
 </div>

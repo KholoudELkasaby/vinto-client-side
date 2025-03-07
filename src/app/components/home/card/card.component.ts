@@ -1,23 +1,17 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-card',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css',
 })
 export class CardComponent {
-  toggleColor(event: Event) {
-    let target = event.target as HTMLElement | SVGElement;
+  @Input() activeTab: string = 'New Arrivals';
+  isFavorite: boolean = false;
 
-    if (target.tagName === 'path') {
-      const parentSvg = target.closest('svg');
-      if (parentSvg) {
-        target = parentSvg as SVGElement;
-      }
-    }
-    if (target instanceof SVGElement) {
-      target.style.fill = target.style.fill === 'none' ? 'black' : 'none';
-    }
+  toggleFavorite() {
+    this.isFavorite = !this.isFavorite;
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-tabs',
@@ -8,9 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './tabs.component.css',
 })
 export class TabsComponent {
+  @Output() activeTabChange = new EventEmitter<string>();
   activeTab: string = 'New Arrivals';
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
+    this.activeTabChange.emit(tab);
   }
 }
