@@ -17,7 +17,7 @@
     <!-- p-price -->
     <p class="price text-2xl font-semibold">$ <span>135.00</span></p>
     <!-- p-rate & reviews -->
-    <div class="flex w-56 justify-between">
+    <div class="flex w-52 justify-between">
       <div class="rate">
         <i class="fa-solid fa-star text-yellow-color"></i>
         <i class="fa-solid fa-star text-yellow-color"></i>
@@ -25,11 +25,11 @@
         <i class="fa-solid fa-star text-yellow-color"></i>
         <i class="fa-solid fa-star text-yellow-color"></i>
       </div>
-      <button
-        class="underline font-medium active:scale-95 hover:text-dark-brown"
+      <div
+        class="font-semibold text-sm active:scale-95 hover:scale-110 cursor-pointer border-b-[1px] border-black"
       >
-        135 Review
-      </button>
+        135 <i class="fa-solid fa-chart-simple"></i>
+      </div>
     </div>
     <!-- Color -->
     <p class="text-2xl font-semibold">Color</p>
@@ -61,7 +61,7 @@
   </div>
 
   <!-- ADD TO CART  -->
-  <div class="w-full flex justify-center p-5">
+  <div class="w-full flex justify-center p-3">
     <app-add-to-cart-btn />
   </div>
 </div>
