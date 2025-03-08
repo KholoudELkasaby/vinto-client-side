@@ -1,1 +1,29 @@
-<p>details works!</p>
+<div
+  class="grid grid-rows-12 sm:grid-row-12 md:grid-cols-12 w-screen h-screen bg-background-color overflow-x-hidden"
+>
+  <!-- Left  Section  -->
+  <section
+    class="row-span-6 md:row-span-12 md:col-span-6 relative flex justify-center bg-cover bg-center bg-no-repeat"
+    style="background-image: url('/Images/test-card.png')"
+  >
+    <div class="absolute top-0 left-0 w-full p-6 flex justify-between">
+      <i
+        class="fa-solid fa-arrow-left-long text-2xl cursor-pointer text-background-color hover:scale-105 active:scale-90 active:text-dark-brown"
+      ></i>
+      <div
+        (click)="toggleFavorite()"
+        class="rounded-full w-8 h-8 p-2 flex items-center justify-center bg-background-color cursor-pointer hover:scale-105 active:scale-90"
+      >
+        <i
+          [ngClass]="{ 'fa-regular': !isFavorite, 'fa-solid': isFavorite }"
+          class="fa-heart"
+        ></i>
+      </div>
+    </div>
+  </section>
+
+  <!--Right Section -->
+  <section class="details-info md:col-span-6 bg-background-color">
+    <app-details-info />
+  </section>
+</div>

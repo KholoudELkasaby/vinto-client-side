@@ -10,6 +10,7 @@ module.exports = {
         "background-color": "#F5F1EE",
         "dark-brown": "#311f13",
         "yellow-color": "#FFD43B",
+        "light-brown": "#A46016",
       },
     },
   },
