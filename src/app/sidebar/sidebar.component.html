@@ -38,91 +38,120 @@
 
 
 
-    <div class=" mt-10   ml-10 flex justify-start">
-<button  value=  "press"  (click)="press()"  id="dropdownHelperButton" data-dropdown-toggle="dropdownHelper" class=" text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center     " type="button">Categories <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+    <div class="    w-[140px] mt-10   ml-10  mb-10 flex justify-start">
+<button  value=  "press"  (click)="press()"  id="dropdownHelperButton" data-dropdown-toggle="dropdownHelper" class=" w-full text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center     " type="button">Categories <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
     </svg>
     </button>
 </div>
 
     <!-- Dropdown menu -->
-    <div id="dropdownHelper" class=" w-full hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:bg-gray-700 dark:divide-gray-600">
-        <ul class=" space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHelperButton">
+    <div id="dropdownHelper" class="  w-full hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="  space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHelperButton">
 
-            <diV class="m-10">
+            <diV class="   p-10 border border-gray-300">
                 <div class="flex   justify-around items-center m-1  ">
                     <label for="checked1-checkbox " class=" text-sm font-medium text-gray-900 dark:text-gray-300">Furniture</label>
                     <input id="checked1-checkbox " type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 <div class="flex   justify-around items-center m-3">
                     <label for="checked2-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Accessories</label>
-                    <input checked id="checked2-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked2-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 
                 <div class="flex   justify-around items-center ">
                     <label for="checked3-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Fachion </label>
-                    <input checked id="checked3-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked3-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 
                 <div class="flex   justify-around items-center  m-3">
                     <label for="checked4-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">Electronics </label>
-                    <input checked id="checked4-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked4-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                   
                 <div class="flex   justify-around items-center ">
                     <label for="checked5-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">potties </label>
-                    <input checked id="checked5-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked5-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 </diV>
 
         </ul>
     </div>
-    
 
+<!--,------------------------------------------------------------------------------------------- -->
     <!-- price -->
 
-    <div class="mt-10 ml-10 flex justify-start">
+    <div class=" w-[140px] mt-10 ml-10 flex justify-start">
         <button id="dropdownpriceButton"  value=  "press2"  (click)="press2()"
-            class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+            class="  w-full text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
             Price
-            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <svg   class="w-2.5 h-2.5 ms-3 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
             </svg>
         </button>
     </div>
     
     <div id="dropdownHelperp" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm   w-full dark:bg-gray-700 dark:divide-gray-600">
-        <div class="space-y-1 text-sm text-gray-700 dark:text-gray-200    p-10 m-5" aria-labelledby="dropdownpriceButton">
+        <div class="space-y-1 text-sm text-gray-700 dark:text-gray-200    p-10 " aria-labelledby="dropdownpriceButton">
             <!--  ......................................................................-->
-<div class="  border-gray-900  dark:border-gray-800 ">
-<label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mx-auto ">Price</label>
-<div class="flex justify-center">
-<div>
-    <input id="medium-range" type="range" value="50" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+<div class="  border border-gray-300  dark:border-gray-900 ">
 
+
+
+<!-- ....................................................... -->
+<div class=" m-15 border-gray-900 dark:border-gray-900 p-4 w-full max-w-md mx-auto">
+    <label class="block mb-4 text-sm font-medium text-gray-900 dark:text-white text-center">Price Range</label>
+    
+    <div class="relative w-full flex justify-center items-center">
+        <input id="minRange" type="range" min="0" max="1000" value="0"
+            class="w-40 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600 mx-2">
+        
+        <input id="maxRange" type="range" min="0" max="1000" value="0"
+            class="w-40 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600 mx-2">
+    </div>
+
+    <div class="flex justify-center items-center mt-4">
+        <div class="mr-5 w-20">
+            <label for="minInput" class="text-sm font-medium text-gray-900 dark:text-white">From:</label>
+            <input type="number" id="minInput" value="0" min="0" max="1000"
+                class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 dark:bg-gray-700 dark:text-white w-full">
+        </div>
+        
+        <div class="w-20">
+            <label for="maxInput" class="text-sm font-medium text-gray-900 dark:text-white">To:</label>
+            <input type="number" id="maxInput" value="0" min="0" max="1000"
+                class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 dark:bg-gray-700 dark:text-white w-full">
+        </div>
+    </div>
 </div>
-<div>
-<input id="medium-range" type="range" value="50" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+<!-- //////////////////////////// -->
+<div class="flex justify-center items-center">
+<div class="mr-5 w-20">
+<button type="button" class=" mb-8 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+</div>
+<div class="w-20">
+<button type="button" class=" mb-8 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2   dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Reset</button>
 </div>
 </div>
 
-<div class="flex justify-center">
-<div>
-
-    <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="From..." required />
-</div>
-<div>
-
-    <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="To..." required />
-</div>
-</div>
-
-<div class="flex justify-center">
-
-<button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
-<button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Reset</button>
-</div>
 </div>
 
 </div>
     </div>
+    <!-- ---------------------New to old , old to new----------------------------------------- -->
+
+
+    <div class=" mt-10 ml-10   text-white bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+        <label for="checked1-checkbox  text-white " class="  mr-3 text-sm font-medium">New To Old</label>
+        <input id="checked1-checkbox" type="checkbox" value="" class="  w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    </div>
+
+<br>
+
+
+    <div class="mt-10 ml-10  text-white bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+        <label for="checked2-checkbox  text-white" class=" mr-3 text-sm font-medium ">Old To New</label>
+        <input  id="checked2-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    </div>
+
+
