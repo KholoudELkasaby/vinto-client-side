@@ -1,0 +1,128 @@
+
+<diV class="bg-black p-8" >
+    <div class="flex flex-row items-center space-x-4">
+        <div class="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white"
+             style="font-family: 'Poor Richard', serif;">
+            Vinto
+        </div>
+        <div>
+            <img src="/asserts/Vector.jpg" alt="Image not found" class="flex"/>
+        </div>
+    </div>
+    
+</diV>
+
+<form class="   mt-5 m-4    ">   
+    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div class="relative ">
+        <input type="search" id="default-search" class="block w-full p-4 ps-10 h-2 text-sm text-gray-400 border border-gray-600 rounded-[200px] border bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search " required />
+
+        <div class="absolute inset-y-0 end-5 flex items-center ps-3 pointer-events-none">
+            <svg class="w-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!--  -->
+
+
+
+    
+  
+
+
+
+    <div class=" mt-10   ml-10 flex justify-start">
+<button  value=  "press"  (click)="press()"  id="dropdownHelperButton" data-dropdown-toggle="dropdownHelper" class=" text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center     " type="button">Categories <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg>
+    </button>
+</div>
+
+    <!-- Dropdown menu -->
+    <div id="dropdownHelper" class=" w-full hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:bg-gray-700 dark:divide-gray-600">
+        <ul class=" space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHelperButton">
+
+            <diV class="m-10">
+                <div class="flex   justify-around items-center m-1  ">
+                    <label for="checked1-checkbox " class=" text-sm font-medium text-gray-900 dark:text-gray-300">Furniture</label>
+                    <input id="checked1-checkbox " type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                <div class="flex   justify-around items-center m-3">
+                    <label for="checked2-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Accessories</label>
+                    <input checked id="checked2-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                
+                <div class="flex   justify-around items-center ">
+                    <label for="checked3-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Fachion </label>
+                    <input checked id="checked3-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                
+                <div class="flex   justify-around items-center  m-3">
+                    <label for="checked4-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">Electronics </label>
+                    <input checked id="checked4-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                  
+                <div class="flex   justify-around items-center ">
+                    <label for="checked5-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">potties </label>
+                    <input checked id="checked5-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                </diV>
+
+        </ul>
+    </div>
+    
+
+    <!-- price -->
+
+    <div class="mt-10 ml-10 flex justify-start">
+        <button id="dropdownpriceButton"  value=  "press2"  (click)="press2()"
+            class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+            Price
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+        </button>
+    </div>
+    
+    <div id="dropdownHelperp" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm   w-full dark:bg-gray-700 dark:divide-gray-600">
+        <div class="space-y-1 text-sm text-gray-700 dark:text-gray-200    p-10 m-5" aria-labelledby="dropdownpriceButton">
+            <!--  ......................................................................-->
+<div class="  border-gray-900  dark:border-gray-800 ">
+<label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mx-auto ">Price</label>
+<div class="flex justify-center">
+<div>
+    <input id="medium-range" type="range" value="50" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+
+</div>
+<div>
+<input id="medium-range" type="range" value="50" class="w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+</div>
+</div>
+
+<div class="flex justify-center">
+<div>
+
+    <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="From..." required />
+</div>
+<div>
+
+    <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="To..." required />
+</div>
+</div>
+
+<div class="flex justify-center">
+
+<button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+<button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Reset</button>
+</div>
+</div>
+
+</div>
+    </div>
