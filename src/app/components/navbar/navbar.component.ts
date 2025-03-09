@@ -31,7 +31,15 @@ export class NavbarComponent {
 
   @HostListener('document:click', ['$event'])
   closeDropdownOnClickOutside(event: Event) {
-    if (!(event.target as HTMLElement).closest('.relative')) {
+    const dropdown = document.querySelector('.relative .absolute');
+    const userIcon = document.querySelector('.fa-circle-user');
+
+    if (
+      dropdown &&
+      !dropdown.contains(event.target as Node) &&
+      userIcon &&
+      !userIcon.contains(event.target as Node)
+    ) {
       this.dropdownOpen = false;
     }
   }

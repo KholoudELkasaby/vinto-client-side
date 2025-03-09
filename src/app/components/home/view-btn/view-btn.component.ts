@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-view-btn',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './view-btn.component.html',
-  styleUrl: './view-btn.component.css'
+  styleUrl: './view-btn.component.css',
 })
-export class ViewBtnComponent {
-
-}
+export class ViewBtnComponent {}

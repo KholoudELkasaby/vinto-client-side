@@ -23,11 +23,12 @@
       <div class="flex gap-3">
         <i
           class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
+          (click)="$event.stopPropagation()"
         ></i>
         <i
           [ngClass]="{ 'fa-regular': !isFavorite, 'fa-solid': isFavorite }"
           class="wish-list fa-heart cursor-pointer hover:scale-125 scale-105 transition-all active:scale-95"
-          (click)="toggleFavorite()"
+          (click)="toggleFavorite(); $event.stopPropagation()"
         ></i>
       </div>
     </div>
