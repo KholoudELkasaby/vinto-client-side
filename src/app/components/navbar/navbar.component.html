@@ -1,16 +1,102 @@
 <nav class="[20vh] w-full bg-black flex justify-center">
-  <div class="container h-full flex justify-between items-center w-full">
+  <div
+    class="container h-full flex justify-around md:justify-between items-center w-full"
+  >
+    <div class="md:hidden">
+      <div class="relative dropdown">
+        <div
+          tabindex="0"
+          role="button"
+          class="cursor-pointer btn btn-ghost btn-circle w-5"
+          (click)="toggleDropdown()"
+        >
+          <div
+            class="hamburger-icon flex flex-col items-center justify-between w-6 h-4"
+          >
+            <div
+              class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out"
+              [ngClass]="{
+                'rotate-45 translate-y-[7px]': dropdownOpen,
+                'rotate-0 translate-y-0': !dropdownOpen
+              }"
+            ></div>
+            <div
+              class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out"
+              [ngClass]="{
+                'opacity-0': dropdownOpen,
+                'opacity-100': !dropdownOpen
+              }"
+            ></div>
+            <div
+              class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out"
+              [ngClass]="{
+                '-rotate-45 translate-y-[-8px]': dropdownOpen,
+                'rotate-0 translate-y-0': !dropdownOpen
+              }"
+            ></div>
+          </div>
+        </div>
+        <ul
+          *ngIf="dropdownOpen"
+          tabindex="0"
+          class="menu menu-sm dropdown-content absolute left-0 mt-2 w-32 bg-white shadow-lg rounded-lg z-10"
+        >
+          <a
+            class="cursor-pointer block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200"
+            routerLink="/products"
+            >Products</a
+          >
+          <hr />
+          <hr />
+          <a
+            class="cursor-pointer block px-4 py-2 text-black hover:bg-gray-200"
+            routerLink="/about"
+            >About Us</a
+          >
+          <hr />
+
+          <ng-container *ngIf="isLoggedIn; else loggedOutMenu">
+            <a
+              class="cursor-pointer block px-4 py-2 text-black hover:bg-gray-200"
+              routerLink="/profile"
+              >Profile</a
+            >
+            <hr />
+            <a
+              routerLink="/"
+              class="cursor-pointer block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200"
+              (click)="signOut()"
+              >Sign Out</a
+            >
+          </ng-container>
+          <ng-template #loggedOutMenu>
+            <a
+              class="cursor-pointer block px-4 py-2 text-black hover:bg-gray-200"
+              routerLink="/register"
+              >Sign Up</a
+            >
+            <hr />
+            <a
+              class="cursor-pointer block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200"
+              routerLink="/login"
+              >Log In</a
+            >
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+
     <!-- LOGO -->
     <div
       class="logo relative flex flex-col items-center mt-1 cursor-pointer"
       routerLink="/"
     >
       <img
-        class="w-6 absolute right-0 top-0 cursor-pointer"
+        class="w-4 md:w-6 absolute right-0 top-2 md:top-0 cursor-pointer"
         src="/Images/logo.svg"
       />
       <a
-        class="font-medium text-4xl text-white p-3"
+        class="font-medium text-3xl md:text-4xl text-white p-3"
         style="font-family: 'Poor Richard', serif"
       >
         Vinto
@@ -18,7 +104,7 @@
     </div>
 
     <!-- links -->
-    <div class="router h-full flex justify-center items-center gap-5">
+    <div class="router hidden md:flex h-full justify-center items-center gap-5">
       <a
         routerLink="/"
         class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
@@ -42,10 +128,14 @@
 
     <!-- flag -->
     <div
-      class="flag h-full flex justify-center items-center transition-all duration-500 cursor-pointer w-10"
+      class="flag h-full flex justify-center items-center cursor-pointer w-6 md:w-8"
       (click)="toggleFlag()"
     >
-      <img [src]="flagSrc" alt="Flag" />
+      <img
+        [src]="flagSrc"
+        alt="Flag"
+        class="transition-all duration-500 ease-in-out active:scale-0 active:opacity-0"
+      />
     </div>
 
     <!-- ICONS -->
@@ -53,25 +143,43 @@
       class="icons h-full flex justify-center items-center cursor-pointer gap-4"
     >
       <a
-        class="cursor-pointer hover:scale-105 active:scale-95"
+        class="relative cursor-pointer hover:scale-105 active:scale-95"
         routerLink="/cart"
-        ><i class="fa-solid fa-cart-shopping text-white"></i
-      ></a>
+        ><i class="fa-solid fa-cart-shopping text-white"></i>
+        <span
+          class="absolute top-0 right-0 translate-x-2 -translate-y-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center"
+        >
+          7
+        </span></a
+      >
       <a
         class="cursor-pointer hover:scale-105 active:scale-95"
         routerLink="/wishlist"
         ><i class="fa-solid fa-heart text-white"></i
       ></a>
-      <a class="cursor-pointer hover:scale-105 active:scale-95"
-        ><i class="fa-solid fa-bell text-white"></i
-      ></a>
+      <a class="relative cursor-pointer hover:scale-105 active:scale-95">
+        <i class="fa-solid fa-bell text-white"></i>
+        <span
+          *ngIf="notificationCount > 0"
+          class="absolute top-0 right-0 translate-x-2 -translate-y-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center"
+        >
+          {{ notificationCount }}
+        </span>
+      </a>
     </div>
 
     <!-- Profile Dropdown -->
-    <div class="relative">
+    <div
+      class="relative hidden md:block cursor-pointer btn btn-ghost btn-circle avatar w-10 rounded-full transition-transform duration-300"
+      (click)="toggleDropdown()"
+    >
+      <!-- <img
+        class="w-full h-full object-cover rounded-full"
+        src="/Images/dress.jfif"
+        alt=""
+      /> -->
       <i
-        class="fa-regular fa-circle-user text-white text-4xl cursor-pointer"
-        (click)="toggleDropdown()"
+        class="fa-regular fa-circle-user text-white text-4xl cursor-pointer transition-transform duration-300"
       ></i>
       <!-- Dropdown Menu -->
       <div
@@ -82,12 +190,13 @@
         <ng-container *ngIf="isLoggedIn; else loggedOutMenu">
           <a
             routerLink="/profile"
-            class="block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200"
+            class="block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200 cursor-pointer"
             (click)="closeDropdown()"
             >Profile</a
           >
           <hr />
           <a
+            routerLink="/"
             class="block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200 cursor-pointer"
             (click)="signOut()"
             >Sign Out</a
