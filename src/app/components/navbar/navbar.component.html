@@ -78,19 +78,38 @@
         *ngIf="dropdownOpen"
         class="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg z-10"
       >
-        <a
-          routerLink="/profile"
-          class="block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200"
-          (click)="closeDropdown()"
-          >Profile</a
-        >
-        <hr />
-        <a
-          routerLink="/sign-out"
-          class="block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200 cursor-pointer"
-          (click)="signOut()"
-          >Sign Out</a
-        >
+        <!-- If user is logged in -->
+        <ng-container *ngIf="isLoggedIn; else loggedOutMenu">
+          <a
+            routerLink="/profile"
+            class="block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200"
+            (click)="closeDropdown()"
+            >Profile</a
+          >
+          <hr />
+          <a
+            class="block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200 cursor-pointer"
+            (click)="signOut()"
+            >Sign Out</a
+          >
+        </ng-container>
+
+        <!-- If user is logged out -->
+        <ng-template #loggedOutMenu>
+          <a
+            routerLink="/register"
+            class="block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200"
+            (click)="closeDropdown()"
+            >Sign Up</a
+          >
+          <hr />
+          <a
+            routerLink="/login"
+            class="block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200"
+            (click)="closeDropdown()"
+            >Log In</a
+          >
+        </ng-template>
       </div>
     </div>
   </div>
