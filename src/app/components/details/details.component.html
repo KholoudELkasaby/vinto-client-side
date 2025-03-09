@@ -27,9 +27,11 @@
       <!-- images -->
       <div class="relative w-[400px] h-[400px]">
         <img
+          *ngIf="selectedImage"
           [src]="selectedImage"
           alt="main-img"
-          class="w-full h-full rounded-3xl object-cover"
+          class="w-full h-full rounded-3xl object-cover transition-all duration-500 opacity-100"
+          [ngClass]="{ 'opacity-0': isFading, 'opacity-100': !isFading }"
         />
       </div>
       <!-- Image Bar -->

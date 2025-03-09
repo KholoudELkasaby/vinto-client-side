@@ -19,8 +19,18 @@ export class DetailsComponent {
   ///////
   // Array of images
   images = ['/Images/dress.jfif', '/Images/test-card.png'];
+
   selectedImage = this.images[0];
+  isFading = false;
+
   selectImage(image: string) {
-    this.selectedImage = image;
+    if (this.selectedImage === image) return;
+
+    this.isFading = true;
+
+    setTimeout(() => {
+      this.selectedImage = image;
+      this.isFading = false;
+    }, 300);
   }
 }
