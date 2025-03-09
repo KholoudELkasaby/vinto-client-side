@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DetailsInfoComponent } from './details-info/details-info.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-details',
-  imports: [CommonModule, DetailsInfoComponent],
+  imports: [CommonModule, DetailsInfoComponent, RouterModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })

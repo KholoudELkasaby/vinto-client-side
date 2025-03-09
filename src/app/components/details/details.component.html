@@ -1,5 +1,5 @@
 <div
-  class="grid grid-rows-12 sm:grid-row-12 md:grid-cols-12 w-screen h-screen bg-background-color overflow-x-hidden"
+  class="grid grid-rows-12 sm:grid-row-12 md:grid-cols-12 w-full h-screen bg-background-color overflow-x-hidden"
 >
   <!-- Left  Section  -->
   <section
@@ -7,9 +7,11 @@
     style="background-image: url('/Images/dress.jfif')"
   >
     <div class="absolute top-0 left-0 w-full p-6 flex justify-between">
-      <i
-        class="fa-solid fa-arrow-left-long text-2xl cursor-pointer text-background-color hover:scale-105 active:scale-90 active:text-dark-brown"
-      ></i>
+      <a routerLink="/" class="cursor-pointer hover:scale-105 active:scale-90"
+        ><i
+          class="fa-solid fa-arrow-left-long text-2xl text-background-color active:text-dark-brown"
+        ></i
+      ></a>
       <div
         (click)="toggleFavorite()"
         class="rounded-full w-8 h-8 p-2 flex items-center justify-center bg-background-color cursor-pointer hover:scale-105 active:scale-90"

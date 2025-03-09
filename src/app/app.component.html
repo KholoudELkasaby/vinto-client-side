@@ -1,4 +1,6 @@
-<app-navbar />
+<ng-container *ngIf="showNavbar">
+  <app-navbar />
+</ng-container>
 <router-outlet> </router-outlet>
 <!-- <app-home /> -->
 <!-- <app-details /> -->
