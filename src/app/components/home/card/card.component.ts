@@ -15,4 +15,20 @@ export class CardComponent {
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
   }
+  //////////////
+  images: string[] = [
+    '/Images/test-card.png',
+    '/Images/dress.jfif',
+  ];
+  currentIndex: number = 0;
+
+  nextImage(event: Event): void {
+    event.stopPropagation();
+    this.currentIndex = (this.currentIndex + 1) % this.images.length; 
+  }
+
+  prevImage(event: Event): void {
+    event.stopPropagation();
+    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+  }
 }

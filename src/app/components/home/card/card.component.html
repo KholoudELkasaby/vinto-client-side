@@ -11,9 +11,20 @@
     >
       3% OFF
     </p>
-    <figure class="h-30 w-full">
+    <figure class="h-64 w-full relative flex justify-center items-center">
+      <div class="absolute w-[97%] flex justify-between">
+        <i
+          (click)="prevImage($event)"
+          class="text-gray-100 opacity-70 fa-solid fa-circle-arrow-left active:scale-95 hover:opacity-100"
+        ></i>
+        <i
+          (click)="nextImage($event)"
+          class="text-gray-100 fa-solid opacity-70 fa-circle-arrow-right active:scale-95 hover:opacity-100"
+        ></i>
+      </div>
+
       <img
-        src="/Images/test-card.png"
+        [src]="images[currentIndex]"
         alt="Shoes"
         class="product-img w-full h-full object-cover"
       />
