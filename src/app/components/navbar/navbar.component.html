@@ -1,16 +1,90 @@
-<header class="h-[10vh] w-screen bg-black flex">
-  <div class="container h-full flex justify-start items-center w-full gap-7">
+<nav class="[20vh] w-full bg-black flex justify-center">
+  <div class="container h-full flex justify-between items-center w-full">
     <!-- LOGO -->
-    <div class="logo relative flex flex-col items-center">
-      <img class="w-5 absolute right-0 top-0" src="/Images/logo.svg" />
-      <p
-        class="font-medium text-4xl text-white p-2"
+    <div
+      class="logo relative flex flex-col items-center mt-1 cursor-pointer"
+      routerLink="/"
+    >
+      <img
+        class="w-6 absolute right-0 top-0 cursor-pointer"
+        src="/Images/logo.svg"
+      />
+      <a
+        class="font-medium text-4xl text-white p-3"
         style="font-family: 'Poor Richard', serif"
       >
         Vinto
-      </p>
+      </a>
     </div>
 
     <!-- links -->
+    <div class="router h-full flex justify-center items-center gap-5">
+      <a
+        routerLink="/"
+        class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="active-link"
+        >Home</a
+      >
+      <a
+        routerLink="/about"
+        class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
+        routerLinkActive="active-link"
+        >About Us</a
+      >
+      <a
+        routerLink="/products"
+        class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
+        routerLinkActive="active-link"
+        >Products</a
+      >
+    </div>
+
+    <!-- flag -->
+    <div
+      class="flag h-full flex justify-center items-center cursor-pointer w-10"
+    >
+      <img src="/Images/us.svg" alt="" />
+    </div>
+
+    <!-- ICONS -->
+    <div
+      class="icons h-full flex justify-center items-center cursor-pointer gap-4"
+    >
+      <a class="cursor-pointer hover:scale-105 transition-all active:scale-95"
+        ><i class="fa-solid fa-cart-shopping text-white"></i
+      ></a>
+      <a class="cursor-pointer hover:scale-105 transition-all active:scale-95"
+        ><i class="fa-solid fa-heart text-white"></i
+      ></a>
+      <a class="cursor-pointer hover:scale-105 transition-all active:scale-95"
+        ><i class="fa-solid fa-bell text-white"></i
+      ></a>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="relative">
+      <i
+        class="fa-regular fa-circle-user text-white text-4xl cursor-pointer"
+        (click)="toggleDropdown()"
+      ></i>
+      <!-- Dropdown Menu -->
+      <div
+        *ngIf="dropdownOpen"
+        class="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg z-10"
+      >
+        <a
+          routerLink="/profile"
+          class="block px-4 py-2 text-black rounded-t-lg hover:bg-gray-200"
+          (click)="closeDropdown()"
+          >Profile</a
+        >
+        <a
+          class="block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200 cursor-pointer"
+          (click)="signOut()"
+          >Sign Out</a
+        >
+      </div>
+    </div>
   </div>
-</header>
+</nav>

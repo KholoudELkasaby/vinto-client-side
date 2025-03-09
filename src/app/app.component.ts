@@ -8,7 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [HomeComponent, DetailsComponent, NavbarComponent],
+  imports: [HomeComponent, DetailsComponent, NavbarComponent, RouterOutlet],
 })
 export class AppComponent {
   title = 'vinto-client-side';
