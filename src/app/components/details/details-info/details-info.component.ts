@@ -9,16 +9,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './details-info.component.css',
 })
 export class DetailsInfoComponent {
-  activeColor: number = 0;
+  isExpanded: boolean = false;
   activeSize: number = 2;
 
-  colors: string[] = ['#A46016', '#000000', '#9E9292'];
   sizes: string[] = ['S', 'M', 'L', 'XL'];
 
   setActive(type: string, index: number) {
-    if (type === 'color') {
-      this.activeColor = index;
-    } else if (type === 'size') {
+    if (type === 'size') {
       this.activeSize = index;
     }
   }
