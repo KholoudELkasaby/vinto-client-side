@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
 
 @Component({
   selector: 'app-productitem',

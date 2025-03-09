@@ -1,7 +1,10 @@
+<button  (mouseenter)="onHovers(true)" (mouseleave)="onHovers(false)"    class="flex space-evenly        inline-block "> 
 
-<diV class="bg-black p-8" >
+
+<!-- 
+<diV class="bg-black   p-3" >
     <div class="flex flex-row items-center space-x-4">
-        <div class="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white"
+        <div class="    pl-10 pt-10 self-center text-3xl font-semibold whitespace-nowrap text-white dark:text-white"
              style="font-family: 'Poor Richard', serif;">
             Vinto
         </div>
@@ -10,21 +13,24 @@
         </div>
     </div>
     
-</diV>
-
-<form class="   mt-5 m-4    ">   
-    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+</diV> -->
+<!--  -->
+<div  class="bg-white">
+<form class="     pt-10 mx-auto ml-5 mr-5   ">   
+    <label for="default-search" class=" text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div class="relative ">
         <input type="search" id="default-search" class="block w-full p-4 ps-10 h-2 text-sm text-gray-400 border border-gray-600 rounded-[200px] border bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search " required />
 
         <div class="absolute inset-y-0 end-5 flex items-center ps-3 pointer-events-none">
-            <svg class="w-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            <svg class=" w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
         </div>
+
+
+
     </div>
 </form>
-
 
 
 
@@ -38,18 +44,24 @@
 
 
 
-    <div class="    w-[140px] mt-10   ml-10  mb-10 flex justify-start">
-<button  value=  "press"  (click)="press()"  id="dropdownHelperButton" data-dropdown-toggle="dropdownHelper" class=" w-full text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center     " type="button">Categories <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-    </svg>
+    <div class="    w-[250px] mt-10   ml-5  pl-3   flex justify-start text-black">
+<button  value=  "press"  (click)="press()"  id="dropdownHelperButton" data-dropdown-toggle="dropdownHelper" class=" flex items-center justify-between w-full text-black  focus:ring-4 focus:outline-none   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Categories
+     <!-- <div id="SG"  class=" " > -->
+
+
+        <svg class="  w-3 h-3 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+            <path [attr.d]="x" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+        
+<!-- </div> -->
     </button>
 </div>
 
     <!-- Dropdown menu -->
-    <div id="dropdownHelper" class="  w-full hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:bg-gray-700 dark:divide-gray-600">
+    <div id="dropdownHelper" class="  w-full hidden bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-60  dark:divide-gray-600">
         <ul class="  space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHelperButton">
 
-            <diV class="   p-10 border border-gray-300">
+            <diV class="   p-10 ">
                 <div class="flex   justify-around items-center m-1  ">
                     <label for="checked1-checkbox " class=" text-sm font-medium text-gray-900 dark:text-gray-300">Furniture</label>
                     <input id="checked1-checkbox " type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -81,43 +93,43 @@
 <!--,------------------------------------------------------------------------------------------- -->
     <!-- price -->
 
-    <div class=" w-[140px] mt-10 ml-10 flex justify-start">
+    <div class=" w-[250px]  ml-5  ">
         <button id="dropdownpriceButton"  value=  "press2"  (click)="press2()"
-            class="  w-full text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-            Price
-            <svg   class="w-2.5 h-2.5 ms-3 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            class="   flex items-center justify-between    w-full text-black focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+           <div class=" pl-3 ">Price</div>
+            <svg class="w-3 h-3 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                <path [attr.d]="x2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
             </svg>
         </button>
     </div>
     
-    <div id="dropdownHelperp" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm   w-full dark:bg-gray-700 dark:divide-gray-600">
+    <div id="dropdownHelperp" class="hidden bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm   w-full dark:bg-gray-700 dark:divide-gray-600">
         <div class="space-y-1 text-sm text-gray-700 dark:text-gray-200    p-10 " aria-labelledby="dropdownpriceButton">
             <!--  ......................................................................-->
-<div class="  border border-gray-300  dark:border-gray-900 ">
+<div class="  ">
 
 
 
 <!-- ....................................................... -->
-<div class=" m-15 border-gray-900 dark:border-gray-900 p-4 w-full max-w-md mx-auto">
+<div class=" m-3   max-w-md mx-auto">
     <label class="block mb-4 text-sm font-medium text-gray-900 dark:text-white text-center">Price Range</label>
     
     <div class="relative w-full flex justify-center items-center">
         <input id="minRange" type="range" min="0" max="1000" value="0"
-            class="w-40 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600 mx-2">
+            class="w-15 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600 mx-2">
         
         <input id="maxRange" type="range" min="0" max="1000" value="0"
-            class="w-40 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600 mx-2">
+            class="w-15 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600 mx-2">
     </div>
 
     <div class="flex justify-center items-center mt-4">
-        <div class="mr-5 w-20">
+        <div class="mr-5 w-10">
             <label for="minInput" class="text-sm font-medium text-gray-900 dark:text-white">From:</label>
             <input type="number" id="minInput" value="0" min="0" max="1000"
                 class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 dark:bg-gray-700 dark:text-white w-full">
         </div>
         
-        <div class="w-20">
+        <div class="w-10">
             <label for="maxInput" class="text-sm font-medium text-gray-900 dark:text-white">To:</label>
             <input type="number" id="maxInput" value="0" min="0" max="1000"
                 class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 dark:bg-gray-700 dark:text-white w-full">
@@ -138,20 +150,29 @@
 
 </div>
     </div>
+
+
+
+    <!-- testtttyyyyyy -->
+     
     <!-- ---------------------New to old , old to new----------------------------------------- -->
 
-
-    <div class=" mt-10 ml-10   text-white bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
-        <label for="checked1-checkbox  text-white " class="  mr-3 text-sm font-medium">New To Old</label>
-        <input id="checked1-checkbox" type="checkbox" value="" class="  w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+<div class="flex ml-4">
+    <div class="  ml-3   text-black   hover:bg-gray-200  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+        <button  class=" text-sm font-medium ">Old To New</button>
     </div>
 
+</div> 
+
+<div class="flex  ml-6">
+
+    <div class=" text-black  hover:bg-gray-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+        <button  class="font-medium ">New To Old</button>
+    </div>
+</div>
+
+
+</div>
 <br>
 
-
-    <div class="mt-10 ml-10  text-white bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
-        <label for="checked2-checkbox  text-white" class=" mr-3 text-sm font-medium ">Old To New</label>
-        <input  id="checked2-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-    </div>
-
-
+</button>

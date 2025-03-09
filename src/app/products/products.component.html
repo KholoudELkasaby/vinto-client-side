@@ -1,16 +1,54 @@
 
-
-
-<diV class="bg-black p-8" >
-
-
+<diV class="bg-black flex justify-between" >
 <!-- navvvvvvvvvvv  justify end -->
+<div class="logo">
+<div class="flex flex-row items-center space-x-4">
+        <div class="    pl-10 pt-10 self-center text-3xl font-semibold whitespace-nowrap text-white dark:text-white"
+             style="font-family: 'Poor Richard', serif;">
+            Vinto
+        </div>
+        <div>
+            <img src="/asserts/Vector.jpg" alt="Image not found" class="flex"/>
+        </div>
+    </div>
+</div>
+     <nav class="relative z-10 w-full pt-6 pb-4">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-start    ml-[549px]  ">
+       
+            <ul class="font-medium flex flex-col p-4 md:p-0  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-[20px]  ">
+              <li>
+                <a href="#" class="block py-2 px-3  text-white ">Home</a>
+              </li>
+              <li>
+                <a href="#" class="block py-2 px-3 text-white ">Login</a>
+              </li>
+              <li>
+                <a href="#" class="block py-2 px-3 text-white ">Signup</a>
+              </li>
+              <li>
+                <a href="#" class="block py-2 px-3  text-white ">Aboutus</a>
+              </li>
+              <li>
+                <a href="#" class="block py-2 px-3 text-white ">Products</a>
+              </li>
+            </ul>
+        </div>
+      </nav>
 </diV>
+<div  class=" flex h-screen"  >   
+    <div class="bg-white text-white min-h-0 w-fit">
+        <app-sidebar id="slider"></app-sidebar>
+</div >
+<div class="flex-1 ">
 
 <!-- --------------------------------------------------------->
 
 
  <div class="inline-block ">
+<button  (mouseenter)="onHover(true)" (mouseleave)="onHover(false)"    class="flex space-evenly    hover:bg-gray-50  mt-20 p-4 inline-block w-[170px]"> 
+
+ <app-filtered-image></app-filtered-image>
+</button>
 
 <div class="w-full max-w-sm bg-white border-2 border-gray-400  p-2 mt-6  ml-3">
     <a href="#">
@@ -63,3 +101,6 @@
 
 
   
+
+
+</div>
