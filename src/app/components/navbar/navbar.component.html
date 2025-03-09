@@ -43,21 +43,22 @@
     <!-- flag -->
     <div
       class="flag h-full flex justify-center items-center cursor-pointer w-10"
+      (click)="toggleFlag()"
     >
-      <img src="/Images/us.svg" alt="" />
+      <img [src]="flagSrc" alt="Flag" />
     </div>
 
     <!-- ICONS -->
     <div
       class="icons h-full flex justify-center items-center cursor-pointer gap-4"
     >
-      <a class="cursor-pointer hover:scale-105 transition-all active:scale-95"
+      <a class="cursor-pointer hover:scale-105 active:scale-95"
         ><i class="fa-solid fa-cart-shopping text-white"></i
       ></a>
-      <a class="cursor-pointer hover:scale-105 transition-all active:scale-95"
+      <a class="cursor-pointer hover:scale-105 active:scale-95"
         ><i class="fa-solid fa-heart text-white"></i
       ></a>
-      <a class="cursor-pointer hover:scale-105 transition-all active:scale-95"
+      <a class="cursor-pointer hover:scale-105 active:scale-95"
         ><i class="fa-solid fa-bell text-white"></i
       ></a>
     </div>
@@ -79,7 +80,9 @@
           (click)="closeDropdown()"
           >Profile</a
         >
+        <hr />
         <a
+          routerLink="/sign-out"
           class="block px-4 py-2 text-black rounded-b-lg hover:bg-gray-200 cursor-pointer"
           (click)="signOut()"
           >Sign Out</a

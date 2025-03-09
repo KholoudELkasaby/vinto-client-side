@@ -38,4 +38,12 @@ export class NavbarComponent {
       this.dropdownOpen = false;
     }
   }
+
+  /////////////
+  flagSrc: string = '/Images/us.svg';
+
+  toggleFlag() {
+    this.flagSrc =
+      this.flagSrc === '/Images/us.svg' ? '/Images/eg.svg' : '/Images/us.svg';
+  }
 }
