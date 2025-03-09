@@ -15,4 +15,12 @@ export class DetailsComponent {
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
   }
+
+  ///////
+  // Array of images
+  images = ['/Images/dress.jfif', '/Images/test-card.png'];
+  selectedImage = this.images[0];
+  selectImage(image: string) {
+    this.selectedImage = image;
+  }
 }
