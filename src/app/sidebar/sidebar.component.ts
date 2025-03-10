@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { SliderRangeComponent } from '../slider-range/slider-range.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+  imports: [SliderRangeComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })

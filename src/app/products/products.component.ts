@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component  } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
+import { Ng5SliderModule } from 'ng5-slider';
+import { SliderRangeComponent } from '../slider-range/slider-range.component';
+
+
 
 @Component({
   selector: 'app-products',
-  imports: [SidebarComponent ,FilteredImageComponent],
+  imports: [SidebarComponent ,FilteredImageComponent , SliderRangeComponent ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -23,4 +27,12 @@ export class ProductsComponent {
     }
     console.log(state);
   }
+
+
+
+
+  // ///////////////////
+ 
+  
+  
 }
