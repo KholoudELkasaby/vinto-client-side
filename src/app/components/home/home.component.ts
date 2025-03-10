@@ -32,5 +32,6 @@ export class HomeComponent {
 
   updateActiveTab(tab: string) {
     this.activeTab = tab;
+    console.log('Updated activeTab:', this.activeTab); // Debugging
   }
 }
