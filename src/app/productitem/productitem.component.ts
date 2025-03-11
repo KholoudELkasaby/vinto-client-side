@@ -1,12 +1,51 @@
-import { Component } from '@angular/core';
+import { ProductDetailsComponent } from './../product-details/product-details.component';
+import { ProductsComponent } from './../products/products.component';
+import { Component, Input , OnInit ,SimpleChanges } from '@angular/core';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
+import { FormsModule } from '@angular/forms';
+import { RatingModule } from 'primeng/rating';
+import { FormControl, FormControlName, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-productitem',
-  imports: [],
+  standalone:true,
+  imports: [FormsModule, RatingModule , CommonModule ,RouterModule] , 
   templateUrl: './productitem.component.html',
   styleUrl: './productitem.component.css'
 })
 export class ProductitemComponent {
+@Input() products:any;
+@Input() controlName: any;
+@Input() rate:number=0 ;
+@Input() id:any;
+
+getStarClass(index: number): any {
+  const fullStars = Math.floor(this.rate);
+  const decimalPart = this.rate - fullStars;
+  console.log( "full"+fullStars);
+console.log("rate" , this.rate)
+console.log(decimalPart);
+console.log(index);
+console.log("*******************************")
+
+
+  if (index < fullStars) {
+    return 'full-star'; 
+  }
+    if (decimalPart>0) {
+    if (decimalPart > 0 && decimalPart <= 0.25) return 'quarter-star';
+    if (decimalPart > 0.25 && decimalPart <= 0.5) return 'half-star';
+    if (decimalPart > 0.5 && decimalPart <= 0.75) return 'three-quarter-star';
+    if (decimalPart > 0.75 ) return 'full-star';
+  }
+  else{
+    return 'empty-star';
+
+  }
+}
+
 
 }
