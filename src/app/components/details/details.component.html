@@ -54,6 +54,6 @@
 
   <!--Right Section -->
   <section class="details-info md:col-span-6 h-screen bg-background-color">
-    <app-details-info />
+    <app-details-info *ngIf="product" [product]="product" />
   </section>
 </div>

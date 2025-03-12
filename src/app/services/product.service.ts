@@ -29,4 +29,10 @@ export class ProductService {
       .get<{ data: { products: Product[] } }>(`${this.baseUrl}/offers`)
       .pipe(map((response) => response.data.products));
   }
+
+  getProductById(id: string): Observable<Product> {
+    return this.http
+      .get<{ data: { product: Product } }>(`${this.baseUrl}/${id}`)
+      .pipe(map((response) => response.data.product));
+  }
 }

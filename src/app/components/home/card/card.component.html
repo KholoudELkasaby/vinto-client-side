@@ -50,10 +50,10 @@
       <div class="rate">
         <i
           *ngFor="let i of [1, 2, 3, 4, 5]; let index = index"
-          class="fa-star"
+          class="fa-solid fa-star"
           [ngClass]="{
-            'fa-solid text-yellow-color': index < product.rate,
-            'fa-regular text-gray-color': index >= product.rate
+            'text-yellow-color': index < product.rate,
+            ' text-gray-color': index >= product.rate
           }"
         ></i>
       </div>
