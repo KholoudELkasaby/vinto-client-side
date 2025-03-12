@@ -6,7 +6,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: HomeComponent },
   { path: 'products', component: HomeComponent },
-  { path: 'details', component: DetailsComponent },
+  { path: 'details/:id', component: DetailsComponent },
   { path: 'register', component: HomeComponent },
   { path: 'login', component: HomeComponent },
   { path: 'profile', component: HomeComponent },

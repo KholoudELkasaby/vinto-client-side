@@ -22,6 +22,12 @@ export class HomeComponent {
   @ViewChild('tabsSection') tabsSection!: ElementRef;
   @ViewChild('cardSection') cardSection!: ElementRef;
 
+  selectedCategory: string = '';
+
+  onCategorySelected(categoryName: string) {
+    this.selectedCategory = categoryName;
+  }
+
   Category() {
     this.cardSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
