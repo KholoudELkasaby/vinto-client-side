@@ -1,0 +1,23 @@
+@for(pro of cart.items; track pro.product._id){
+<div class="p-6 bg-white border-b-2 shadow-sm flex flex-col  sm:flex-row items-center sm:space-x-6">
+  <div class="w-24 flex-shrink-0 mb-4 sm:mb-0">
+    <img src="{{ pro.product.img?.[0] }}" alt="{{pro.product.title}}" class="rounded-lg w-full" />
+  </div>
+  <div class="flex-1 mb-4 sm:mb-0 text-center sm:text-left">
+    <h3 class="text-lg font-semibold text-gray-900">{{ pro.product.title }}</h3>
+    <p class="text-sm text-gray-500 mt-1">Qty: {{ pro.quantity }}</p>
+    <p class="text-sm font-medium text-gray-900 mt-1">Price ${{ pro.product.price }}</p>
+  </div>
+  <div class="flex-1 mb-4 sm:mb-0 text-center">
+    <p class="text-sm font-medium text-gray-700">Status</p>
+    <p class="text-sm font-medium text-purple-600">
+      {{cart.status}}
+    </p>
+  </div>
+  <div class="text-center sm:text-right flex-1">
+    <p class="text-sm text-gray-600">
+      Expected Delivery Date <span class="font-medium">10th March 2025</span>
+    </p>
+  </div>
+</div>
+}

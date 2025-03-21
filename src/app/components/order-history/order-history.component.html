@@ -1,0 +1,66 @@
+<div class="p-8 lg:m-6  min-h-screen w-screen lg:w-3/4">
+  <!-- Mobile -->
+  <h2 class="text-3xl lg:mb-6 md:mb-3">Order History</h2>
+  <div class="relative">
+    <!-- Hamburger Icon -->
+    <div [class.opacity-0]="isMenuOpen" class="lg:hidden flex justify-start p-2">
+      <button (click)="toggleMenu()"
+        class="z-50 inline-flex items-center p-2 rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none">
+        <!-- @if(!isMenuOpen){ -->
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <!-- } -->
+      </button>
+    </div>
+
+    <div class="hidden lg:flex space-x-8 border-b border-gray-200 mb-8 overflow-x-auto">
+      @for(tab of tabs; track tab){
+      <button (click)="setActiveTab(tab)" [class]="activeTab === tab ?
+          'text-blue-600 border-b-2 border-blue-600 pb-4 px-1' :
+          'text-gray-500 hover:text-gray-700 pb-4 px-1'" class="text-sm font-medium whitespace-nowrap">
+        {{ tab }}
+      </button>
+      }
+    </div>
+
+    <div class="fixed inset-0 bg-black/50 transition-opacity duration-300" [class.invisible]="!isMenuOpen"
+      [class.opacity-0]="!isMenuOpen" [class.visible]="isMenuOpen" [class.opacity-100]="isMenuOpen"
+      (click)="toggleMenu()"></div>
+
+    <!-- Mobile -->
+    <div
+      class="z-50 fixed top-0 right-0 h-full w-5/6 bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
+      [class.translate-x-0]="isMenuOpen" [class.translate-x-full]="!isMenuOpen">
+      <div class="flex flex-col p-4">
+        <div class="flex justify-end mb-4">
+          <button (click)="toggleMenu()" class="p-2 text-gray-500 hover:text-gray-700">
+            ✕
+          </button>
+        </div>
+        @for(tab of tabs; track tab){
+        <button (click)="setActiveTab(tab); toggleMenu()" [class]="activeTab === tab ?
+          'text-blue-600 bg-blue-50' :
+          'text-gray-700 hover:bg-gray-50'" class="activeTab"
+          class="text-left px-4 py-2 text-sm font-medium rounded-md mb-1">
+
+          {{ tab }}
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-start items-start flex-col ">
+    @if(history.data.carts){
+    @for(cart of historyDisplayed; track cart.cartId){
+    <app-oreder-item class="w-full" [cart]="cart"></app-oreder-item>
+    <!-- use a "pill" style -->
+    <!-- <span class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-sm font-medium"> -->
+    <!-- {{cart.status}} -->
+    <!-- </span> -->
+
+    }
+    }
+  </div>
+</div>
