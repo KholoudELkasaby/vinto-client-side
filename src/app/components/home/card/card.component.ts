@@ -9,6 +9,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { ProductService } from '../../../services/product.service';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-card',
@@ -19,11 +20,15 @@ import { ProductService } from '../../../services/product.service';
 })
 export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
+  userId = '67b798659f02ecbe9f4d7ef0';
 
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -36,7 +41,11 @@ export class CardComponent implements OnInit, OnChanges {
   }
 
   productStates: {
-    [productId: string]: { currentIndex: number; isFavorite: boolean };
+    [productId: string]: {
+      currentIndex: number;
+      isFavorite: boolean;
+      isInCart: boolean;
+    };
   } = {};
 
   fetchProducts(): void {
@@ -59,9 +68,11 @@ export class CardComponent implements OnInit, OnChanges {
             this.productStates[product._id] = {
               currentIndex: 0,
               isFavorite: false,
+              isInCart: false,
             };
           }
         });
+        //this.loadCartState();
       },
       (error) => console.error(error)
     );
@@ -71,6 +82,27 @@ export class CardComponent implements OnInit, OnChanges {
     this.productStates[productId].isFavorite =
       !this.productStates[productId].isFavorite;
   }
+  //   loadCartState(): void {
+  //   this.cartService.getCart(this.userId).subscribe(
+  //     (cart) => {
+  //       cart.ItemsOrdered.forEach((item) => {  // item is now an object, not a string
+  //         if (this.productStates[item._id]) {
+  //           this.productStates[item._id].isInCart = true;
+  //         }
+  //       });
+  //     },
+  //     (error) => console.error('Error loading cart:', error)
+  //   );
+  // }
+
+  ////
+  toggleCart(productId: string): void {
+    this.cartService.addToCart(productId, 1).subscribe(
+      () => (this.productStates[productId].isInCart = true),
+      (error) => console.error('Error adding item:', error)
+    );
+  }
+  ////
 
   startImageRotation(productId: string, images: string[]): void {
     if (this.imageIntervals[productId] || images.length <= 1) return;
