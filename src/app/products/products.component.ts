@@ -1,5 +1,5 @@
 import { PoroductsService } from './../poroducts.service';
-import { Component  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
 import { Ng5SliderModule } from 'ng5-slider';
@@ -11,13 +11,14 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-products',
-  imports: [SidebarComponent ,FilteredImageComponent , SliderRangeComponent  ,ProductitemComponent,RouterOutlet ],
+  imports: [SidebarComponent ,FilteredImageComponent , SliderRangeComponent  ,ProductitemComponent,RouterOutlet   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
   providers: [PoroductsService]
 })
-export class ProductsComponent {
-  x: any[] = []; 
+export class ProductsComponent  implements OnInit {
+  x: any[] = [];
+  isSorted: string = '';
   constructor(private PoroductsService:PoroductsService){}
 //  products:any;
  
@@ -38,6 +39,10 @@ export class ProductsComponent {
     })
       } 
 
+      updateProducts(sortedProducts: any[]) {
+        this.x = sortedProducts; // Override default products with sorted data
+      }
+
 
   state:boolean=false;
   onHover(state:boolean){
@@ -55,7 +60,25 @@ export class ProductsComponent {
   }
 
 
-
+press(event: Event){
+  const button = event.target as HTMLButtonElement;
+  const buttonValue: number = parseInt(button.innerText, 10); // Convert to integer (base 10)
+  console.log(buttonValue);
+  this.PoroductsService.getallproductsbuttn(buttonValue).subscribe({
+    next:(data)=>{console.log(data)
+     var products:any = data;
+      console.log((products.data.products))
+      // products.data.products.forEach(element => {
+      //   console.log(element)
+        
+      // });
+      this.x= products.data.products;
+      console.log(this.x);
+    }  ,
+    error:(err)=>{console.log(err)},
+    complete:()=>{console.log("completeeee")}
+  })
+}
 
 
 

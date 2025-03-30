@@ -1,4 +1,4 @@
-import { Component ,ViewEncapsulation } from '@angular/core';
+import { Component ,ViewEncapsulation , Output , EventEmitter } from '@angular/core';
 import { NgModule } from '@angular/core';
 
 import { Ng5SliderModule, Options } from 'ng5-slider';
@@ -15,7 +15,17 @@ import { FormsModule } from '@angular/forms';
 })
 export class SliderRangeComponent {
   minvalue=200;
-  maxvalue=3000;
+  maxvalue=50000;
+  resetSliderValues(){
+    this.minvalue= 200 ;
+    this.maxvalue=50000;
 
+  }
 
+  @Output() saveSliderEvent = new EventEmitter<{ min: number; max: number }>();
+
+  SaveSliderValues() {
+    this.saveSliderEvent.emit({ min: this.minvalue, max: this.maxvalue });
+  }
+ 
 }

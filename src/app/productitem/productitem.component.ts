@@ -1,6 +1,6 @@
 import { ProductDetailsComponent } from './../product-details/product-details.component';
 import { ProductsComponent } from './../products/products.component';
-import { Component, Input , OnInit ,SimpleChanges } from '@angular/core';
+import { Component, input, Input , OnInit ,SimpleChanges } from '@angular/core';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
 import { FormsModule } from '@angular/forms';
 import { RatingModule } from 'primeng/rating';
@@ -46,6 +46,10 @@ console.log("*******************************")
 
   }
 }
+liked: boolean = false; // Track like state
 
+toggleLike(): void {
+  this.liked = !this.liked;
+}
 
 }

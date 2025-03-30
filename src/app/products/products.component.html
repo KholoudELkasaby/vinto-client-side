@@ -1,6 +1,6 @@
 
 
-<diV class="bg-black flex justify-between" >
+<diV class="bg-black flex justify-between overflow-hidden" >
 <!-- navvvvvvvvvvv  justify end -->
 <div class="logo">
 <div class="flex flex-row items-center space-x-4">
@@ -38,7 +38,10 @@
 </diV>
 <div  class=" flex h-screen"  >   
     <div class="bg-white text-white min-h-0 w-fit">
-        <app-sidebar id="slider"></app-sidebar>
+
+        <app-sidebar  id="slider" (sortedProducts)="updateProducts($event)"  ></app-sidebar>
+
+
 </div >
 <div class="flex-1 ">
 
@@ -76,9 +79,60 @@
   <!-- @for (pro  of products ; track pro.id){
     <app-productitem > </app-productitem>
     } -->
-    @for (item of x; track item.id) {
-<app-productitem  [products]="item"   [rate]="item.rate" >  </app-productitem>
-    }
+
+
+
+@for (item of x; track item.id) {
+    <app-productitem  [products]="item"   [rate]="item.rate" >  </app-productitem>
+        }
+
+
+        
+    <div class="mt-5 mb-5  flex justify-center">
+
+        <button  type="button" 
+        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+        (click)="press($event)">
+        1
+    </button>
+
+    <button  type="button" 
+    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+    (click)="press($event)">
+    2
+</button>
+
+<button type="button" 
+class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+(click)="press($event)">
+3
+</button>
+
+<button type="button" 
+class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+(click)="press($event)">
+4
+</button>
+
+<button  type="button" 
+class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+(click)="press($event)">
+5
+</button>
+
+<button  type="button" 
+class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+(click)="press($event)">
+6
+</button>
+
+<button  type="button" 
+class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+(click)="press($event)">
+7
+</button>
+</div>
+
 <!-- ----------------------------------------------------------------------------- -->
 
 <!-- <div class="flex  space-x-1 rtl:space-x-reverse ml-[37%] mt-4">
@@ -126,6 +180,4 @@
 
 
 <!-- <app-slider-range ></app-slider-range> -->
-
-
 
