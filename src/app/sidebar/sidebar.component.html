@@ -15,6 +15,11 @@
     
 </diV> -->
 <!--  -->
+
+
+<!-- <button  (click)="updateDatapages()"  class=" text-sm font-medium  text-black">Offff</button> -->
+
+
 <div  class="bg-white ">
 <div class="     pt-10 mx-auto ml-5 mr-5   ">   
     <label for="default-search" class=" text-sm font-medium  sr-only dark:text-black">Search</label>
@@ -33,6 +38,9 @@
 </div>
 
 
+<!-- <div *ngIf="noProductsFound" class="text-red-500 text-center font-semibold mt-4">
+    No products found. Try a different search.
+  </div> -->
 
 
 <!--  -->
@@ -53,6 +61,7 @@
             <path [attr.d]="x1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         </svg>
         
+        
 <!-- </div> -->
     </button>
 </div>
@@ -64,33 +73,33 @@
             <diV class="   p-10 ">
                 <div class="flex   justify-around items-center m-1  ">
                     <label for="checked1-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Furniture</label>
-                    <input id="checked1-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="checked1-checkbox"  (change)="updateFilters()"     type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 <div class="flex   justify-around items-center m-3">
                     <label for="checked2-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Accessories</label>
-                    <input  id="checked2-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked2-checkbox"  (change)="updateFilters()" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 
                 <div class="flex   justify-around items-center ">
                     <label for="checked3-checkbox" class=" text-sm font-medium text-gray-900 dark:text-gray-300">Fashion </label>
-                    <input  id="checked3-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked3-checkbox" (change)="updateFilters()"  type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 
                 <div class="flex   justify-around items-center  m-3">
                     <label for="checked4-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">Electronics </label>
-                    <input  id="checked4-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked4-checkbox" (change)="updateFilters()"  type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                   
                 <div class="flex   justify-around items-center ">
                     <label for="checked5-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">potties </label>
-                    <input  id="checked5-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input  id="checked5-checkbox"  (change)="updateFilters()" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 </diV>
 
         </ul>
         
 
-        <button   (click)="Apply($event)" type="button" class=" mb-8 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Apply</button>
+        <!-- <button   (click)="Apply($event)" type="button" class=" mb-8 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Apply</button> -->
 
     </div>
 
@@ -166,8 +175,7 @@
 
 
 <!--  -->
-
-<div class="mt-5 mb-5  ">
+<!-- <div class="sidebar-buttons">
 
     <button type="button" 
     class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300 
@@ -224,8 +232,32 @@ class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 
 (click)="pressnum($event)">
 7
 </button>
-</div>
+</div> -->
+
+
+<!-- 
+<div class="product-container">
+    <div class="floating-buttons">
+        <button *ngFor="let num of [1,2,3,4,5,6,7]" 
+            class=" bg-blue-700 text-black bg-gray-800 hover:bg-gray-900 
+                   focus:outline-none focus:ring-2 focus:ring-gray-300 
+                   font-medium rounded-md text-xs px-3 py-2">
+            {{ num }}
+        </button>
+    </div>
+</div> -->
 
 </div>
 
 </button>
+
+
+
+
+
+
+
+<!-- ---------------------------------------- -->
+
+
+

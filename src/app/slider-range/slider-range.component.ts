@@ -15,10 +15,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class SliderRangeComponent {
   minvalue=200;
-  maxvalue=50000;
+  maxvalue=20000;
   resetSliderValues(){
     this.minvalue= 200 ;
-    this.maxvalue=50000;
+    this.maxvalue=20000;
 
   }
 

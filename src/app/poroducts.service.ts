@@ -55,7 +55,7 @@ private readonly BD_Url="http://localhost:4000/api/products"
     if (sort) params += `&sort=${sort}`;
 
     // Handle multiple categories
-    if ( categoryIds?.length && categoryIds.length) {
+    if ( categoryIds && categoryIds.length) {
       params += `&category=${categoryIds[0]}`;
       
       for (let i = 1; i < categoryIds.length; i++) {

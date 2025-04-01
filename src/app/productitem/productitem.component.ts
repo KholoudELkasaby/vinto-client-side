@@ -25,11 +25,11 @@ export class ProductitemComponent {
 getStarClass(index: number): any {
   const fullStars = Math.floor(this.rate);
   const decimalPart = this.rate - fullStars;
-  console.log( "full"+fullStars);
-console.log("rate" , this.rate)
-console.log(decimalPart);
-console.log(index);
-console.log("*******************************")
+  // console.log( "full"+fullStars);
+// console.log("rate" , this.rate)
+// console.log(decimalPart);
+// console.log(index);
+// console.log("*******************************")
 
 
   if (index < fullStars) {

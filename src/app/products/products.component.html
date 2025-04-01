@@ -39,7 +39,8 @@
 <div  class=" flex h-screen"  >   
     <div class="bg-white text-white min-h-0 w-fit">
 
-        <app-sidebar  id="slider" (sortedProducts)="updateProducts($event)"  ></app-sidebar>
+        <app-sidebar  id="slider" (sortedProducts)="updateProducts($event)"  (total_page)="updatetotalpage($event)"   (dataToParent)="updateDatapages($event)"  ></app-sidebar>
+
 
 
 </div >
@@ -82,57 +83,73 @@
 
 
 
-@for (item of x; track item.id) {
+@for (item of x; track item._id) {
     <app-productitem  [products]="item"   [rate]="item.rate" >  </app-productitem>
         }
 
 
         
-    <div class="mt-5 mb-5  flex justify-center">
+    <!-- <div class="mt-5 mb-5  flex justify-center">
 
         <button  type="button" 
         class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-        (click)="press($event)">
+        (click)="handlePress($event)">
         1
     </button>
 
     <button  type="button" 
     class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-    (click)="press($event)">
+    (click)="handlePress($event)">
     2
 </button>
 
 <button type="button" 
 class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-(click)="press($event)">
+(click)="handlePress($event)">
 3
 </button>
 
 <button type="button" 
 class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-(click)="press($event)">
+(click)="handlePress($event)">
 4
 </button>
 
 <button  type="button" 
 class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-(click)="press($event)">
+(click)="handlePress($event)">
 5
 </button>
 
 <button  type="button" 
 class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-(click)="press($event)">
+(click)="handlePress($event)">
 6
 </button>
 
 <button  type="button" 
 class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-(click)="press($event)">
+(click)="handlePress($event)">
 7
 </button>
-</div>
+</div> -->
 
+<div class="mt-5 mb-5  flex justify-center">
+    <!-- @for (  let x = 0; x <= 5; x++ ;  track x) { 
+        <div>Item {{ x }}</div>
+        } -->
+        @if(arr.length){
+        @for (item of arr; track $index) {
+            <button  type="button" 
+            class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
+            (click)="press($event)">
+            {{item}}
+            </button>
+        }
+        
+    }
+
+</div>
 <!-- ----------------------------------------------------------------------------- -->
 
 <!-- <div class="flex  space-x-1 rtl:space-x-reverse ml-[37%] mt-4">

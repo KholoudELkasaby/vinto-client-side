@@ -3,17 +3,47 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { SliderRangeComponent } from '../slider-range/slider-range.component';
 import { PoroductsService } from './../poroducts.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SliderRangeComponent , FormsModule ],
+  imports: [SliderRangeComponent , FormsModule,CommonModule  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css' ,
   providers: [PoroductsService]
 
 })
 export class SidebarComponent {
+  @Output() dataToParent = new EventEmitter<{ categories: string[], n_o: boolean, o_n: boolean , max_p:number, min_p:number }>(); ///data when press on button
+
   @Output() sortedProducts = new EventEmitter<any[]>(); // Emits sorted products
+  @Output() total_page = new EventEmitter<any[]>(); // Emits sorted products
+
+
+//////////////////pages updaye when filter/////
+
+updateDatapages() {
+  // if (this.newtoold) {
+  //   this.oldtonew = false;
+  // } else if (this.oldtonew) {
+  //   this.newtoold = false;
+  // }
+  this.dataToParent.emit({
+
+    
+    categories: this.selectedCategories_ids,
+   
+    n_o: this.newtoold,
+    o_n: this.oldtonew,
+
+    max_p: this.maxValueFromSlider ,
+    min_p:this.minValueFromSlider
+  });
+
+
+
+}
   x: any[] = [];
 
   isDropdownVisible = false;
@@ -23,38 +53,53 @@ export class SidebarComponent {
   
     searchText: string = ''; // Holds input value
     minValueFromSlider: number = 200;
-maxValueFromSlider: number = 50000;
-isApplied: boolean = false; // Variable to track button click
+maxValueFromSlider: number = 20000;
 
 newtoold:boolean = false;
 oldtonew:boolean = false;
+arr:number[]=[]
+tot_pages:number=1;
 
 
      furnitureCheckbox = document.getElementById("checked1-checkbox") as HTMLInputElement;
     accessoriesCheckbox = document.getElementById("checked2-checkbox") as HTMLInputElement;
+    constructor(private PoroductsService:PoroductsService){}
+
+    noProductsFound: boolean = false; // Initially false
 
 
-
-  onSearch() {
-      console.log("Search valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee:", this.searchText); // Log the input value
-      this.PoroductsService.getSrearched(this.searchText).subscribe({
-        next:(data)=>{console.log(data)
-         var products :any = data;
-         console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
-          console.log((products.data.products))
-          this.sortedProducts.emit(products.data.products); 
+    onSearch() {
+      console.log("Search value:", this.searchText);
     
-          this.x= products.data.products;
-        }  ,
-        error:(err)=>{console.log(err)},
-        complete:()=>{console.log("completeeee")}
-      })
-
-      this.searchText=''
-  }
+      this.PoroductsService.getSrearched(this.searchText).subscribe({
+        next: (data) => {
+          console.log(data);
+          var products: any = data;
+     console.log("prois" , products.data.products);
+          if (products?.data?.products?.length > 0) {
+             this.sortedProducts.emit(products.data.products);
+            this.x = products.data.products;
+            this.noProductsFound = false;
+          } else {
+            this.noProductsFound = true;
+             this.sortedProducts.emit([]); // Emit a message
+          }
+        },
+        error: (err) => {
+          // console.log(err);
+          this.noProductsFound = true;
+          this.sortedProducts.emit([]); // Handle error as no data
+        },
+        complete: () => {
+          console.log("complete");
+        },
+      });
+    
+      this.searchText = "";
+    }
+    
 
   // SG:any;
-  constructor(private PoroductsService:PoroductsService){}
 
 press(){
   this.isDropdownVisible = !this.isDropdownVisible;
@@ -109,9 +154,10 @@ pressno(event: Event){
   console.log("****************************************************000000011111111111111111111111111111111111")
   console.log(buttonValue);
 ////
-if(this.isApplied==false){
+if (this.selectedCategories.length === 0) {
   if(buttonValue=="New To Old"){
     this.newtoold=true;
+    this.oldtonew=false;
   this.PoroductsService.getoldest().subscribe({
     next:(data)=>{console.log(data)
      var products :any = data;
@@ -134,6 +180,8 @@ if(this.isApplied==false){
 
 if(buttonValue=="Old To New"){
   this.oldtonew=true;
+  this.newtoold=false;
+
 
   this.PoroductsService.getnewest().subscribe({
     next:(data)=>{console.log(data)
@@ -158,13 +206,16 @@ else{
 
   ////***************************خدي بالك */
 
-  if(this.newtoold==true){
+  if(buttonValue=="New To Old"){
         
+    this.oldtonew=false;
+    this.newtoold=true;
+
     this.PoroductsService.getFilteredProducts(
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
       this.maxValueFromSlider, 
-     20,
+     6,
      1,
       'oldest', // Sorting Order
       
@@ -172,6 +223,21 @@ else{
     ).subscribe( {
       next:(data)=>{console.log(data)
         var products :any = data;
+        this.arr=[]
+        this.tot_pages= products.totalpages ;
+     for(var i=1 ; i<=this.tot_pages ; i++){
+      this.arr.push(i);}
+      this.total_page.emit(this.arr);
+      console.log("ana hna fe sidebar component " , this.arr)
+
+        
+ this.arr=[]
+ this.tot_pages= products.totalpages ;
+      for(var i=1 ; i<=this.tot_pages ; i++){
+       this.arr.push(i);
+     }
+
+
         console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
          console.log((products.data.products))
          this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -184,13 +250,16 @@ else{
 
     });
      }
-     if(this.oldtonew==true){
+     if(buttonValue=="Old To New"){
       
+      this.oldtonew=true;
+      this.newtoold=false; 
+
     this.PoroductsService.getFilteredProducts(
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
      this.maxValueFromSlider, 
-     20,
+     6,
      1,
       'newest', 
       
@@ -198,6 +267,12 @@ else{
     ).subscribe( {
       next:(data)=>{console.log(data)
         var products :any = data;
+        this.arr=[]
+        this.tot_pages= products.totalpages ;
+     for(var i=1 ; i<=this.tot_pages ; i++){
+      this.arr.push(i);}
+      this.total_page.emit(this.arr);
+      console.log("ana hna fe sidebar component " , this.arr)
         console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
          console.log((products.data.products))
          this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -211,18 +286,19 @@ else{
     });
      }
 }
+
+this.updateDatapages();
 }
 
 
-
+///////////////////////checkbox filter/////////////////////////////////////////////
  checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
   selectedCategories: string[] = [];
   selectedCategories_ids: string[] = [];
- Apply(event: Event) {
-
-  this.isApplied=true;
-
-
+  //////////////need to edit 
+  updateFilters() {
+    this.selectedCategories = [];
+    this.selectedCategories_ids= [];
       const checkbox1 = document.getElementById("checked1-checkbox") as HTMLInputElement;
       const checkbox2 = document.getElementById("checked2-checkbox") as HTMLInputElement;
       const checkbox3 = document.getElementById("checked3-checkbox") as HTMLInputElement;
@@ -234,30 +310,65 @@ else{
           return;
       }
 
-      if (checkbox1.checked){this.selectedCategories.push("Furniture")  && this.selectedCategories_ids.push("67ba3e609dc12cc7bef5ce3b")} ;
-      if (checkbox2.checked) {this.selectedCategories.push("Accessories") && this.selectedCategories_ids.push("67ba3d8fc8c7576d5a4ca888")};
-      if (checkbox3.checked) {this.selectedCategories.push("Fashion") && this.selectedCategories_ids.push("67ba3e8716548f20d6370e86")};
-      if (checkbox4.checked) {this.selectedCategories.push("Electronics") && this.selectedCategories_ids.push("67ba3eaad5881227117e9fb2")};
-      if (checkbox5.checked) {this.selectedCategories.push("Potties") && this.selectedCategories_ids.push("67ba3e261c5c6144284d9aaa")};
+      if (checkbox1.checked) {
+        // Check if "Furniture" is already in the array before adding it
+        if (!this.selectedCategories.includes("Furniture")) {
+          this.selectedCategories.push("Furniture");
+          this.selectedCategories_ids.push("67ba3e609dc12cc7bef5ce3b");
+        }
+      }
+      
+      ;
+      if (checkbox2.checked) {
+        if (!this.selectedCategories.includes("Accessories")){
+        this.selectedCategories.push("Accessories") ;
+       this.selectedCategories_ids.push("67ba3d8fc8c7576d5a4ca888");
+        }
+      };
+      if (checkbox3.checked) {
+        if (!this.selectedCategories.includes("Fashion")){
+        this.selectedCategories.push("Fashion") ;
+         this.selectedCategories_ids.push("67ba3e8716548f20d6370e86");
+        }
+      };
+      if (checkbox4.checked) {
+        this.selectedCategories.push("Electronics") ;
+         this.selectedCategories_ids.push("67ba3eaad5881227117e9fb2");
+      };
+      if (checkbox5.checked) {this.selectedCategories.push("Potties") ;
+        this.selectedCategories_ids.push("67ba3e261c5c6144284d9aaa")};
       
       console.log("Selected Categories:", this.selectedCategories);
       console.log("Selected Categories_ids:", this.selectedCategories_ids);
 
 /////clicked///
        if(this.newtoold==true){
-        
+         
+        this.oldtonew=false;
+        this.newtoold=true;
+
       this.PoroductsService.getFilteredProducts(
         this.selectedCategories_ids, 
         this.minValueFromSlider, 
         this.maxValueFromSlider, 
-       20,
+       6,
        1,
         'oldest', // Sorting Order
         
+                   
+ 
+
       
       ).subscribe( {
         next:(data)=>{console.log(data)
           var products :any = data;
+          this.arr=[]
+         this.tot_pages= products.totalpages ;
+      for(var i=1 ; i<=this.tot_pages ; i++){
+       this.arr.push(i);
+     }
+     this.total_page.emit(this.arr);
+     console.log("ana hna fe sidebar component new to old=true" , this.arr)
           console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
            console.log((products.data.products))
            this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -272,11 +383,14 @@ else{
        }
        if(this.oldtonew==true){
         
+        this.oldtonew=true;
+        this.newtoold=false; 
+
       this.PoroductsService.getFilteredProducts(
         this.selectedCategories_ids, 
         this.minValueFromSlider, 
        this.maxValueFromSlider, 
-       20,
+       6,
        1,
         'newest', 
         
@@ -284,7 +398,14 @@ else{
       ).subscribe( {
         next:(data)=>{console.log(data)
           var products :any = data;
+          this.arr=[]
+          this.tot_pages= products.totalpages ;
+       for(var i=1 ; i<=this.tot_pages ; i++){
+        this.arr.push(i);}
+        this.total_page.emit(this.arr);
+        console.log("ana hna fe sidebar component " , this.arr)
           console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
+ 
            console.log((products.data.products))
            this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
      
@@ -297,7 +418,7 @@ else{
       });
        }
 
-
+/////note amr///
 
        if(this.oldtonew==false && this.newtoold==false ){
         
@@ -305,11 +426,17 @@ else{
           this.selectedCategories_ids, 
           this.minValueFromSlider, 
          this.maxValueFromSlider,  
-             20,
+             6,
              1
         ).subscribe( {
           next:(data)=>{console.log(data)
             var products :any = data;
+            this.arr=[]
+            this.tot_pages= products.totalpages ;
+         for(var i=1 ; i<=this.tot_pages ; i++){
+          this.arr.push(i);}
+          this.total_page.emit(this.arr);
+          console.log("ana hna fe sidebar component " , this.arr)
             console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
              console.log((products.data.products))
              this.sortedProducts.emit(products.data.products);  
@@ -323,7 +450,11 @@ else{
         });
          }
 
+
+         this.updateDatapages();
+
 }
+////////////////////////////////end of checkedddd///////////////////////////////////////
 
 pressnum(event: Event){
   const button = event.target as HTMLButtonElement;
@@ -355,18 +486,24 @@ receiveSliderValues(event: { min: number; max: number }) {
   this.maxValueFromSlider = event.max;
   console.log('Received min:', this.minValueFromSlider);
   console.log('Received max:', this.maxValueFromSlider);
+  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+  
+  console.log(this.selectedCategories)
   /////case old to new 
   /////////////stop
 
 
-  if(this.isApplied){
-  if(this.newtoold==true){
-        
+  if (this.selectedCategories.length !== 0) {
+    if(this.newtoold==true){
+         
+      this.oldtonew=false;
+      this.newtoold=true;
+
     this.PoroductsService.getFilteredProducts(
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
       this.maxValueFromSlider, 
-     20,
+     6,
      1,
       'oldest', // Sorting Order
       
@@ -374,6 +511,12 @@ receiveSliderValues(event: { min: number; max: number }) {
     ).subscribe( {
       next:(data)=>{console.log(data)
         var products :any = data;
+        this.arr=[]
+        this.tot_pages= products.totalpages ;
+     for(var i=1 ; i<=this.tot_pages ; i++){
+      this.arr.push(i);}
+      this.total_page.emit(this.arr);
+      console.log("ana hna fe sidebar component " , this.arr)
         console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
          console.log((products.data.products))
          this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -390,12 +533,15 @@ receiveSliderValues(event: { min: number; max: number }) {
        /////case new to old
 
      if(this.oldtonew==true){
-      
+
+      this.oldtonew=true;
+      this.newtoold=false;
+
     this.PoroductsService.getFilteredProducts(
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
       this.maxValueFromSlider, 
-     20,
+     6,
      1,
       'newest', 
       
@@ -403,6 +549,14 @@ receiveSliderValues(event: { min: number; max: number }) {
     ).subscribe( {
       next:(data)=>{console.log(data)
         var products :any = data;
+
+        this.arr=[]
+        this.tot_pages= products.totalpages ;
+     for(var i=1 ; i<=this.tot_pages ; i++){
+      this.arr.push(i);}
+      this.total_page.emit(this.arr);
+      console.log("ana hna fe sidebar component " , this.arr)
+
         console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
          console.log((products.data.products))
          this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -425,7 +579,7 @@ receiveSliderValues(event: { min: number; max: number }) {
         this.selectedCategories_ids, 
         this.minValueFromSlider, 
         this.maxValueFromSlider,  
-           20,
+           6,
            1
       ).subscribe( {
         next:(data)=>{console.log(data)
@@ -445,12 +599,15 @@ receiveSliderValues(event: { min: number; max: number }) {
       }
       else{
         if(this.newtoold==true){
-        
+         
+          this.oldtonew=false;
+          this.newtoold=true;
+
           this.PoroductsService.getFilteredProducts(
-            [],
+             ['67ba3e609dc12cc7bef5ce3b', '67ba3d8fc8c7576d5a4ca888', '67ba3e8716548f20d6370e86', '67ba3eaad5881227117e9fb2', '67ba3e261c5c6144284d9aaa'],
             this.minValueFromSlider, 
             this.maxValueFromSlider, 
-           20,
+           6,
            1,
             'oldest', // Sorting Order
             
@@ -458,6 +615,13 @@ receiveSliderValues(event: { min: number; max: number }) {
           ).subscribe( {
             next:(data)=>{console.log(data)
               var products :any = data;
+
+              this.arr=[]
+              this.tot_pages= products.totalpages ;
+           for(var i=1 ; i<=this.tot_pages ; i++){
+            this.arr.push(i);}
+            this.total_page.emit(this.arr);
+            console.log("ana hna fe sidebar component " , this.arr)
               console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
                console.log((products.data.products))
                this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -475,11 +639,14 @@ receiveSliderValues(event: { min: number; max: number }) {
       
            if(this.oldtonew==true){
             
+            this.oldtonew=true;
+            this.newtoold=false;
+            
           this.PoroductsService.getFilteredProducts(
-            [], 
+             ['67ba3e609dc12cc7bef5ce3b', '67ba3d8fc8c7576d5a4ca888', '67ba3e8716548f20d6370e86', '67ba3eaad5881227117e9fb2', '67ba3e261c5c6144284d9aaa'], 
             this.minValueFromSlider, 
             this.maxValueFromSlider, 
-           20,
+           6,
            1,
             'newest', 
             
@@ -487,6 +654,14 @@ receiveSliderValues(event: { min: number; max: number }) {
           ).subscribe( {
             next:(data)=>{console.log(data)
               var products :any = data;
+
+              this.arr=[]
+              this.tot_pages= products.totalpages ;
+           for(var i=1 ; i<=this.tot_pages ; i++){
+            this.arr.push(i);}
+            this.total_page.emit(this.arr);
+            console.log("ana hna fe sidebar component " , this.arr)
+
               console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
                console.log((products.data.products))
                this.sortedProducts.emit(products.data.products); // Send sorted data to ProductsComponent
@@ -506,14 +681,22 @@ receiveSliderValues(event: { min: number; max: number }) {
            if(this.oldtonew==false && this.newtoold==false ){
             
             this.PoroductsService.getFilteredProducts(
-              [], 
+               ['67ba3e609dc12cc7bef5ce3b', '67ba3d8fc8c7576d5a4ca888', '67ba3e8716548f20d6370e86', '67ba3eaad5881227117e9fb2', '67ba3e261c5c6144284d9aaa'], 
               this.minValueFromSlider, 
               this.maxValueFromSlider,  
-                 20,
+                 6,
                  1
             ).subscribe( {
               next:(data)=>{console.log(data)
                 var products :any = data;
+
+                this.arr=[]
+                this.tot_pages= products.totalpages ;
+             for(var i=1 ; i<=this.tot_pages ; i++){
+              this.arr.push(i);}
+              this.total_page.emit(this.arr);
+              console.log("ana hna fe sidebar component " , this.arr)
+              
                 console.log("1111111111112222222222222222222222222222333333333333333333333333333333")
                  console.log((products.data.products))
                  this.sortedProducts.emit(products.data.products);  
@@ -527,5 +710,11 @@ receiveSliderValues(event: { min: number; max: number }) {
             });
              }
       }
+
+      this.updateDatapages();
+
 }
+
+
+
 }
