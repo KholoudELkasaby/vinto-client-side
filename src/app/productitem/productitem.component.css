@@ -3,8 +3,8 @@
     width:20%;
     justify-content: space-evenly;
     text-align: center;
-    margin-left: 100px;
-    margin-top: 10px;
+    margin-left: 30px;
+    /* margin-top: 10px; */
     }
     
     
@@ -64,3 +64,8 @@
         white-space: nowrap;
       }
       
+
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }

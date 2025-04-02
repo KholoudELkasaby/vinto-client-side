@@ -79,15 +79,29 @@ export class ProductsComponent  implements OnInit {
       }
 
   state:boolean=false;
+  isSidebarVisible:boolean = false;
+
   onHover(state:boolean){
-    var slider= document.getElementById("slider")  as HTMLElement ||null;
+    this.isSidebarVisible = state;
+   
+    var slider= document.getElementById("slider")  as HTMLElement ;
+    var element = document.getElementById("xx") as HTMLElement;
+    var products = document.getElementsByClassName('products-item') as HTMLCollectionOf<HTMLElement>;
+    const productsPerRow = 4;  // Define the number of products per row (change as needed)
+
     // console.log(slider);
     if(state==true &&  state!=null){
       slider.style.visibility="visible";
-      
+      element.style.background= "white"
+
+    
+
     }
     else if(state==false){
       slider.style.visibility="hidden";
+
+      element.style.background = "transparent";
+
 
     }
     // console.log(state);

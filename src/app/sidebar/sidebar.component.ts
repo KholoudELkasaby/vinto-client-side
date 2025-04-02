@@ -132,15 +132,20 @@ press2(){
 
 
 state:boolean=false;
+
 onHovers(state:boolean){
   var slider= document.getElementById("slider")  as HTMLElement ||null;
+  var element = document.getElementById("xx") as HTMLElement;
+
   // console.log(slider);
   if(state==true &&  state!=null){
     slider.style.visibility="visible";
-    
+    element.style.background = "white";
+
   }
   else if(state==false){
     slider.style.visibility="hidden";
+    element.style.background = "transparent";
 
   }
   // console.log(state);

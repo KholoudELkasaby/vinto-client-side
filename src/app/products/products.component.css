@@ -3,3 +3,13 @@
     z-index: -1;
 }
 
+
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img {
+    filter: grayscale(100%) brightness(0);
+}
