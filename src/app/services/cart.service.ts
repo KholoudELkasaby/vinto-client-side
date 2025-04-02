@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Cart, CartItem } from '../models/cart.model';
 
 
 @Injectable({
@@ -57,5 +58,11 @@ export class CartService {
 
   getCart(userId: string) {
     return this.http.get(`${this.URL}/${userId}`)
+  }
+
+  getAllCarts(): Observable<CartItem[]> {
+    return this.http
+      .get<{ data: { cart: CartItem[] } }>(`${this.URL}`)
+      .pipe(map((response): CartItem[] => response.data.cart));
   }
 }
