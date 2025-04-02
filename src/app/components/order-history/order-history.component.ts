@@ -2,10 +2,11 @@ import { Component, HostListener, inject } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { OrederItemComponent } from './oreder-item/oreder-item.component';
+import { ProgressComponent } from '../progress/progress.component';
 
 @Component({
   selector: 'app-order-history',
-  imports: [CommonModule, OrederItemComponent],
+  imports: [CommonModule, OrederItemComponent, ProgressComponent],
   providers: [CartService],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css'
@@ -17,6 +18,7 @@ export class OrderHistoryComponent {
   isMenuOpen = false;
   history: any = { data: { carts: [] } };
   historyDisplayed: any[] = [];
+  selectedStatus: string | null = null;
 
 
   constructor() {
@@ -28,8 +30,6 @@ export class OrderHistoryComponent {
       next: (data) => {
         this.history = data;
         this.historyDisplayed = this.cartService.filterHistory(this.activeTab);
-        console.log('History loaded:', this.history);
-        console.log('Filtered history:', this.historyDisplayed);
       },
       error: (err) => {
         console.error("Error fetching the history:", err);
@@ -37,6 +37,9 @@ export class OrderHistoryComponent {
     });
   }
 
+  onStatusSelected(status: string): void {
+    this.selectedStatus = status;
+  }
 
   filterData(tab: string) {
     this.activeTab = tab;

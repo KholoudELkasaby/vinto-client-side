@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-oreder-item',
@@ -8,4 +8,15 @@ import { Component, Input } from '@angular/core';
 })
 export class OrederItemComponent {
   @Input() cart: any;
+  @Output() statusSelected = new EventEmitter<string>();
+  selectedStatus: string | null = null;
+
+
+
+  onStatusSelected(status: string): void {
+    this.selectedStatus = status;
+  }
+  onItemClick(): void {
+    this.statusSelected.emit(this.cart.status);
+  }
 }
