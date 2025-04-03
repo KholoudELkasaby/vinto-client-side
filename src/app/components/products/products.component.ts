@@ -1,21 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
-import { Ng5SliderModule } from 'ng5-slider';
-import { SliderRangeComponent } from '../slider-range/slider-range.component';
 import { ProductitemComponent } from '../productitem/productitem.component';
-import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { PoroductsService } from '../Services/poroducts.service';
+import { PoroductsService } from '../../services/poroducts.service';
 
 @Component({
   selector: 'app-products',
   imports: [
     SidebarComponent,
     FilteredImageComponent,
-    SliderRangeComponent,
     ProductitemComponent,
-    RouterOutlet,
     CommonModule,
   ],
   templateUrl: './products.component.html',
@@ -81,30 +76,26 @@ export class ProductsComponent implements OnInit {
     console.log('ana hna in product component', this.arr);
   }
 
-  state:boolean=false;
-  onHover(state:boolean){
-    var slider= document.getElementById("slider")  as HTMLElement ||null;
-    var filterr= document.getElementById("filterr")   as HTMLElement ||null;
-    const element = document.getElementById("xx") as HTMLElement;
-     console.log("ttttttttttt");
-     
+  state: boolean = false;
+  onHover(state: boolean) {
+    var slider = (document.getElementById('slider') as HTMLElement) || null;
+    var filterr = (document.getElementById('filterr') as HTMLElement) || null;
+    const element = document.getElementById('xx') as HTMLElement;
+    console.log('ttttttttttt');
+
     // console.log(slider);
-    if(state==true &&  state!=null){
-      slider.style.display="block";
-      element.style.background="white" ;
+    if (state == true && state != null) {
+      slider.style.display = 'block';
+      element.style.background = 'white';
       // filterr.style.visibility="hidden" ;
-      
-    }
-    else if(state==false){
-      slider.style.display="none";
-      element.style.background="transparent" ;
+    } else if (state == false) {
+      slider.style.display = 'none';
+      element.style.background = 'transparent';
       // filterr.style.visibility="visible" ;
-
-
     }
     // console.log(state);
   }
- 
+
   /////////////////////////////updateDatapages////////////////////////
 
   receivedCategories: string[] = [];

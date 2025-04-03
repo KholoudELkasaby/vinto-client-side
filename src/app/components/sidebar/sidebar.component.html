@@ -1,0 +1,241 @@
+<button
+  (mouseenter)="onHovers(true)"
+  (mouseleave)="onHovers(false)"
+  class="flex space-evenly"
+>
+  >
+
+  <div id="xx" class="h-screen">
+    <div class="pt-10 mx-auto ml-2 mr-5">
+      <b
+        ><app-filtered-image class="bg-gray-100 text-black mb-2">
+        </app-filtered-image>
+      </b>
+
+      <div class="relative mt-5">
+        <input
+          type="search"
+          [(ngModel)]="searchText"
+          (keydown.enter)="onSearch()"
+          id="default-search"
+          class="block w-full p-4 ps-10 h-2 text-sm text-gray-700 border-gray-600 rounded-[200px] border bg-gray-50 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black"
+          placeholder="Search "
+          required
+        />
+        <div
+          class="absolute inset-y-0 end-5 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 ml-5 pl-3 flex justify-start text-black">
+      <button
+        value="press"
+        (click)="press()"
+        id="dropdownHelperButton"
+        data-dropdown-toggle="dropdownHelper"
+        class="flex items-center justify-between w-full text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        type="button"
+      >
+        Categories
+
+        <svg
+          class="w-3 h-3 text-gray-800 dark:text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 8"
+        >
+          <path
+            [attr.d]="x1"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+
+        <!-- </div> -->
+      </button>
+    </div>
+
+    <!-- Dropdown menu -->
+    <div
+      id="dropdownHelper"
+      class="hidden bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-60 dark:divide-gray-600"
+    >
+      <ul
+        class="space-y-1 text-sm text-gray-700 dark:text-gray-200"
+        aria-labelledby="dropdownHelperButton"
+      >
+        <diV class="p-10">
+          <div class="flex justify-around items-center m-1">
+            <label
+              for="checked1-checkbox"
+              class="text-sm font-medium text-gray-900 dark:text-gray-300"
+              >Furniture</label
+            >
+            <input
+              id="checked1-checkbox"
+              (change)="updateFilters()"
+              type="checkbox"
+              value=""
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+          <div class="flex justify-around items-center m-3">
+            <label
+              for="checked2-checkbox"
+              class="text-sm font-medium text-gray-900 dark:text-gray-300"
+              >Accessories</label
+            >
+            <input
+              id="checked2-checkbox"
+              (change)="updateFilters()"
+              type="checkbox"
+              value=""
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+
+          <div class="flex justify-around items-center">
+            <label
+              for="checked3-checkbox"
+              class="text-sm font-medium text-gray-900 dark:text-gray-300"
+              >Fashion
+            </label>
+            <input
+              id="checked3-checkbox"
+              (change)="updateFilters()"
+              type="checkbox"
+              value=""
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+
+          <div class="flex justify-around items-center m-3">
+            <label
+              for="checked4-checkbox"
+              class="text-sm font-medium text-gray-900 dark:text-gray-300"
+              >Electronics
+            </label>
+            <input
+              id="checked4-checkbox"
+              (change)="updateFilters()"
+              type="checkbox"
+              value=""
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+
+          <div class="flex justify-around items-center">
+            <label
+              for="checked5-checkbox"
+              class="text-sm font-medium text-gray-900 dark:text-gray-300"
+              >potties
+            </label>
+            <input
+              id="checked5-checkbox"
+              (change)="updateFilters()"
+              type="checkbox"
+              value=""
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+        </diV>
+      </ul>
+    </div>
+
+    <!--,------------------------------------------------------------------------------------------- -->
+    <!-- price -->
+
+    <div class="w-[250px] ml-5">
+      <button
+        id="dropdownpriceButton"
+        value="press2"
+        (click)="press2()"
+        class="flex items-center justify-between w-full text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        <div class="pl-3">Price</div>
+        <svg
+          class="w-3 h-3 text-gray-800 dark:text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 8"
+        >
+          <path
+            [attr.d]="x2"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      id="dropdownHelperp"
+      class="hidden bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-full dark:bg-gray-700 dark:divide-gray-600"
+    >
+      <div
+        class="space-y-1 text-sm text-gray-700 dark:text-gray-200 p-10"
+        aria-labelledby="dropdownpriceButton"
+      >
+        <!--  ......................................................................-->
+        <div class="  ">
+          <!-- ....................................................... -->
+          <div class="m-3 max-w-md mx-auto">
+            <label
+              class="block mb-4 text-sm font-medium text-gray-900 dark:text-white text-center"
+              >Price Range in <b>EGP</b></label
+            >
+
+            <div class="relative w-full flex justify-center items-center">
+              <app-slider-range
+                (saveSliderEvent)="receiveSliderValues($event)"
+              ></app-slider-range>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------------------New to old , old to new----------------------------------------- -->
+
+    <div class="flex ml-4">
+      <div
+        (click)="pressno($event)"
+        class="ml-3 text-black hover:bg-gray-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+      >
+        <button class="text-sm font-medium">Old To New</button>
+      </div>
+    </div>
+
+    <div class="flex ml-6">
+      <div
+        (click)="pressno($event)"
+        class="text-black hover:bg-gray-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+      >
+        <button class="font-medium">New To Old</button>
+      </div>
+    </div>
+
+    <br />
+  </div>
+</button>
