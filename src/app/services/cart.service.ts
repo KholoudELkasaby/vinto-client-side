@@ -74,4 +74,8 @@ export class CartService {
       .patch<{ data: { cart: Cart } }>(`${this.URL}/${id}`, body)
       .pipe(map((response): Cart => response.data.cart));
   }
+
+  removeItem(id: string, itemOrderedId: string) {
+    return this.http.post(`${this.URL}/remove/${id}`, { itemOrderedId: itemOrderedId })
+  }
 }
