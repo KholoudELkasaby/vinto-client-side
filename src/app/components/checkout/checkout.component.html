@@ -157,7 +157,7 @@
     </div>
 
 
-    <div class="min-h-screen pt-6 p-4 bg-[#ccc] w-full md:w-1/4  order-[-1] sm:order-none">
+    <div class="min-h-screen pt-6 p-4 bg-background-color w-full md:w-1/4  order-[-1] sm:order-none">
       <div class="p-6">
         <h2 class="text-2xl font-bold mb-4">Cart Summary</h2>
         <div class="space-y-2">
@@ -171,14 +171,14 @@
           }
           <div class="flex justify-between font-bold border-t pt-2">
             <span>Total Cost</span>
-            <span>{{ cartItems ? (cartItems.total | currency:'USD':'symbol':'1.2-2') : 0 }}</span>
+            <span>{{ cartItems ? (cartItems.total | currency:'EGP':'symbol':'1.2-2') : 0 }}</span>
           </div>
         </div>
 
-        <button type="submit"
-          class="w-full mt-6 bg-black hover:bg-[#555] text-white py-3 rounded-md hover:bg-blue-600 transition-colors">
+        <button type="submit" class="w-full bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95">
           Checkout
         </button>
+
       </div>
     </div>
   </form>
