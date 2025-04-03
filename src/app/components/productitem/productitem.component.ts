@@ -1,12 +1,8 @@
-import { ProductDetailsComponent } from './../product-details/product-details.component';
-import { ProductsComponent } from './../products/products.component';
 import { Component, input, Input, OnInit, SimpleChanges } from '@angular/core';
-import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
 import { FormsModule } from '@angular/forms';
 import { RatingModule } from 'primeng/rating';
-import { FormControl, FormControlName, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-productitem',
