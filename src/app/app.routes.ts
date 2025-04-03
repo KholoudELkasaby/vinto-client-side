@@ -4,11 +4,13 @@ import { HomeComponent } from './components/home/home.component';
 import { DetailsComponent } from './components/details/details.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
 import { CartComponent } from './components/cart/cart.component';
+import { AboutComponent } from './components/about/about.component';
+import { ProductsComponent } from './components/products/products.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'about', component: HomeComponent },
-  { path: 'products', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'products', component: ProductsComponent },
   { path: 'details/:id', component: DetailsComponent },
   { path: 'register', component: HomeComponent },
   { path: 'login', component: HomeComponent },
