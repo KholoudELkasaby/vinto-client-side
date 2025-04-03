@@ -62,14 +62,8 @@ export class ProductsComponent implements OnInit {
   //
 
   updateProducts(sortedProducts: any[]) {
-    this.x = sortedProducts; // Override default products with sorted data
+    this.x = sortedProducts;
     console.log(this.x);
-
-    // this.latestFilteredProducts = sortedProducts; // Store the latest data
-    // console.log(this.latestFilteredProducts);
-
-    // this.isFiltered = true; // Enable filtered mode
-    // this.updatePagination(sortedProducts); // Update pagination
   }
   updatetotalpage(total_page: any[]) {
     this.arr = total_page;
@@ -130,11 +124,9 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  //////////////////////////////numberbuttn///////////////
-
   press(event: Event) {
     const button = event.target as HTMLButtonElement;
-    const buttonValue: number = parseInt(button.innerText, 10); // Convert to integer (base 10)
+    const buttonValue: number = parseInt(button.innerText, 10);
     console.log('yuuuuuuuuu', buttonValue);
     console.log(
       'Updated Data in Product Component  xxxxxx:',
@@ -156,27 +148,17 @@ export class ProductsComponent implements OnInit {
           console.log(data);
           var products: any = data;
 
-          // console.log((products.data.products))
-          // products.data.products.forEach(element => {
-          //   console.log(element)
-
-          // });
           this.x = products.data.products;
           console.log('buttonclickeddddd');
           console.log(this.x);
         },
-        error: (err) => {
-          // console.log(err)
-        },
+        error: (err) => {},
         complete: () => {
           console.log('completeeee');
         },
       });
     }
-    ///if category id has length and new toold oldtovew at least one true
     if (this.receivedCategories.length && this.newtoold) {
-      ////case amr
-
       this.PoroductsService.getFilteredProducts(
         this.receivedCategories,
         this.minprice,
@@ -244,7 +226,6 @@ export class ProductsComponent implements OnInit {
           this.x = products.data.products;
 
           this.x = products.data.products;
-          // console.log(this.x);
         },
         error: (err) => {
           console.log(err);
@@ -302,14 +283,9 @@ export class ProductsComponent implements OnInit {
             '1111111111112222222222222222222222222222333333333333333333333333333333'
           );
           console.log(products.data.products);
-          this.x = products.data.products; // Send sorted data to ProductsComponent
-
-          // products.data.products.forEach(element => {
-          //   console.log(element)
-
-          // });
           this.x = products.data.products;
-          // console.log(this.x);
+
+          this.x = products.data.products;
         },
         error: (err) => {
           console.log(err);
@@ -329,14 +305,9 @@ export class ProductsComponent implements OnInit {
             '1111111111112222222222222222222222222222333333333333333333333333333333'
           );
           console.log(products.data.products);
-          this.x = products.data.products; // Send sorted data to ProductsComponent
-
-          // products.data.products.forEach(element => {
-          //   console.log(element)
-
-          // });
           this.x = products.data.products;
-          // console.log(this.x);
+
+          this.x = products.data.products;
         },
         error: (err) => {
           console.log(err);
@@ -347,49 +318,4 @@ export class ProductsComponent implements OnInit {
       });
     }
   }
-
-  // pressnew(event: Event) {
-  //   const button = event.target as HTMLButtonElement;
-  //   const buttonValue: number = parseInt(button.innerText, 10); // Get page number
-  //   console.log("Button clicked:", buttonValue);
-
-  //   // Choose the correct dataset based on filtering
-  //   const currentData = this.latestFilteredProducts;
-
-  //   // Calculate the slice indexes
-  //   const startIndex = (buttonValue - 1) * this.productsPerPage;
-  //   const endIndex = startIndex + this.productsPerPage;
-
-  //   // Update displayed products
-  //   this.x = currentData.slice(startIndex, endIndex);
-
-  //   console.log("Displaying page", buttonValue, ":", this.x);
-
-  //   // Update pagination buttons
-  //   this.updatePagination(currentData);
-  // }
-  // updatePagination(data: any[]) {
-  //   const totalPages = Math.ceil(data.length / this.productsPerPage);
-  //   this.pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-  // }
-
-  /////////////////////////////updateDatapages////////////////////////
-
-  // receivedCategories: string[] = [];
-  // minprice: number = 200;
-  //   maxprice: number = 20000;
-  // newtoold?:boolean= false;
-  // oldtonew?:boolean=false ;
-
-  // updateDatapages(data: { categories: string[], n_o: boolean,o_n:boolean, max_p: number  ,min_p:number }) {
-
-  //   this.receivedCategories = data.categories;
-  //   this.minprice = data.min_p;
-  //   this.maxprice = data.max_p;
-  //   this.newtoold= data.n_o;
-  //   this.oldtonew=data.o_n ;
-
-  //   console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-  //   console.log("Updated Data in Product Component:", this.receivedCategories, this.minprice, this.maxprice  , this.newtoold , this.oldtonew );
-  // }
 }
