@@ -1,5 +1,4 @@
-<diV class=" flex justify-between overflow-x-clip w-full max-w-full " >
-<!-- navvvvvvvvvvv  justify end -->
+<diV class="flex justify-between overflow-x-clip w-full max-w-full" >
 
   <!------------------------------------ navvvvvv here------------------------- -->
 
@@ -7,23 +6,30 @@
 
 </diV>
 
-<div  class=" flex h-screen"  >   
-    <div    id="xx"  class=" text-white min-h-0 w-fit  absolute   z-50    "  >
-
-        <app-sidebar  id="slider"      (sortedProducts)="updateProducts($event)"  (total_page)="updatetotalpage($event)"   (dataToParent)="updateDatapages($event)"  ></app-sidebar>
-
-</div >
-<div class="flex-1 ">
+<div  class="flex h-screen"  >   
 
 
-<!-- --------------------------------------------------------->
+
+    <div id="xx"class="text-white min-h-0 w-fit absolute z-50  w-20 sm:w-24 md:w-64 lg:w-72  "  >
+
+        <app-sidebar  id="slider"     (sortedProducts)="updateProducts($event)"  (total_page)="updatetotalpage($event)"   (dataToParent)="updateDatapages($event)"  ></app-sidebar>
+
+     </div >
 
 
- <div class="block ">
-<button  (mouseenter)="onHover(true)" (mouseleave)="onHover(false)"    class="flex space-evenly    hover:bg-gray-50  mt-5 p-4 inline-block w-[500px]"> 
 
- <b><app-filtered-image  class="pl-3"></app-filtered-image></b>
-</button>
+     
+<div class="flex-1">
+
+
+
+
+ <div class="block   ">
+
+      <button    (mouseenter)="onHover(true)" (mouseleave)="onHover(false)"  class="flex space-evenly      mt-5 inline-block w-[100px]  z-50 ml-8 "> 
+
+ <b><app-filtered-image  class="p-4 "  id="filterr"   ></app-filtered-image></b>
+        </button>
 
 
 
@@ -38,23 +44,31 @@
 
 
 
-<!-- ----------------------------Slider of page--------------------------------------------------- -->
+<!-- ----------------------------Slider of page------------------------------>
 
-<div class="mt-5 mb-5  flex justify-center">
-   
-        @if(arr.length){
-        @for (item of arr; track $index) {
-            <button  type="button" 
-            class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-1 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" 
-            (click)="press($event)">
-            {{item}}
-            </button>
-        }
-        
-    }
+<div class="mt-5 mb-5 flex justify-center">
+    <!-- @for (  let x = 0; x <= 5; x++ ;  track x) { 
+    <div>Item {{ x }}</div>
+    } -->
+    @if(arr.length)
+    { @for (item of arr; track $index) {
+    <button
+      type="button"
+      class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+      (click)="press($event)"
+    >
+      {{ item }}
+    </button>
+    } }
+  </div>
+
+
+
 
 </div>
-</div>
+
+
+
 </div>
 </div>
 

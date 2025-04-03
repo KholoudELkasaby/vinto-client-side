@@ -1,10 +1,12 @@
 <button  (mouseenter)="onHovers(true)" (mouseleave)="onHovers(false)"    class="flex space-evenly        inline-block    " >
 > 
 
-<div  id="xx" class=" h-screen ">
-<div class="     pt-10 mx-auto ml-5 mr-5   ">   
-    <label for="default-search" class=" text-sm font-medium  sr-only dark:text-black">Search</label>
-    <div class="relative ">
+<div  id="xx" class=" h-screen  ">
+<div class="     pt-10 mx-auto ml-2 mr-5   "> 
+
+     <b><app-filtered-image class="bg-gray-100 text-black mb-2"> </app-filtered-image> </b>
+  
+    <div class="relative   mt-5">
         <input type="search"     [(ngModel)]="searchText"    (keydown.enter)="onSearch()" 
         id="default-search" class="block w-full p-4 ps-10 h-2 text-sm text-gray-700 border border-gray-600 rounded-[200px] border bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search " required />
         <div class="absolute inset-y-0 end-5 flex items-center ps-3 pointer-events-none">
@@ -19,7 +21,7 @@
 </div>
 
 
-    <div class="    w-[250px] mt-10   ml-5  pl-3   flex justify-start text-black">
+    <div class="   mt-10   ml-5  pl-3   flex justify-start text-black">
 <button  value=  "press"  (click)="press()"  id="dropdownHelperButton" data-dropdown-toggle="dropdownHelper" class=" flex items-center justify-between w-full text-black     font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Categories
 
 

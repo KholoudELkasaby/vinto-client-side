@@ -1,14 +1,15 @@
 import { ProductsComponent } from './../products/products.component';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { SliderRangeComponent } from '../slider-range/slider-range.component';
-import { PoroductsService } from './../poroducts.service';
+import { PoroductsService } from '../Services/poroducts.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FilteredImageComponent } from "../filtered-image/filtered-image.component";
 
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SliderRangeComponent , FormsModule,CommonModule  ],
+  imports: [SliderRangeComponent, FormsModule, CommonModule, FilteredImageComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css' ,
   providers: [PoroductsService]
@@ -139,12 +140,12 @@ onHovers(state:boolean){
 
   // console.log(slider);
   if(state==true &&  state!=null){
-    slider.style.visibility="visible";
+    slider.style.display="block";
     element.style.background = "white";
 
   }
   else if(state==false){
-    slider.style.visibility="hidden";
+    slider.style.display="none";
     element.style.background = "transparent";
 
   }
@@ -220,7 +221,7 @@ else{
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
       this.maxValueFromSlider, 
-     6,
+     8,
      1,
       'oldest', // Sorting Order
       
@@ -264,7 +265,7 @@ else{
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
      this.maxValueFromSlider, 
-     6,
+     8,
      1,
       'newest', 
       
@@ -356,7 +357,7 @@ this.updateDatapages();
         this.selectedCategories_ids, 
         this.minValueFromSlider, 
         this.maxValueFromSlider, 
-       6,
+        8,
        1,
         'oldest', // Sorting Order
         
@@ -395,7 +396,7 @@ this.updateDatapages();
         this.selectedCategories_ids, 
         this.minValueFromSlider, 
        this.maxValueFromSlider, 
-       6,
+       8,
        1,
         'newest', 
         
@@ -431,7 +432,7 @@ this.updateDatapages();
           this.selectedCategories_ids, 
           this.minValueFromSlider, 
          this.maxValueFromSlider,  
-             6,
+         8,
              1
         ).subscribe( {
           next:(data)=>{console.log(data)
@@ -508,7 +509,7 @@ receiveSliderValues(event: { min: number; max: number }) {
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
       this.maxValueFromSlider, 
-     6,
+      8,
      1,
       'oldest', // Sorting Order
       
@@ -546,7 +547,7 @@ receiveSliderValues(event: { min: number; max: number }) {
       this.selectedCategories_ids, 
       this.minValueFromSlider, 
       this.maxValueFromSlider, 
-     6,
+      8,
      1,
       'newest', 
       
@@ -584,7 +585,7 @@ receiveSliderValues(event: { min: number; max: number }) {
         this.selectedCategories_ids, 
         this.minValueFromSlider, 
         this.maxValueFromSlider,  
-           6,
+        8,
            1
       ).subscribe( {
         next:(data)=>{console.log(data)
@@ -612,7 +613,7 @@ receiveSliderValues(event: { min: number; max: number }) {
              ['67ba3e609dc12cc7bef5ce3b', '67ba3d8fc8c7576d5a4ca888', '67ba3e8716548f20d6370e86', '67ba3eaad5881227117e9fb2', '67ba3e261c5c6144284d9aaa'],
             this.minValueFromSlider, 
             this.maxValueFromSlider, 
-           6,
+            8,
            1,
             'oldest', // Sorting Order
             
@@ -651,7 +652,7 @@ receiveSliderValues(event: { min: number; max: number }) {
              ['67ba3e609dc12cc7bef5ce3b', '67ba3d8fc8c7576d5a4ca888', '67ba3e8716548f20d6370e86', '67ba3eaad5881227117e9fb2', '67ba3e261c5c6144284d9aaa'], 
             this.minValueFromSlider, 
             this.maxValueFromSlider, 
-           6,
+            8,
            1,
             'newest', 
             
@@ -689,7 +690,7 @@ receiveSliderValues(event: { min: number; max: number }) {
                ['67ba3e609dc12cc7bef5ce3b', '67ba3d8fc8c7576d5a4ca888', '67ba3e8716548f20d6370e86', '67ba3eaad5881227117e9fb2', '67ba3e261c5c6144284d9aaa'], 
               this.minValueFromSlider, 
               this.maxValueFromSlider,  
-                 6,
+              8,
                  1
             ).subscribe( {
               next:(data)=>{console.log(data)

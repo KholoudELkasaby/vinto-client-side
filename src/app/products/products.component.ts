@@ -1,4 +1,3 @@
-import { PoroductsService } from './../poroducts.service';
 import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
@@ -7,6 +6,7 @@ import { SliderRangeComponent } from '../slider-range/slider-range.component';
 import { ProductitemComponent } from '../productitem/productitem.component';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { PoroductsService } from '../Services/poroducts.service';
 
 @Component({
   selector: 'app-products',
@@ -84,18 +84,27 @@ export class ProductsComponent implements OnInit {
   state:boolean=false;
   onHover(state:boolean){
     var slider= document.getElementById("slider")  as HTMLElement ||null;
+    var filterr= document.getElementById("filterr")   as HTMLElement ||null;
+    const element = document.getElementById("xx") as HTMLElement;
+     console.log("ttttttttttt");
+     
     // console.log(slider);
     if(state==true &&  state!=null){
-      slider.style.visibility="visible";
+      slider.style.display="block";
+      element.style.background="white" ;
+      // filterr.style.visibility="hidden" ;
       
     }
     else if(state==false){
-      slider.style.visibility="hidden";
+      slider.style.display="none";
+      element.style.background="transparent" ;
+      // filterr.style.visibility="visible" ;
+
 
     }
     // console.log(state);
   }
-
+ 
   /////////////////////////////updateDatapages////////////////////////
 
   receivedCategories: string[] = [];
@@ -181,7 +190,7 @@ export class ProductsComponent implements OnInit {
         this.receivedCategories,
         this.minprice,
         this.maxprice,
-        6,
+        8,
         buttonValue,
         'newest'
       ).subscribe({
@@ -224,7 +233,7 @@ export class ProductsComponent implements OnInit {
         this.receivedCategories,
         this.minprice,
         this.maxprice,
-        9,
+        8,
         buttonValue,
         'oldest'
       ).subscribe({
@@ -260,7 +269,7 @@ export class ProductsComponent implements OnInit {
         this.receivedCategories,
         this.minprice,
         this.maxprice,
-        6,
+        8,
         buttonValue
       ).subscribe({
         next: (data) => {
