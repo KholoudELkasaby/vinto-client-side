@@ -1,11 +1,8 @@
-<div class="flex flex-col min-h-screen">
-  <ng-container *ngIf="showNavbar">
-    <app-navbar />
-  </ng-container>
+<ng-container *ngIf="showNavbar">
+  <app-navbar />
+</ng-container>
+<router-outlet> </router-outlet>
+<app-footer />
 
-  <div class="flex-grow">
-    <router-outlet></router-outlet>
-  </div>
-
-  <app-footer />
-</div>
+<!-- <app-home /> -->
+<!-- <app-details /> -->
