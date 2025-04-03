@@ -1,0 +1,71 @@
+#card{
+    display: inline-block;
+    width:20%;
+    justify-content: space-evenly;
+    text-align: center;
+    margin-left: 30px;
+    /* margin-top: 10px; */
+    }
+    
+    
+
+
+
+    .star-rating {
+        font-size: 32px; 
+        display: flex;
+      }
+      
+      .star-rating span {
+        position: relative;
+        display: inline-block;
+        color: lightgray; 
+      }
+      
+      .star-rating .full-star {
+        color: gold;
+      }
+      
+      .star-rating .half-star,
+      .star-rating .quarter-star,
+      .star-rating .three-quarter-star {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .star-rating .half-star::before,
+      .star-rating .quarter-star::before,
+      .star-rating .three-quarter-star::before {
+        content: '★';
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        color: gold;
+      }
+      
+      .star-rating .quarter-star::before {
+        width: 40%;
+      }
+      
+      .star-rating .half-star::before {
+        width: 50%;
+      }
+      
+      .star-rating .three-quarter-star::before {
+        content: '★';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60%;
+        overflow: hidden;
+        color: gold;
+        display: inline-block;
+        white-space: nowrap;
+      }
+      
+
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
