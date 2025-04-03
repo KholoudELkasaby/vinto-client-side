@@ -78,4 +78,7 @@ export class CartService {
   removeItem(id: string, itemOrderedId: string) {
     return this.http.post(`${this.URL}/remove/${id}`, { itemOrderedId: itemOrderedId })
   }
+  addToCart(id: string, productId: string, quantity: number) {
+    return this.http.post(`${this.URL}/${id}`, { productId: productId, quantity: quantity })
+  }
 }

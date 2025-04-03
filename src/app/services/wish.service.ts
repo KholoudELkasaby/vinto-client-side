@@ -20,7 +20,7 @@ export class WishService {
     return this.http.delete(`${this.URL}/${id}/${product}`)
   }
 
-  // addWish(id: string) {
-  //   return this.http.patch(, body, options)
-  // }
+  addWish(id: string, product: string) {
+    return this.http.patch(`${this.URL}`, { user: id, products: [product] })
+  }
 }
