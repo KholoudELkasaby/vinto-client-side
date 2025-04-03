@@ -19,6 +19,8 @@ export class CartService {
   constructor(public http: HttpClient) { }
 
 
+
+
   getHistory(userId: string): Observable<any> {
     if (this.historyData.length === 0) {
       return this.http.get(`${this.URL}/history/${userId}`).pipe(
@@ -56,13 +58,20 @@ export class CartService {
     });
   }
 
-  getCart(userId: string) {
-    return this.http.get(`${this.URL}/${userId}`)
+  getCart(userId: string): Observable<Cart> {
+    return this.http.get<{ data: { cart: Cart } }>(`${this.URL}/${userId}`)
+      .pipe(map((response): Cart => response.data.cart))
   }
 
   getAllCarts(): Observable<CartItem[]> {
     return this.http
       .get<{ data: { cart: CartItem[] } }>(`${this.URL}`)
       .pipe(map((response): CartItem[] => response.data.cart));
+  }
+
+  updateCart(id: string, body: { itemOrderedId: string, newQuantity: string }): Observable<Cart> {
+    return this.http
+      .patch<{ data: { cart: Cart } }>(`${this.URL}/${id}`, body)
+      .pipe(map((response): Cart => response.data.cart));
   }
 }

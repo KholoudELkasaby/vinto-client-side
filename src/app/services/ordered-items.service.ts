@@ -25,6 +25,11 @@ export class OrderedItemsService {
     return this.http.get(this.URL + '/' + id)
   }
 
+  deleteById(id: string) {
+    return this.http.delete(`${this.URL}/${id}`)
+  }
+
+
   // createCart(cart: any) {
   //   const headers = new HttpHeaders({
   //     'Content-Type': 'application/json'
