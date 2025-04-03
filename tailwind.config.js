@@ -1,8 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/**/*.{html,ts,css,scss}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Poppins", "sans-serif"],
+      },
+      backgroundImage: {
+        signup: "url('/signup.png')",
+      },
       colors: {
         "dark-gray": "#E2E0E0",
         "gray-color": "#A5A5A5",
@@ -12,4 +18,6 @@ module.exports = {
     },
   },
   plugins: [],
+  important: true,
+  darkMode: "class",
 };

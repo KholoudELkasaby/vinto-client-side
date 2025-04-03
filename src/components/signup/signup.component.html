@@ -1,0 +1,244 @@
+<div
+  class="signup-container flex items-center justify-center w-full min-h-screen bg-[#1a1a1a]"
+>
+  <div
+    class="relative w-full max-w-[1440px] h-screen lg:h-[1024px] overflow-hidden"
+  >
+    <!-- Background with overlay -->
+    <div
+      class="absolute inset-0 bg-cover bg-center"
+      style="background-image: url('../../assets/images/Signup.png') !important"
+    >
+      <!-- Left Text Section -->
+      <div
+        class="absolute left-4 lg:left-[119px] top-4 lg:top-[440px] w-full lg:w-[400px]"
+      >
+        <div class="text-left mb-3">
+          <h1
+            class="text-base lg:text-[36px] font-poppins font-semibold text-white text-center lg:text-left"
+          >
+            Step up
+          </h1>
+          <h1
+            class="text-base lg:text-[36px] font-poppins font-semibold text-white text-center lg:text-left mt-1 lg:mt-3"
+          >
+            into the past,
+          </h1>
+          <br />
+          <h3
+            class="text-sm lg:text-[30px] font-poppins font-semibold text-white text-center lg:text-left mt-1 lg:mt-3"
+          >
+            One antique at a time.
+          </h3>
+        </div>
+      </div>
+
+      <!-- Right Form Section -->
+      <div
+        class="absolute w-full max-w-xs lg:w-[400px] px-4 lg:px-0 left-1/2 lg:left-[822px] top-[20%] lg:top-[248px] -translate-x-1/2 lg:-translate-x-0 -translate-y-0 lg:-translate-y-0"
+      >
+        <!-- Header -->
+        <div class="text-left mb-3">
+          <h2
+            class="text-base lg:text-[36px] font-poppins font-medium text-white"
+          >
+            Create,
+          </h2>
+          <h3
+            class="text-base lg:text-[36px] font-poppins font-medium text-white mt-1 lg:mt-3"
+          >
+            new account
+          </h3>
+        </div>
+
+        <!-- Form -->
+        <form
+          [formGroup]="signupForm"
+          (ngSubmit)="onSubmit()"
+          class="w-full flex flex-col gap-1.5"
+        >
+          <!-- Form fields -->
+          <div class="flex flex-col gap-0.5">
+            <label class="font-poppins text-2xs lg:text-sm text-white"
+              >Email</label
+            >
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="Enter Your Email"
+              class="h-8 lg:h-[40px] bg-white rounded-md px-3 font-poppins text-2xs lg:text-xs placeholder-gray-400"
+            />
+            <!-- Email Validation Messages -->
+            <div
+              *ngIf="
+                signupForm.get('email')?.touched &&
+                signupForm.get('email')?.errors
+              "
+              class="mt-0.5"
+            >
+              <p
+                *ngIf="signupForm.get('email')?.errors?.['required']"
+                class="text-red-400 text-2xs"
+              >
+                Email is required
+              </p>
+              <p
+                *ngIf="signupForm.get('email')?.errors?.['email']"
+                class="text-red-400 text-2xs"
+              >
+                Please enter a valid email
+              </p>
+            </div>
+          </div>
+
+          <!-- Username Field -->
+          <div class="flex flex-col gap-0.5">
+            <label class="font-poppins text-2xs lg:text-sm text-white"
+              >Username</label
+            >
+            <input
+              type="text"
+              formControlName="username"
+              placeholder="Enter Your Username"
+              class="h-8 lg:h-[40px] bg-white rounded-md px-3 font-poppins text-2xs lg:text-xs placeholder-gray-400"
+            />
+            <!-- Username Validation Messages -->
+            <div
+              *ngIf="
+                signupForm.get('username')?.touched &&
+                signupForm.get('username')?.errors
+              "
+              class="mt-0.5"
+            >
+              <p
+                *ngIf="signupForm.get('username')?.errors?.['required']"
+                class="text-red-400 text-2xs"
+              >
+                Username is required
+              </p>
+              <p
+                *ngIf="signupForm.get('username')?.errors?.['minlength']"
+                class="text-red-400 text-2xs"
+              >
+                Username must be at least 3 characters
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-0.5">
+            <label class="font-poppins text-2xs lg:text-sm text-white"
+              >Gender</label
+            >
+            <select
+              formControlName="gender"
+              class="h-8 lg:h-[40px] bg-white rounded-md px-3 font-poppins text-2xs lg:text-xs text-gray-400"
+            >
+              <option value="" disabled selected>Enter Your Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <div
+              *ngIf="signupForm.get('gender')?.touched && signupForm.get('gender')?.errors?.['required']"
+              class="mt-0.5"
+            >
+              <p class="text-red-400 text-2xs">Gender is required</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-0.5">
+            <label class="font-poppins text-2xs lg:text-sm text-white"
+              >Password</label
+            >
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="Enter Your Password"
+              class="h-8 lg:h-[40px] bg-white rounded-md px-3 font-poppins text-2xs lg:text-xs placeholder-gray-400"
+            />
+            <div
+              *ngIf="
+                signupForm.get('password')?.touched &&
+                signupForm.get('password')?.errors
+              "
+              class="mt-0.5"
+            >
+              <p
+                *ngIf="signupForm.get('password')?.errors?.['required']"
+                class="text-red-400 text-2xs"
+              >
+                Password is required
+              </p>
+              <p
+                *ngIf="signupForm.get('password')?.errors?.['minlength']"
+                class="text-red-400 text-2xs"
+              >
+                Password must be at least 8 characters
+              </p>
+              <p
+                *ngIf="signupForm.get('password')?.errors?.['pattern']"
+                class="text-red-400 text-2xs"
+              >
+                Password must contain uppercase, lowercase, number and special
+                character
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-0.5">
+            <label class="font-poppins text-2xs lg:text-sm text-white"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              placeholder="Confirm Your Password"
+              class="h-8 lg:h-[40px] bg-white rounded-md px-3 font-poppins text-2xs lg:text-xs placeholder-gray-400"
+            />
+            <div
+              *ngIf="signupForm.get('confirmPassword')?.touched"
+              class="mt-0.5"
+            >
+              <p
+                *ngIf="signupForm.get('confirmPassword')?.errors?.['required']"
+                class="text-red-400 text-2xs"
+              >
+                Please confirm your password
+              </p>
+              <p
+                *ngIf="signupForm.errors?.['mismatch']"
+                class="text-red-400 text-2xs"
+              >
+                Passwords do not match
+              </p>
+            </div>
+          </div>
+
+          <div class="error-text" *ngIf="errorMessages.length > 0">
+            <p *ngFor="let message of errorMessages" class="text-2xs">
+              {{ message }}
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="signupForm.invalid || isLoading"
+            class="w-full lg:w-[240px] h-8 lg:h-[40px] bg-white rounded-md mx-auto mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span
+              class="font-poppins font-semibold text-2xs lg:text-xs text-black"
+            >
+              {{ isLoading ? "Signing up..." : "Signup" }}
+            </span>
+          </button>
+
+          <p class="text-white text-center text-[10px] lg:text-2xs mt-1.5">
+            Already have an account?
+            <a routerLink="/login" class="text-blue-400 hover:underline"
+              >Login here</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
