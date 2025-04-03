@@ -1,0 +1,96 @@
+<div class="flex flex-col lg:w-[90%] w-full bg-background-color gap-3">
+  <!-- p-title -->
+  <h2 class="product-title text-3xl font-semibold px-8 py-6">
+    {{ product.title }}
+  </h2>
+
+  <hr class="bg-gray-color text-gray-color h-[2px]" />
+
+  <div class="w-full flex flex-col bg-background-color px-8 gap-5 flex-grow">
+    <!-- p-desc -->
+    <div class="w-full">
+      <!-- Expand/Collapse Button -->
+      <div class="flex justify-end" *ngIf="isDescriptionExpandable">
+        <button
+          (click)="isExpanded = !isExpanded"
+          class="text-gray-500 hover:text-black transition active:scale-95"
+        >
+          <i
+            [ngClass]="
+              isExpanded ? 'fa-solid fa-angle-up' : 'fa-solid fa-angle-down'
+            "
+          ></i>
+        </button>
+      </div>
+      <p
+        class="desc text-light-color break-words whitespace-normal transition-all ease-in-out"
+        [ngClass]="{ 'line-clamp-2': !isExpanded, 'max-h-[none]': isExpanded }"
+      >
+        {{ product.describe }}
+      </p>
+    </div>
+    <!-- p-price -->
+    <div class="price flex flex-col">
+      <div class="">
+        <p class="text-2xl font-semibold">
+          EGP <span> {{ product.price }}</span>
+        </p>
+      </div>
+
+      <div class="flex gap-2">
+        <p class="text-gray-color text-sm line-through">{{ offerPrice }}</p>
+        <div class="flex">
+          <p class="text-xs text-red-500">{{ product.discount }}%</p>
+          <i class="fa-solid fa-tag text-red-500"></i>
+        </div>
+      </div>
+    </div>
+    <!-- p-rate & reviews -->
+    <div class="flex w-52 justify-between">
+      <div class="rate">
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+          <i
+            class="fa-solid fa-star"
+            [ngClass]="{
+              'text-yellow-color': i < product.rate,
+              'text-gray-color': i >= product.rate
+            }"
+          ></i>
+        </ng-container>
+      </div>
+      <div
+        class="font-semibold text-sm active:scale-95 hover:scale-110 cursor-pointer border-b-[1px] border-black"
+      >
+        135 <i class="fa-solid fa-chart-simple"></i>
+      </div>
+    </div>
+
+    <!-- Characteristics -->
+    <div class="characteristics">
+      <p class="text-2xl font-semibold">Characteristics</p>
+      <ul class="list-disc pl-5">
+        <li *ngFor="let characteristic of product.characteristics">
+          {{ characteristic }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Size -->
+    <!-- <p class="text-2xl font-semibold">Size</p>
+    <div class="size flex gap-2">
+      <div
+        *ngFor="let size of sizes; let i = index"
+        [ngClass]="{ 'border-b border-black': activeSize === i }"
+        (click)="setActive('size', i)"
+        class="flex text-center pb-1 transition-all cursor-pointer active:scale-95"
+      >
+        <div class="w-8 h-8">{{ size }}</div>
+      </div>
+    </div> -->
+  </div>
+
+  <!-- ADD TO CART  -->
+  <div class="w-full flex justify-center mt-7">
+    <app-add-to-cart-btn />
+  </div>
+</div>

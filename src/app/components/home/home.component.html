@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <!-- Header Section -->
+  <section>
+    <app-header (Explore)="Explore()"></app-header>
+  </section>
+  <!-- Category Section -->
+  <section>
+    <app-category (Category)="Category()" />
+  </section>
+  <!-- Tabs Section -->
+  <section #tabsSection>
+    <app-tabs (activeTabChange)="updateActiveTab($event)" />
+  </section>
+  <!-- Card Section -->
+  <section #cardSection>
+    <app-card [activeTab]="activeTab" />
+  </section>
+  <!-- ViewMore -->
+  <section>
+    <app-view-btn />
+  </section>
+</div>
