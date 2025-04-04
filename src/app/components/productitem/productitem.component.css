@@ -4,7 +4,6 @@
     justify-content: space-evenly;
     text-align: center;
     margin-left: 30px;
-    /* margin-top: 10px; */
     }
     
     
@@ -17,7 +16,7 @@
   
   @media (max-width: 640px) {  
       #card {
-          width: 90%; /* 1 card per row */
+          width: 90%; 
           margin-left: 0;
       }
   }
