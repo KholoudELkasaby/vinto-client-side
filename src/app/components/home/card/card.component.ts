@@ -28,7 +28,7 @@ export class CardComponent implements OnInit, OnChanges {
   constructor(
     private productService: ProductService,
     private cartService: CartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -97,7 +97,7 @@ export class CardComponent implements OnInit, OnChanges {
 
   ////
   toggleCart(productId: string): void {
-    this.cartService.addToCart(productId, 1).subscribe(
+    this.cartService.addToCart("userId", productId, 1).subscribe(
       () => (this.productStates[productId].isInCart = true),
       (error) => console.error('Error adding item:', error)
     );

@@ -1,7 +1,7 @@
 import { ProductsComponent } from '../products/products.component';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { SliderRangeComponent } from '../slider-range/slider-range.component';
-import { PoroductsService } from '../../services/poroducts.service';
+import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
@@ -16,7 +16,7 @@ import { FilteredImageComponent } from '../filtered-image/filtered-image.compone
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
-  providers: [PoroductsService],
+  providers: [ProductService],
 })
 export class SidebarComponent {
   @Output() dataToParent = new EventEmitter<{
@@ -70,7 +70,7 @@ export class SidebarComponent {
   accessoriesCheckbox = document.getElementById(
     'checked2-checkbox'
   ) as HTMLInputElement;
-  constructor(private PoroductsService: PoroductsService) {}
+  constructor(private PoroductsService: ProductService) { }
 
   noProductsFound: boolean = false; // Initially false
 
