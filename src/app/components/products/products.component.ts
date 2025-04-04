@@ -32,31 +32,37 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.PoroductsService.getallproducts().subscribe({
       next: (data) => {
-        console.log(data);
-        var products: any = data;
+        console.log('Full API response:', data);
+        const products: any = data;
 
-        console.log(this.arr);
-        this.tot_pages = products.totalpages;
-        for (var i = 1; i <= this.tot_pages; i++) {
-          this.arr.push(i);
+        // Check if totalPages exists and populate arr
+        if (products.totalPages) {
+          this.tot_pages = products.totalPages || 0; // Use totalPages if available, otherwise default to 0
+          this.arr = [];
+          for (let i = 1; i <= this.tot_pages; i++) {
+            this.arr.push(i);
+          }
         }
-        console.log(this.tot_pages);
-        // console.log((products.data.products))
-        // products.data.products.forEach(element => {
-        //   console.log(element)
 
-        // });
+        console.log('Total Pages:', this.tot_pages); // Log totalPages to verify it
+        console.log('Pagination array after population:', this.arr); // Log the populated pagination array
+
+        console.log('Pagination array:', this.arr); // Log here
+        console.log('Updated products array:', products.data.products);
+
+        console.log('Pagination array:', this.arr); // Log here
+        console.log('Updated products array:', products.data.products);
         this.x = products.data.products;
-        // this.latestFilteredProducts= products.data.products;
       },
       error: (err) => {
-        // console.log(err);
+        console.error('Error fetching products:', err);
       },
       complete: () => {
-        console.log('completeeee');
+        console.log('Products fetch complete');
       },
     });
   }
+
   //
 
   //
@@ -128,6 +134,7 @@ export class ProductsComponent implements OnInit {
     const button = event.target as HTMLButtonElement;
     const buttonValue: number = parseInt(button.innerText, 10);
     console.log('yuuuuuuuuu', buttonValue);
+    console.log('Pagination array:', this.arr);
     console.log(
       'Updated Data in Product Component  xxxxxx:',
       this.receivedCategories,

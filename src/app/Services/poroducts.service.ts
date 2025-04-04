@@ -8,6 +8,7 @@ export class PoroductsService {
   private readonly BD_Url = 'http://localhost:4000/api/products';
   constructor(private Http: HttpClient) {}
   getallproducts() {
+    console.log('Fetching all products...');
     return this.Http.get(this.BD_Url);
   }
   getbyid(id: number) {
