@@ -13,48 +13,38 @@ import { Product } from '../../models/product.model';
 })
 export class WishListComponent {
   wishlist?: Product[];
-  //   {
-  //     name: 'Product 1',
-  //     id: 1,
-  //     category: 'Category A',
-  //     price: 99.99,
-  //     image: '/Images/dress.jfif',
-  //   },
-  //   {
-  //     name: 'Product 2',
-  //     id: 2,
-  //     category: 'Category B',
-  //     price: 149.99,
-  //     image: '/Images/dress.jfif',
-  //   },
-  //   {
-  //     name: 'Product 3',
-  //     id: 3,
-  //     category: 'Category C',
-  //     price: 199.99,
-  //     image: '/Images/dress.jfif',
-  //   },
-  // ];
-  user = "67b798659f02ecbe9f4d7ef0"
+
+  user: string = "67b798659f02ecbe9f4d7ef0"
   constructor(private router: Router, private wishListService: WishService) { }
-  ngOnInit() {
-    this.getWishList(this.user)
+  ngOnInit(): void {
+    this.getWishList()
   }
-  getWishList(id: string) {
-    this.wishListService.getAll(id).subscribe((data) => {
+  getWishList(): void {
+    this.wishListService.getAll(this.user).subscribe((data) => {
       this.wishlist = data.data.wishlist.products;
     });
   }
-  goToDetails(product: any) {
+  goToDetails(product: any): void {
     this.router.navigate(['/details', product.id]);
   }
 
-  removeWish(product: string) {
-    this.wishListService.removeOne(this.user, product).subscribe()
+  removeWish(product: string): void {
+    this.wishListService.removeOne(this.user, product).subscribe((data) => { })
   }
 
-  removeAllProducts() {
-    this.wishlist = [];
+  removeAll(): void {
+    if (this.wishlist) {
+      if (this.wishlist.length > 1) {
+        this.wishlist.forEach(element => {
+          this.wishListService.removeOne(this.user, element._id).subscribe((data) => {
+          })
+        });
+        this.getWishList();
+      } else {
+        this.wishListService.removeOne(this.user, this.wishlist[0]._id).subscribe((data) => {
+        })
+        this.getWishList();
+      }
+    }
   }
-
 }
