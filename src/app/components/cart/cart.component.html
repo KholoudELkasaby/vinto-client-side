@@ -21,7 +21,7 @@
         Remove All
       </button>
     </div>
-    Cart-Products with quantities
+    <!-- Cart-Products with quantities -->
     <div class="Products flex flex-col gap-4 mt-7">
       @if(cart){
         <div *ngFor="let product of cart.items; let i = index" (click)="goToDetails(product)"

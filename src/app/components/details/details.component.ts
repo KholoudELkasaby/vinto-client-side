@@ -4,7 +4,6 @@ import { DetailsInfoComponent } from './details-info/details-info.component';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
-import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-details',
@@ -21,7 +20,7 @@ export class DetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService,
+    private productService: ProductService
   ) { }
 
   ngOnInit(): void {

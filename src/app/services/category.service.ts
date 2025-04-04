@@ -18,4 +18,7 @@ export class CategoryService {
       .pipe(map((response): Category[] => response.data.categories));
   }
 
+  getCategories(): Observable<{ data: { categories: Category[] } }> {
+    return this.http.get<{ data: { categories: Category[] } }>(this.URL);
+  }
 }
