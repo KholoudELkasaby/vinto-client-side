@@ -9,7 +9,6 @@ import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-details',
   imports: [CommonModule, DetailsInfoComponent, RouterModule],
-  providers: [CartService],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
@@ -23,7 +22,6 @@ export class DetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
