@@ -1,13 +1,12 @@
 import { Component, input, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RatingModule } from 'primeng/rating';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-productitem',
   standalone: true,
-  imports: [FormsModule, RatingModule, CommonModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './productitem.component.html',
   styleUrl: './productitem.component.css',
 })

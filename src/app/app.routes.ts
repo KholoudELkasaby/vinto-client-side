@@ -12,14 +12,14 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'details/:id', component: DetailsComponent },
-  { path: 'register', component: HomeComponent },
-  { path: 'login', component: HomeComponent },
-  { path: 'profile', component: HomeComponent },
+  { path: 'register', component: HomeComponent }, //
+  { path: 'login', component: HomeComponent }, //
+  { path: 'profile', component: HomeComponent }, //
   { path: 'cart', component: CartComponent },
   { path: 'wishlist', component: WishListComponent },
-  { path: 'checkout', component: HomeComponent },
-  { path: 'history', component: HomeComponent },
-  { path: 'order-progress', component: HomeComponent },
-  { path: 'reviews', component: HomeComponent },
-  { path: '**', component: HomeComponent },
+  { path: 'checkout', component: HomeComponent }, //
+  { path: 'history', component: HomeComponent }, //
+  { path: 'order-progress', component: HomeComponent }, //
+  { path: 'reviews', component: HomeComponent }, //
+  { path: '**', component: HomeComponent }, //
 ];
