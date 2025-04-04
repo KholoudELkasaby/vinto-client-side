@@ -22,7 +22,7 @@ export class CartComponent {
   isLoading: boolean = false;
   deleteMode: 'single' | 'all' = 'all';
   itemToDeleteId: string = '';
-
+  user = "67b798659f02ecbe9f4d7ef0";
 
 
 
@@ -37,7 +37,7 @@ export class CartComponent {
   }
 
   updateCart() {
-    this.cartService.getCart("67b87e4bee6c8c97157670ed")
+    this.cartService.getCart(this.user)
       .subscribe((data) => {
         this.cart = data;
       });
@@ -121,14 +121,13 @@ export class CartComponent {
       }
     }
 
-    // Reset
     this.itemToDeleteId = '';
   }
 
   getSelectedCount(): number {
     return this.deleteMode === 'all' && this.cart ? this.cart.items.length : 1;
   }
-
-
-
+  chickout(): void {
+    this.router.navigate(["/checkout"])
+  }
 }
