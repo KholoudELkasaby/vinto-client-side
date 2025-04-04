@@ -2,7 +2,7 @@
 
 .signup-container {
   @apply w-full h-screen bg-[#1a1a1a] flex justify-center items-center overflow-hidden;
-  background-image: url("/assets/images/Signup.png") !important;
+  background-image: url("/Signup.png") !important;
   background-size: cover !important;
   background-position: center !important;
 }
