@@ -162,9 +162,9 @@
         <h2 class="text-2xl font-bold mb-4">Cart Summary</h2>
         <div class="space-y-2">
           @if(cartItems && cartItems.items){
-          @for(item of cartItems.items; track item.product?._id || $index){
+          @for(item of cartItems.items; track item.product._id || $index){
           <div class="flex justify-between">
-            <span>{{item.product.title || 'Unknown product'}}</span>
+            <span class="w-2/4 overflow-hidden text-ellipsis whitespace-nowrap" title="{{item.product.title}}">{{item.product.title || 'Unknown product'}}</span>
             <span>{{item.product.price| currency:'USD':'symbol':'1.2-2'}}</span>
           </div>
           }

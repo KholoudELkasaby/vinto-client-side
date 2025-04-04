@@ -28,16 +28,18 @@ export class CheckoutComponent {
   statesInEgypt: any[] = [];
   selectedValue = signal<string>('');
 
+  user: string = "67b798659f02ecbe9f4d7ef0";
 
   constructor(private stripeService: StripeService, private fb: FormBuilder) {
 
-    this.cartService.getCart("67b87e4bee6c8c97157670ed").subscribe({
+    this.cartService.getCart(this.user).subscribe({
       next: (data) => {
         if (data) {
+          console.log(data)
           this.cart = data;
           // Add a null check here
-          if (this.cart && this.cart.data && this.cart.data.cart) {
-            this.cartItems = this.cart.data.cart;
+          if (this.cart) {
+            this.cartItems = this.cart;
           } else {
             console.warn("Cart data is empty or malformed");
             this.cartItems = { items: [], total: 0 };
@@ -109,11 +111,7 @@ export class CheckoutComponent {
   }
 
   ngOnInit(): void {
-    console.log(State.getStatesOfCountry("EG"))
-    console.log(City.getCitiesOfState("EG", "SHR"))
-
     this.statesInEgypt = State.getStatesOfCountry("EG");
-    console.log(this.statesInEgypt);
   }
 
 
@@ -123,12 +121,10 @@ export class CheckoutComponent {
     this.selectedValue.set(selectElement.value);
     const state: string = this.selectedValue();
     this.citiesInEgypt = City.getCitiesOfState("EG", state);
-    console.log(this.citiesInEgypt)
   }
 
   onSubmit() {
     if (this.checkoutForm.valid) {
-      console.log(this.checkoutForm.value);
     }
   }
 
