@@ -21,7 +21,7 @@ export class DetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -33,6 +33,9 @@ export class DetailsComponent {
       });
     }
   }
+
+
+
 
   selectImage(image: string): void {
     this.isFading = true;

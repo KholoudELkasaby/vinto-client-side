@@ -3,7 +3,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
 import { ProductitemComponent } from '../productitem/productitem.component';
 import { CommonModule } from '@angular/common';
-import { PoroductsService } from '../../services/poroducts.service';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-products',
@@ -15,7 +15,7 @@ import { PoroductsService } from '../../services/poroducts.service';
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
-  providers: [PoroductsService],
+  providers: [ProductService],
 })
 export class ProductsComponent implements OnInit {
   x: any[] = [];
@@ -25,12 +25,12 @@ export class ProductsComponent implements OnInit {
   productsPerPage: number = 10; // Number of items per page
   pageNumbers: number[] = [];
   tot_pages = 0;
-  constructor(private PoroductsService: PoroductsService) {}
+  constructor(private PoroductsService: ProductService) { }
   //  products:any;
   arr: number[] = [];
 
   ngOnInit(): void {
-    this.PoroductsService.getallproducts().subscribe({
+    this.PoroductsService.getAllProducts().subscribe({
       next: (data) => {
         console.log('Full API response:', data);
         const products: any = data;
@@ -159,7 +159,7 @@ export class ProductsComponent implements OnInit {
           console.log('buttonclickeddddd');
           console.log(this.x);
         },
-        error: (err) => {},
+        error: (err) => { },
         complete: () => {
           console.log('completeeee');
         },

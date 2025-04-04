@@ -10,7 +10,8 @@ import { Product } from '../models/product.model';
 export class ProductService {
   private readonly baseUrl = 'http://localhost:4000/api/products';
 
-  constructor(private http: HttpClient) {}
+  private readonly BD_Url = 'http://localhost:4000/api/products';
+  constructor(private http: HttpClient) { }
 
   // Fetching Different Product Categories
   getTopRatedProducts(): Observable<Product[]> {
@@ -72,26 +73,86 @@ export class ProductService {
       .pipe(map((response) => response.data.products));
   }
 
+  getProduct(id: string) {
+    return this.http.get(this.baseUrl + '/' + id)
+  }
+
+  // getAllProducts(): Observable<Product[]> {
+  //   return this.http
+  //     .get<{ data: { products: Product[] } }>(`${this.URL}`)
+
   // Filter Products Based on Category, Price, and Sorting
+  // getFilteredProducts(
+  //   categoryIds: string[] = [],
+  //   minPrice: number = 500,
+  //   maxPrice: number = 5000,
+  //   limit: number = 20,
+  //   page: number = 1,
+  //   sort?: string
+  // ): Observable<Product[]> {
+  //   let params = `page=${page}&limit=${limit}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+  //   if (sort) params += `&sort=${sort}`;
+  //
+  //   if (categoryIds.length) {
+  //     params += `&category=${categoryIds.join(',')}`;
+  //   }
+  //
+  //   return this.http
+  //     .get<{ data: { products: Product[] } }>(
+  //       `${this.baseUrl}/filter?${params}`
+  //     )
+  //     .pipe(map((response) => response.data.products));
+  // }
+
+  getallproducts() {
+    return this.http.get(this.BD_Url);
+  }
+  getbyid(id: number) {
+    return this.http.get(this.BD_Url + '/' + id);
+  }
+  getallproductsbuttn(pnum: number) {
+    return this.http.get(`${this.BD_Url}?page=${pnum}`);
+  }
+  //http://localhost:4000/api/products/filter?sort=oldest
+  getoldest() {
+    return this.http.get(`${this.BD_Url}/filter?sort=oldest`);
+  }
+
+  getnewest() {
+    return this.http.get(`${this.BD_Url}/filter?sort=newest`);
+  }
+
+  getSrearched(pproduct: string) {
+    return this.http.get(`${this.BD_Url}/search?searched=${pproduct}`);
+  }
+
   getFilteredProducts(
-    categoryIds: string[] = [],
+    categoryIds?: string[],
     minPrice: number = 500,
     maxPrice: number = 5000,
     limit: number = 20,
     page: number = 1,
+
     sort?: string
-  ): Observable<Product[]> {
-    let params = `page=${page}&limit=${limit}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+  ) {
+    let params = `page=${page}&limit=${limit}`;
+
+    // Add optional filters
+    if (minPrice) params += `&minPrice=${minPrice}`;
+    if (maxPrice) params += `&maxPrice=${maxPrice}`;
     if (sort) params += `&sort=${sort}`;
 
-    if (categoryIds.length) {
-      params += `&category=${categoryIds.join(',')}`;
+    // Handle multiple categories
+    if (categoryIds && categoryIds.length) {
+      params += `&category=${categoryIds[0]}`;
+
+      for (let i = 1; i < categoryIds.length; i++) {
+        params += `&${categoryIds[i]}`;
+      }
     }
 
-    return this.http
-      .get<{ data: { products: Product[] } }>(
-        `${this.baseUrl}/filter?${params}`
-      )
-      .pipe(map((response) => response.data.products));
+    return this.http.get(`${this.BD_Url}/filter?${params}`);
   }
+
+
 }

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AddToCartBtnComponent } from '../add-to-cart-btn/add-to-cart-btn.component';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../models/product.model';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-details-info',
@@ -12,6 +13,7 @@ import { Product } from '../../../models/product.model';
 export class DetailsInfoComponent {
   @Input() product!: Product;
   isExpanded: boolean = false;
+
   // activeSize: number = 2;
 
   // sizes: string[] = ['S', 'M', 'L', 'XL'];
@@ -29,8 +31,9 @@ export class DetailsInfoComponent {
   get offerPrice(): number {
     return this.product.discount > 0
       ? parseFloat(
-          (this.product.price / (1 - this.product.discount / 100)).toFixed(2)
-        )
+        (this.product.price / (1 - this.product.discount / 100)).toFixed(2)
+      )
       : 0;
   }
+
 }

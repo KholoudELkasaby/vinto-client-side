@@ -1,0 +1,59 @@
+<div class="flex bg-white">
+
+  <div class="hidden lg:grid grid-cols-1 bg-[#ccc] h-screen p-4">
+    <app-admin-select-side></app-admin-select-side>
+  </div>
+  <div class="mt-8 w-full">
+    <!-- <h3 class="text-sm font-semibold text-gray-700 mb-4">Select user to change</h3> -->
+    <app-confirmation-modal [visible]="showDeleteModal" [itemName]="getSelectedCount() + ' selected items'"
+      (confirmed)="handleDeleteConfirmation($event)">
+    </app-confirmation-modal>
+
+    <div class="bg-white border border-gray-200 rounded m-0 sm:m-4">
+      <div class="flex items-center justify-between p-3 border-b border-gray-200">
+        <app-admin-select-nav [selectedItems]="selectedItems" (deleteRequest)="confirmDelete()" class="w-full"
+          [items]="items" [displayedItems]="displayedItems"></app-admin-select-nav>
+        <!-- <div class="flex items-center gap-4"> -->
+        <!--   <select class="text-sm text-gray-700 bg-transparent focus:outline-none"> -->
+        <!--     <option>Action:</option> -->
+        <!--   </select> -->
+        <!--   <button class="text-sm text-gray-700 px-3 py-1 hover:bg-gray-200 rounded">Go</button> -->
+        <!-- </div> -->
+        <!-- <span class="text-sm text-gray-500">0 of 3 selected</span> -->
+      </div>
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full">
+          <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+            <tr class="border-b border-gray-200">
+              <th class="px-4 py-3 text-left">
+                <input name="selectAll" type="checkbox" [checked]="selectAll" (change)="toggleAllCheckboxes()">
+              </th>
+              <th class="px-4 py-3 text-left">{{model}}</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm text-gray-700">
+            @for(instance of displayedItems; track $index)
+            {
+            <tr class="border-b border-gray-200 hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <input type="checkbox" name="select" [checked]="selectedItems[$index]"
+                  (change)="selectedItems[$index] = !selectedItems[$index]; updateSelectAllState()">
+              </td>
+              <td class="px-4 py-3 text-blue-600">
+                <a routerLinkActive="active" routerLink="/admin">
+                  {{instance.title ? instance.title : instance.id}}
+                </a>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="p-3 bg-gray-50 border-t border-gray-200"> -->
+      <!--   <span class="text-sm text-gray-500">3 users</span> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</div>

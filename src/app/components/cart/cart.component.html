@@ -1,80 +1,99 @@
-<div
-  class="grid lg:grid-cols-12 max-w-full h-full overflow-x-hidden gap-6 lg:gap-0 mb-5"
->
+<div class="grid lg:grid-cols-12 max-w-full h-full overflow-x-hidden gap-6 lg:gap-0">
   <!-- title & count items -->
+
+
   <div class="w-[80%] lg:col-span-8 mx-auto mt-6 overflow-x-hidden">
+    <app-confirmation-modal [visible]="showDeleteModal"
+      (confirmed)="handleDeleteConfirmation($event)"
+      [itemName]="deleteMode === 'single' ? 'this item' : (cart?.items?.length || 0) + ' items'"
+      >
+
+    </app-confirmation-modal>
+
     <div class="flex items-center justify-center">
       <h1 class="text-3xl font-semibold text-center">Shopping Cart</h1>
     </div>
     <hr class="bg-gray-color text-gray-color h-[2px] mt-3" />
     <!-- remove all -->
     <div class="flex items-center justify-between mt-3">
-      <p class="items text-lg font-semibold text-center">7 items</p>
-      <button
-        class="remove-all text-lg font-semibold hover:text-red-600 active:scale-95"
-        (click)="removeAllProducts()"
-      >
+      <p class="items text-lg font-semibold text-center">{{cart && cart.items ? cart.items.length : 0}} items</p>
+      <button class="remove-all text-lg font-semibold hover:text-red-600 active:scale-95" (click)="confirmDeleteAll()" [disabled]="!cart?.items?.length" >
         Remove All
       </button>
     </div>
     <!-- Cart-Products with quantities -->
     <div class="Products flex flex-col gap-4 mt-7">
-      <div
-        *ngFor="let product of cart; let i = index"
-        class="product flex items-center justify-between shadow-md rounded-lg"
-        (click)="goToDetails(product)"
-      >
-        <div class="flex items-center gap-4">
-          <img
-            [src]="product.image"
-            alt=""
-            class="w-[80px] h-[80px] rounded-lg object-cover"
-          />
-          <div class="flex flex-col gap-2">
-            <h1 class="text-xl font-semibold">{{ product.name }}</h1>
-            <p class="text-gray-color text-sm">{{ product.category }}</p>
-            <p class="text-base font-semibold">EGP {{ product.price }}</p>
+      @if(cart){
+        <div *ngFor="let product of cart.items; let i = index" (click)="goToDetails(product)"
+          class="product flex items-center justify-between shadow-md rounded-lg w-[100%]">
+            <div *ngIf="cart" class="flex items-center gap-4 w-[100%]">
+              <img src="{{product.product.img[0]}}" alt="" class="w-[80px] h-[80px] rounded-lg object-cover" />
+              <div class="flex w-11/12">
+                <div class="flex flex-col gap-2 w-full">
+                  <h1 class="text-xl font-semibold">{{ product.product.title }}</h1>
+                  <p class="text-gray-color text-sm">{{ product.product.category }}</p>
+                  <p class="text-base font-semibold">EGP {{ product.product.price }}</p>
+                </div>
+                  <!-- Quantity Controls -->
+                <div class="flex justify-end w-full">
+                  <div class="flex items-center gap-3 m-6">
+                    <button (click)="decrementQuantity(product.orderedItemId, product.quantity, $event)"
+                            class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
+                      -
+                    </button>
+                    <span class="quantity-display min-w-[30px] text-center">
+                      {{ product.quantity }}
+                    </span>
+                    <button (click)="incrementQuantity(product.orderedItemId, product.quantity, $event)"
+                            class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
+                      +
+                    </button>
+                  </div>
+                  <div class="flex items-center">
+                    <button (click)="confirmDelete(product.orderedItemId, $event)" [disabled]="isLoading"
+                        class="text-red-500 hover:text-red-700 remove text-lg font-semibold active:scale-95 hover:scale-110 mr-10">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <button
-          (click)="removeProduct(i, $event)"
-          class="remove text-lg font-semibold active:scale-95 hover:scale-110 mr-10"
-        >
-          <i class="fa-solid fa-trash-can text-red-600"></i>
-        </button>
-      </div>
+          }
     </div>
   </div>
   <!-- checkout -->
   <div
-    class="overflow-x-hidden bg-background-color w-full lg:col-span-4 flex flex-col items-center rounded-lg shadow-md"
-  >
+    class="overflow-x-hidden bg-background-color w-full lg:col-span-4 flex flex-col items-center rounded-lg shadow-md">
     <h1 class="text-2xl font-semibold mt-6">Order Summary</h1>
     <hr class="bg-gray-color text-gray-color h-[2px] w-[80%] mt-3" />
     <!-- Items Count -->
-    <div class="flex justify-between w-[80%] mt-3">
-      <p class="text-lg font-semibold">7 Items</p>
-      <p class="text-lg font-semibold">EGP 10000</p>
-    </div>
+    @if(cart && cart.items){
+      <div class="flex justify-between w-[80%] mt-3">
+        <p class="text-lg font-semibold">{{cart.items.length}} Items</p>
+        <p class="text-lg font-semibold">EGP {{ (cart.total| number:'1.2-2' )}}</p>
+      </div>
 
-    <!-- Shipping Fees -->
-    <div class="flex justify-between w-[80%] mt-6">
-      <p class="text-lg font-semibold">Shipping Fees</p>
-      <p class="text-lg font-semibold">EGP 300</p>
-    </div>
+      <div class="flex justify-between w-[80%] mt-6">
+        <p class="text-lg font-semibold">Shipping Fees</p>
+        <p class="text-xl font-semibold text-primary">EGP 10300</p>
+      </div>
 
-    <hr class="bg-gray-color text-gray-color h-[2px] w-[80%] mt-3" />
+      <hr class="bg-gray-color text-gray-color h-[2px] w-[80%] mt-3" />
 
-    <!-- Total Cost -->
-    <div class="flex justify-between w-[80%] mt-6">
-      <p class="text-xl font-semibold">Total Cost</p>
-      <p class="text-xl font-semibold text-primary">EGP 10300</p>
-    </div>
+      <!-- Total Cost -->
+      <div class="flex justify-between w-[80%] mt-6">
+        <p class="text-xl font-semibold">Total Cost</p>
+        <p class="text-lg font-semibold">EGP {{ (cart.total + 10300| number:'1.2-2' )}}</p>
+      </div>
+    }
 
     <!-- Checkout Button -->
-    <button
-      class="bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
-    >
+    <button (click)="chickout()"
+      class="bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95">
       Checkout
     </button>
   </div>

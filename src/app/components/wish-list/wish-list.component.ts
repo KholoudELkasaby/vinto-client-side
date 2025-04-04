@@ -1,50 +1,50 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { WishService } from '../../services/wish.service';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-wish-list',
   imports: [CommonModule],
+  providers: [WishListComponent],
   templateUrl: './wish-list.component.html',
   styleUrl: './wish-list.component.css',
 })
 export class WishListComponent {
-  wishlist = [
-    {
-      name: 'Product 1',
-      id: 1,
-      category: 'Category A',
-      price: 99.99,
-      image: '/Images/dress.jfif',
-    },
-    {
-      name: 'Product 2',
-      id: 2,
-      category: 'Category B',
-      price: 149.99,
-      image: '/Images/dress.jfif',
-    },
-    {
-      name: 'Product 3',
-      id: 3,
-      category: 'Category C',
-      price: 199.99,
-      image: '/Images/dress.jfif',
-    },
-  ];
+  wishlist?: Product[];
 
-  constructor(private router: Router) {}
-
-  goToDetails(product: any) {
+  user: string = "67b798659f02ecbe9f4d7ef0"
+  constructor(private router: Router, private wishListService: WishService) { }
+  ngOnInit(): void {
+    this.getWishList()
+  }
+  getWishList(): void {
+    this.wishListService.getAll(this.user).subscribe((data) => {
+      this.wishlist = data.data.wishlist.products;
+    });
+  }
+  goToDetails(product: any): void {
     this.router.navigate(['/details', product.id]);
   }
 
-  removeProduct(index: number, event: Event) {
-    event.stopPropagation();
-    this.wishlist.splice(index, 1);
+  removeWish(product: string): void {
+    this.wishListService.removeOne(this.user, product).subscribe((data) => { })
   }
 
-  removeAllProducts() {
-    this.wishlist = [];
+  removeAll(): void {
+    if (this.wishlist) {
+      if (this.wishlist.length > 1) {
+        this.wishlist.forEach(element => {
+          this.wishListService.removeOne(this.user, element._id).subscribe((data) => {
+          })
+        });
+        this.getWishList();
+      } else {
+        this.wishListService.removeOne(this.user, this.wishlist[0]._id).subscribe((data) => {
+        })
+        this.getWishList();
+      }
+    }
   }
 }
