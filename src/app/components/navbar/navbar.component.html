@@ -61,19 +61,19 @@
         routerLink="/"
         class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
         [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="active-link"
+        routerLinkActive="border-white"
         >Home</a
       >
       <a
         routerLink="/about"
         class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
-        routerLinkActive="active-link"
+        routerLinkActive="border-white"
         >About Us</a
       >
       <a
         routerLink="/products"
         class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
-        routerLinkActive="active-link"
+        routerLinkActive="border-white"
         >Products</a
       >
     </div>
@@ -147,14 +147,14 @@
         <!-- If user is logged in -->
         <ng-container *ngIf="isLoggedIn; else loggedOutMenu">
           <a
-            routerLink="/profile"
+            routerLink="/profile/details"
             class="block px-4 py-2 rounded-t-lg hover:bg-black cursor-pointer"
             (click)="closeDropdown()"
             >Profile</a
           >
 
           <a
-            routerLink="/"
+            routerLink="/signup"
             class="px-4 py-2 rounded-b-lg cursor-pointer flex gap-2 hover:bg-black hover:gap-3 justify-center items-center transition-all duration-300"
             (click)="signOut()"
             >Sign Out <i class="fa-solid fa-arrow-right-from-bracket"></i
@@ -164,7 +164,7 @@
         <!-- If user is logged out -->
         <ng-template #loggedOutMenu>
           <a
-            routerLink="/register"
+            routerLink="/signup"
             class="block px-4 py-2 hover:bg-black rounded-t-lg"
             (click)="closeDropdown()"
             >Sign Up</a
