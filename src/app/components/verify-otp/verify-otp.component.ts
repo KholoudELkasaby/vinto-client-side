@@ -8,6 +8,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../Services/auth.service';
 
 interface RegisterResponse {
   status: string;
@@ -36,7 +37,8 @@ export class VerifyOTPComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Assuming AuthService is imported correctly
   ) {
     this.otpForm = this.fb.group({
       digit1: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
@@ -110,9 +112,11 @@ export class VerifyOTPComponent implements OnInit {
               if (response.token) {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('userEmail', signupData.email);
+                this.authService.login(response.token || ''); // Replace with real token
+                this.router.navigate(['/']);
               }
               localStorage.removeItem('signupData');
-              this.router.navigate(['/welcome']);
+              this.router.navigate(['/']);
             }
           },
           error: (error) => {

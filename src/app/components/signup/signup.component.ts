@@ -129,13 +129,14 @@ export class SignupComponent {
         .subscribe({
           next: (response) => {
             if (response.status === 'success' && response.data) {
-              localStorage.setItem(
-                'signupData',
-                JSON.stringify({
-                  ...this.signupForm.value,
-                  userId: response.data.userId,
-                })
-              );
+              // localStorage.setItem(
+              //   'signupData',
+              //   JSON.stringify({
+              //     ...this.signupForm.value,
+              //     userId: response.data.userId,
+              //   })
+              // );
+
               this.router.navigate(['/profile']);
             }
           },

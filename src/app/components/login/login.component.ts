@@ -8,6 +8,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../Services/auth.service';
 
 interface LoginResponse {
   status: string;
@@ -43,7 +44,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -67,6 +69,7 @@ export class LoginComponent {
                 'userEmail',
                 this.loginForm.get('email')?.value
               );
+              this.authService.login(response.token || ''); // Replace with real token
               this.router.navigate(['/']);
             }
           },

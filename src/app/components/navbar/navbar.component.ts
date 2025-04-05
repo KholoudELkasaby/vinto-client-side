@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +17,20 @@ export class NavbarComponent {
   dropdownOpen = false;
   isSidebarOpen = false;
   isLoggedIn = true;
+  private loginSub!: Subscription;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.checkLoginStatus();
+  }
+
+  checkLoginStatus(): void {
+    this.loginSub = this.authService.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+  }
+
   toggleNotifications() {
     this.notificationDropDown = !this.notificationDropDown;
   }
@@ -41,10 +57,12 @@ export class NavbarComponent {
   ////
 
   signOut() {
-    console.log('Signing out...');
-    this.isLoggedIn = false;
-    this.closeDropdown();
-    this.closeSidebar();
+    this.authService.logout();
+    this.router.navigate(['/signup']);
+  }
+
+  ngOnDestroy() {
+    this.loginSub?.unsubscribe();
   }
 
   @HostListener('document:click', ['$event'])
