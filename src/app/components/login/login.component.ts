@@ -67,7 +67,7 @@ export class LoginComponent {
                 'userEmail',
                 this.loginForm.get('email')?.value
               );
-              this.router.navigate(['/profile/details']);
+              this.router.navigate(['/']);
             }
           },
           error: (error) => {

@@ -5,7 +5,7 @@
   <ul class="mt-10 space-y-5 flex flex-col w-full px-4">
     <li *ngIf="isLoggedIn" class="flex flex-col w-full">
       <a
-        routerLink="/profile"
+        routerLink="/profile/details"
         class="flex gap-2 items-center justify-center py-2 w-[90%] rounded-xl bg-neutral-900 cursor-pointer"
       >
         <!-- <i
@@ -43,7 +43,7 @@
       <a routerLink="/login" class="block py-2 cursor-pointer">Log In</a>
     </li>
     <li *ngIf="!isLoggedIn">
-      <a routerLink="/register" class="block py-2 cursor-pointer">Sign Up</a>
+      <a routerLink="/signup" class="block py-2 cursor-pointer">Sign Up</a>
     </li>
   </ul>
 </div>
