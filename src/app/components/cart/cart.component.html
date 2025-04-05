@@ -1,4 +1,4 @@
-<div class="grid lg:grid-cols-12 max-w-full h-full overflow-x-hidden gap-6 lg:gap-0">
+<div class="min-h-screen grid lg:grid-cols-12 max-w-full h-full overflow-x-hidden gap-6 lg:gap-0">
   <!-- title & count items -->
 
 
@@ -23,7 +23,7 @@
     </div>
     <!-- Cart-Products with quantities -->
     <div class="Products flex flex-col gap-4 mt-7">
-      @if(cart){
+      @if(cart && cart.items.length > 0){
         <div *ngFor="let product of cart.items; let i = index" (click)="goToDetails(product)"
           class="product flex items-center justify-between shadow-md rounded-lg w-[100%]">
             <div *ngIf="cart" class="flex items-center gap-4 w-[100%]">
@@ -44,7 +44,9 @@
                     <span class="quantity-display min-w-[30px] text-center">
                       {{ product.quantity }}
                     </span>
-                    <button (click)="incrementQuantity(product.orderedItemId, product.quantity, $event)"
+                    <button *ngIf="product.quantity < product.maxAllowed"
+                    (click)="incrementQuantity(product.orderedItemId, product.quantity, $event)"
+                            [disabled]="product.quantity  >= product.maxAllowed"
                             class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
                       +
                     </button>
@@ -62,6 +64,32 @@
               </div>
             </div>
           </div>
+          }@else{
+            <div class="flex justify-center items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+                <!-- Main wheel structure -->
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#666" stroke-width="3" stroke-dasharray="5 3" />
+
+                <!-- Broken spokes -->
+                <line x1="50" y1="50" x2="30" y2="20" stroke="#666" stroke-width="2" />
+                <line x1="50" y1="50" x2="70" y2="30" stroke="#666" stroke-width="2" />
+                <line x1="50" y1="50" x2="50" y2="80" stroke="#666" stroke-width="2" stroke-dasharray="3 2" />
+
+                <!-- Large crack in rim -->
+                <path d="M25,50 Q30,55 35,50 Q40,45 45,50" fill="none" stroke="#444" stroke-width="2" />
+
+                <!-- Splintered wood effect -->
+                <path d="M60,20 L55,25 L58,22 L63,18" stroke="#8B4513" stroke-width="1" />
+                <path d="M70,45 L68,50 L72,48 L75,43" stroke="#8B4513" stroke-width="1" />
+
+                <!-- Missing section in rim -->
+                <path d="M50,10 Q60,8 70,15 L65,20 Q60,12 50,15" fill="#ccc" stroke="#666" stroke-width="1" />
+
+                <!-- Hub with crack -->
+                <circle cx="50" cy="50" r="5" fill="#666" />
+                <line x1="50" y1="45" x2="50" y2="55" stroke="#444" stroke-width="2" />
+              </svg>
+            </div>
           }
     </div>
   </div>
@@ -74,7 +102,7 @@
     @if(cart && cart.items){
       <div class="flex justify-between w-[80%] mt-3">
         <p class="text-lg font-semibold">{{cart.items.length}} Items</p>
-        <p class="text-lg font-semibold">EGP {{ (cart.total| number:'1.2-2' )}}</p>
+        <p class="text-lg font-semibold">EGP {{ (cart.total| number:'1.2-2' ) || 0}}</p>
       </div>
 
       <div class="flex justify-between w-[80%] mt-6">

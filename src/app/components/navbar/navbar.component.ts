@@ -2,13 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { CartService } from '../../services/cart.service';
+
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../Services/auth.service';
-
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterModule, CommonModule, SidebarComponent],
+  providers: [CartService],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -17,12 +19,21 @@ export class NavbarComponent {
   dropdownOpen = false;
   isSidebarOpen = false;
   isLoggedIn = true;
+  user: string = '67b87e4bee6c8c97157670ed';
+  numOfItems: number = 0;
   private loginSub!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.checkLoginStatus();
+    this.cartService.getCart(this.user).subscribe((data) => {
+      this.numOfItems = data.items.length;
+    });
   }
 
   checkLoginStatus(): void {
@@ -30,7 +41,6 @@ export class NavbarComponent {
       this.isLoggedIn = status;
     });
   }
-
   toggleNotifications() {
     this.notificationDropDown = !this.notificationDropDown;
   }
