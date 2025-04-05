@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Services/auth.service';
 
 interface ProfileResponse {
   status: string;
@@ -187,7 +188,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.profileForm = new FormGroup({
       firstName: new FormControl('', {
@@ -352,6 +354,9 @@ export class ProfileComponent implements OnInit {
 
               // Disable form after successful creation
               this.profileForm.disable();
+              //const token = localStorage.getItem('token');
+              this.authService.login(token || ''); // Replace with real token
+              this.router.navigate(['/']);
             } catch (e) {
               console.error('Error saving profile data:', e);
               this.errorMessages = ['Error saving profile data'];
