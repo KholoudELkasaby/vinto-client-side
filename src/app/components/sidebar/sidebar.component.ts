@@ -5,7 +5,6 @@ import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
-import { NotProductFoundComponent } from '../not-product-found/not-product-found.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +13,6 @@ import { NotProductFoundComponent } from '../not-product-found/not-product-found
     FormsModule,
     CommonModule,
     FilteredImageComponent,
-    NotProductFoundComponent
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
@@ -31,7 +29,8 @@ export class SidebarComponent {
 
   @Output() sortedProducts = new EventEmitter<any[]>(); // Emits sorted products
   @Output() total_page = new EventEmitter<any[]>(); // Emits sorted products
-  @Output() noProductsFoundChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New EventEmitter
+  @Output() noProductsFoundChange: EventEmitter<boolean> =
+    new EventEmitter<boolean>(); // New EventEmitter
 
   //////////////////pages updaye when filter/////
 
@@ -53,8 +52,8 @@ export class SidebarComponent {
   }
   x: any[] = [];
   /////hna notfound////////////////////
- notfound:boolean= false;
- //////////////////////////////////////////////////////
+  notfound: boolean = false;
+  //////////////////////////////////////////////////////
   isDropdownVisible = false;
   isDropdownVisible2 = false;
   x1: string = 'M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7';
@@ -75,7 +74,7 @@ export class SidebarComponent {
   accessoriesCheckbox = document.getElementById(
     'checked2-checkbox'
   ) as HTMLInputElement;
-  constructor(private PoroductsService: ProductService) { }
+  constructor(private PoroductsService: ProductService) {}
 
   noProductsFound: boolean = false; // Initially false
 
@@ -84,17 +83,17 @@ export class SidebarComponent {
 
     this.PoroductsService.getSrearched(this.searchText).subscribe({
       next: (data) => {
-        console.log("mmmmm")
+        console.log('mmmmm');
         console.log(data);
         var products: any = data;
         console.log('prois', products.data.paginatedResults);
-        this.x=products.data.paginatedResults
-        if (this.x.length !=0) {
-          console.log("not eeeeee")
-          this.sortedProducts.emit( products.data.paginatedResults);
-          this.x =  products.data.paginatedResults;
+        this.x = products.data.paginatedResults;
+        if (this.x.length != 0) {
+          console.log('not eeeeee');
+          this.sortedProducts.emit(products.data.paginatedResults);
+          this.x = products.data.paginatedResults;
           this.noProductsFound = false;
-          this.arr=[]
+          this.arr = [];
           this.tot_pages = products.data.totalPages;
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
@@ -103,18 +102,17 @@ export class SidebarComponent {
         } else {
           this.noProductsFound = true;
           this.sortedProducts.emit([]); // Emit a message
-           this.arr=[]
+          this.arr = [];
           // this.tot_pages = products.data.totalPages;
           // for (var i = 1; i <= this.tot_pages; i++) {
           //   this.arr.push(i);
           // }
-           this.total_page.emit(this.arr);
+          this.total_page.emit(this.arr);
           console.log(this.arr);
-          
 
-          this.noProductsFoundChange.emit(this.noProductsFound); 
+          this.noProductsFoundChange.emit(this.noProductsFound);
 
-////////appear not product found//////////
+          ////////appear not product found//////////
         }
       },
       error: (err) => {
@@ -123,8 +121,7 @@ export class SidebarComponent {
         this.sortedProducts.emit([]); // Handle error as no data
         this.noProductsFound = true;
 
-        this.noProductsFoundChange.emit(this.noProductsFound); 
-
+        this.noProductsFoundChange.emit(this.noProductsFound);
       },
       complete: () => {
         console.log('complete');
@@ -142,7 +139,6 @@ export class SidebarComponent {
         ? 'm1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1'
         : 'M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7';
   }
-  
 
   press2() {
     this.isDropdownVisible2 = !this.isDropdownVisible2;
@@ -151,10 +147,10 @@ export class SidebarComponent {
     this.x2 = this.isDropdownVisible2
       ? 'm1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1' // rotated icon (upwards)
       : 'M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7'; // original icon (downwards)
-    
+
     // Log to check the current state
-    console.log("Dropdown visibility:", this.isDropdownVisible2);
-    console.log("Icon state:", this.x2);
+    console.log('Dropdown visibility:', this.isDropdownVisible2);
+    console.log('Icon state:', this.x2);
   }
 
   state: boolean = false;
@@ -204,7 +200,6 @@ export class SidebarComponent {
             // });
             this.x = products.data.products;
             console.log(this.x);
-            
           },
           error: (err) => {
             console.log(err);
@@ -236,7 +231,7 @@ export class SidebarComponent {
             // });
             this.x = products.data.products;
             // console.log(this.x);
-            this.arr=[]
+            this.arr = [];
             this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
@@ -276,8 +271,6 @@ export class SidebarComponent {
             }
             this.total_page.emit(this.arr);
             console.log('ana hna fe sidebar component ', this.arr);
-
-           
 
             console.log(
               '1111111111112222222222222222222222222222333333333333333333333333333333'
@@ -499,7 +492,7 @@ export class SidebarComponent {
           var products: any = data;
           this.arr = [];
           this.tot_pages = products.data.totalPages;
-          console.log("tota", this.tot_pages) 
+          console.log('tota', this.tot_pages);
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }

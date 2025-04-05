@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../../Services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 interface ProfileResponse {
   status: string;

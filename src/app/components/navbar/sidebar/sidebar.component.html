@@ -23,6 +23,9 @@
       </a>
     </li>
     <li>
+      <a routerLink="/" class="block py-2 cursor-pointer">Admin</a>
+    </li>
+    <li>
       <a routerLink="/" class="block py-2 cursor-pointer">Home</a>
     </li>
     <li>
@@ -31,6 +34,7 @@
     <li>
       <a routerLink="/products" class="block py-2 cursor-pointer">Products</a>
     </li>
+
     <li *ngIf="isLoggedIn">
       <a
         (click)="signOut.emit()"
