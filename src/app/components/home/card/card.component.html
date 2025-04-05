@@ -31,7 +31,7 @@
       <div class="flex gap-3">
         <i
           class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
-          (click)="$event.stopPropagation(); toggleCart(product._id)"
+          (click)="addToCart(userId, product._id, quantity);$event.stopPropagation(); toggleCart(product._id)"
           [ngClass]="{
             'text-green-500': productStates[product._id].isInCart,
             'text-black': !productStates[product._id].isInCart

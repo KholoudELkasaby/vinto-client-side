@@ -1,62 +1,36 @@
-<nav
-  class="[20vh] sticky z-50 top-0 md:static w-full bg-black flex justify-center"
->
-  <div
-    class="container h-full flex justify-around md:justify-between items-center w-full"
-  >
+<nav class="[20vh] sticky z-50 top-0 md:static w-full bg-black flex justify-center">
+  <div class="container h-full flex justify-around md:justify-between items-center w-full">
     <!-- sidebar -->
     <div class="md:hidden">
-      <button
-        (click)="toggleSidebar()"
-        class="cursor-pointer btn btn-ghost btn-circle w-5"
-      >
-        <div
-          class="hamburger-icon flex flex-col items-center justify-between w-6 h-4"
-        >
-          <div
-            class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out"
-            [ngClass]="{
+      <button (click)="toggleSidebar()" class="cursor-pointer btn btn-ghost btn-circle w-5">
+        <div class="hamburger-icon flex flex-col items-center justify-between w-6 h-4">
+          <div class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out" [ngClass]="{
               'rotate-45 translate-y-[7px]': isSidebarOpen,
               'rotate-0 translate-y-0': !isSidebarOpen
-            }"
-          ></div>
-          <div
-            class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out"
-            [ngClass]="{
+            }"></div>
+          <div class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out" [ngClass]="{
               'opacity-0': isSidebarOpen,
               'opacity-100': !isSidebarOpen
-            }"
-          ></div>
-          <div
-            class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out"
-            [ngClass]="{
+            }"></div>
+          <div class="line w-full h-[1px] bg-white transition-all duration-500 ease-in-out" [ngClass]="{
               '-rotate-45 translate-y-[-8px]': isSidebarOpen,
               'rotate-0 translate-y-0': !isSidebarOpen
-            }"
-          ></div>
+            }"></div>
         </div>
       </button>
     </div>
 
     <!-- LOGO -->
-    <div
-      class="logo relative flex flex-col items-center mt-1 cursor-pointer"
-      routerLink="/"
-    >
-      <img
-        class="w-4 md:w-6 absolute right-0 top-2 md:top-0 cursor-pointer"
-        src="/Images/logo.svg"
-      />
-      <a
-        class="font-medium text-3xl md:text-4xl text-white p-3"
-        style="font-family: 'Poor Richard', serif"
-      >
+    <div class="logo relative flex flex-col items-center mt-1 cursor-pointer" routerLink="/">
+      <img class="w-4 md:w-6 absolute right-0 top-2 md:top-0 cursor-pointer" src="/Images/logo.svg" />
+      <a class="font-medium text-3xl md:text-4xl text-white p-3" style="font-family: 'Poor Richard', serif">
         Vinto
       </a>
     </div>
 
     <!-- links -->
     <div class="router hidden md:flex h-full justify-center items-center gap-5">
+
       <a
         routerLink="/"
         class="text-white transition-all duration-500 active:scale-95 border-b-[1px] border-transparent"
@@ -79,73 +53,49 @@
     </div>
 
     <!-- ICONS -->
-    <div
-      class="icons h-full flex justify-center items-center cursor-pointer gap-4"
-    >
-      <a
-        class="relative cursor-pointer hover:scale-105 active:scale-95"
-        routerLink="/cart"
-        ><i class="fa-solid fa-cart-shopping text-white"></i>
+    <div class="icons h-full flex justify-center items-center cursor-pointer gap-4">
+      <a class="relative cursor-pointer hover:scale-105 active:scale-95" routerLink="/cart"><i
+          class="fa-solid fa-cart-shopping text-white"></i>
         <span
-          class="absolute top-0 right-0 translate-x-2 -translate-y-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center"
-        >
-          7
-        </span></a
-      >
-      <a
-        class="cursor-pointer hover:scale-105 active:scale-95"
-        routerLink="/wishlist"
-        ><i class="fa-solid fa-heart text-white"></i
-      ></a>
+          class="absolute top-0 right-0 translate-x-2 -translate-y-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+          {{numOfItems}}
+        </span></a>
+      <a class="cursor-pointer hover:scale-105 active:scale-95" routerLink="/wishlist"><i
+          class="fa-solid fa-heart text-white"></i></a>
       <div (click)="toggleNotifications()" class="relative">
         <a class="notification cursor-pointer hover:scale-105 active:scale-95">
           <i class="fa-solid fa-bell text-white"></i>
           <span
-            class="absolute top-0 right-0 translate-x-1 -translate-y-1 bg-red-500 text-white text-xs font-bold rounded-full w-3 h-3 flex items-center justify-center"
-          >
+            class="absolute top-0 right-0 translate-x-1 -translate-y-1 bg-red-500 text-white text-xs font-bold rounded-full w-3 h-3 flex items-center justify-center">
           </span>
         </a>
-        <div
-          *ngIf="notificationDropDown"
-          class="absolute right-0 mt-2 w-60 h-52 bg-neutral-900 text-white shadow-lg z-50"
-        >
+        <div *ngIf="notificationDropDown"
+          class="absolute right-0 mt-2 w-60 h-52 bg-neutral-900 text-white shadow-lg z-50">
           <p class="bg-black text-lg w-full h-9 px-2">Notifications</p>
         </div>
       </div>
     </div>
 
     <!-- flag -->
-    <div
-      class="flag h-full flex justify-center items-center cursor-pointer w-6 md:w-8"
-      (click)="toggleFlag()"
-    >
-      <img
-        [src]="flagSrc"
-        alt="Flag"
-        class="transition-all duration-500 ease-in-out active:scale-0 active:opacity-0"
-      />
+    <div class="flag h-full flex justify-center items-center cursor-pointer w-6 md:w-8" (click)="toggleFlag()">
+      <img [src]="flagSrc" alt="Flag" class="transition-all duration-500 ease-in-out active:scale-0 active:opacity-0" />
     </div>
 
     <!-- Profile Dropdown -->
     <div
       class="relative hidden md:block cursor-pointer btn btn-ghost btn-circle avatar w-10 rounded-full transition-transform duration-300"
-      (click)="toggleDropdown()"
-    >
+      (click)="toggleDropdown()">
       <!-- <img
         class="w-full h-full object-cover rounded-full"
         src="/Images/dress.jfif"
         alt=""
       /> -->
-      <i
-        class="fa-regular fa-circle-user text-white text-4xl cursor-pointer transition-transform duration-300"
-      ></i>
+      <i class="fa-regular fa-circle-user text-white text-4xl cursor-pointer transition-transform duration-300"></i>
       <!-- Dropdown Menu -->
-      <div
-        *ngIf="dropdownOpen"
-        class="absolute right-0 mt-2 w-32 bg-neutral-900 text-white shadow-lg rounded-lg z-10"
-      >
+      <div *ngIf="dropdownOpen" class="absolute right-0 mt-2 w-32 bg-neutral-900 text-white shadow-lg rounded-lg z-10">
         <!-- If user is logged in -->
         <ng-container *ngIf="isLoggedIn; else loggedOutMenu">
+
           <a
             routerLink="/profile/details"
             class="block px-4 py-2 rounded-t-lg hover:bg-black cursor-pointer"
@@ -156,9 +106,7 @@
           <a
             routerLink="/signup"
             class="px-4 py-2 rounded-b-lg cursor-pointer flex gap-2 hover:bg-black hover:gap-3 justify-center items-center transition-all duration-300"
-            (click)="signOut()"
-            >Sign Out <i class="fa-solid fa-arrow-right-from-bracket"></i
-          ></a>
+            (click)="signOut()">Sign Out <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
         </ng-container>
 
         <!-- If user is logged out -->
@@ -170,22 +118,13 @@
             >Sign Up</a
           >
 
-          <a
-            routerLink="/login"
-            class="block px-4 py-2 rounded-b-lg hover:bg-black"
-            (click)="closeDropdown()"
-            >Log In</a
-          >
+          <a routerLink="/login" class="block px-4 py-2 rounded-b-lg hover:bg-black" (click)="closeDropdown()">Log
+            In</a>
         </ng-template>
       </div>
     </div>
 
-    <app-sidebar
-      class="block md:hidden sidebar"
-      [isOpen]="isSidebarOpen"
-      [isLoggedIn]="isLoggedIn"
-      (closeSidebar)="toggleSidebar()"
-      (signOut)="signOut()"
-    />
+    <app-sidebar class="block md:hidden sidebar" [isOpen]="isSidebarOpen" [isLoggedIn]="isLoggedIn"
+      (closeSidebar)="toggleSidebar()" (signOut)="signOut()" />
   </div>
 </nav>

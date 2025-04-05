@@ -18,6 +18,7 @@ export interface CartItem {
   product: Product;
   quantity: number;
   status: string;
+  maxAllowed: number;
 }
 
 export interface Cart {
