@@ -7,7 +7,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 interface ProfileResponse {
@@ -227,21 +227,23 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.router.navigate(['/signup']);
+    const userData = localStorage.getItem('userData');
+    if (!userData) {
+      this.errorMessages = [
+        'User data not found. Please try signing up again.',
+      ];
       return;
     }
 
-    try {
-      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-      if (tokenPayload.id) {
-        this.userId = tokenPayload.id;
-      }
-    } catch (error) {
-      console.error('Error parsing token:', error);
-      this.router.navigate(['/signup']);
-    }
+    const user = JSON.parse(userData);
+    this.profileForm.patchValue({
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      phoneNumber: user.phoneNumber || '',
+      address: user.address || '',
+      country: user.country || '',
+      city: user.city || '',
+    });
   }
 
   onFileSelected(event: any) {
@@ -272,21 +274,19 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.profileForm.valid || !this.selectedFile) {
+    if (!this.profileForm.valid) {
       Object.keys(this.profileForm.controls).forEach((key) => {
         const control = this.profileForm.get(key);
         control?.markAsTouched();
       });
-      this.errorMessages = [
-        'Please fill in all required fields including profile picture',
-      ];
+      this.errorMessages = ['Please fill in all required fields'];
       return;
     }
 
     this.isLoading = true;
-    const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
 
-    if (!signupData.userId) {
+    if (!userData.userId) {
       this.errorMessages = [
         'User data not found. Please try signing up again.',
       ];
@@ -306,46 +306,65 @@ export class ProfileComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         const base64String = reader.result as string;
-
         const completeProfileData = {
           ...profileData,
           picture: base64String,
         };
-
-        this.sendProfileData(completeProfileData, signupData.userId);
+        this.sendProfileData(completeProfileData, userData.userId);
       };
       reader.readAsDataURL(this.selectedFile);
+    } else {
+      this.sendProfileData(profileData, userData.userId);
     }
   }
 
   private sendProfileData(profileData: any, userId: string) {
+    // Add Authorization header
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`);
+
+    // Change to POST for creating new profile
     this.http
       .post<ProfileResponse>(
         `http://localhost:4000/api/profile/${userId}`,
         profileData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+        { headers }
       )
       .subscribe({
         next: (response) => {
           if (response.status === 'success') {
-            localStorage.setItem('userProfile', JSON.stringify(response.data));
-            this.router.navigate(['/verify-otp']);
+            try {
+              // Store the newly created profile data
+              const userData = JSON.parse(
+                localStorage.getItem('userData') || '{}'
+              );
+              const updatedData = {
+                ...userData,
+                ...response.data,
+              };
+
+              localStorage.setItem('userData', JSON.stringify(updatedData));
+
+              // Show success message
+              this.errorMessages = ['Profile created successfully'];
+
+              // Disable form after successful creation
+              this.profileForm.disable();
+            } catch (e) {
+              console.error('Error saving profile data:', e);
+              this.errorMessages = ['Error saving profile data'];
+            }
           }
+          this.isLoading = false;
         },
         error: (error) => {
           this.isLoading = false;
-          if (error.error?.message) {
-            this.errorMessages = [error.error.message];
-          } else {
-            this.errorMessages = ['Failed to create profile'];
-          }
-        },
-        complete: () => {
-          this.isLoading = false;
+          console.error('Profile creation error:', error);
+          this.errorMessages = [
+            error.error?.message || 'Failed to create profile',
+          ];
         },
       });
   }

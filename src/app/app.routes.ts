@@ -27,6 +27,7 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'login',
@@ -52,6 +53,7 @@ export const routes: Routes = [
   {
     path: 'profile/change-password',
     component: ChangePasswordComponent,
+    canActivate: [authGuard],
   },
   { path: 'cart', component: CartComponent },
   { path: 'wishlist', component: WishListComponent },
