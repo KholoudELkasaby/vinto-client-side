@@ -66,6 +66,9 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+   reloadPage() {
+    window.location.reload(); 
+  }
   
   noProductsFound: boolean = false;
 
