@@ -19,7 +19,7 @@ export class DetailsComponent {
   selectedImage: string = '';
   isFavorite: boolean = false;
   isFading = false;
-  userId = '67b798659f02ecbe9f4d7ef0';
+  userId = "67b87e4bee6c8c97157670ed";
   quantity: number = 1;
   inWishlist: boolean = false;
   wishlistItems: any[] = [];

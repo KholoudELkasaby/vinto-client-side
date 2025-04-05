@@ -13,7 +13,7 @@
       </button>
     </div>
         <div class="Products flex flex-col gap-4 mt-7">
-      @if(wishlist){
+      @if(wishlist && wishlist.length > 0){
         <div *ngFor="let product of wishlist; let i = index" (click)="goToDetails(product)"
           class="product flex items-center justify-between shadow-md rounded-lg w-[100%]">
             <div class="flex items-center gap-4 w-[100%]">
@@ -38,6 +38,16 @@
                 </div>
               </div>
             </div>
+          </div>
+          }@else{
+          <div class=" flex justify-center items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="300" height="300" preserveAspectRatio="xMidYMid meet">
+              <!-- Heart shape -->
+              <path d="M32 58s-26-15.3-26-34a14 14 0 0 1 28 0 14 14 0 0 1 28 0c0 18.7-26 34-26 34z" fill="none" stroke="#666" stroke-width="2"/>
+              <!-- Simulated crack in the heart -->
+              <path d="M32 20 l-4 8 l8 4 l-4 8" stroke="#666" stroke-width="2" fill="none"/>
+
+            </svg>
           </div>
           }
     </div>

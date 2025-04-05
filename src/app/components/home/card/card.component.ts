@@ -21,7 +21,7 @@ import { WishService } from '../../../services/wish.service';
 })
 export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
-  userId = '67b798659f02ecbe9f4d7ef0';
+  userId = "67b87e4bee6c8c97157670ed";
   quantity: number = 1;
   inWishlist: boolean = false;
   wishlistItems: any[] = [];

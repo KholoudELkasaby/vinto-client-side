@@ -5,6 +5,7 @@ import { CartService } from '../../services/cart.service';
 import { Cart, CartItem } from '../../models/cart.model';
 import { OrderedItemsService } from '../../services/ordered-items.service';
 import { ConfirmationModalComponent } from '../admin/admin-selection/confirmation-modal/confirmation-modal.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -22,7 +23,7 @@ export class CartComponent {
   isLoading: boolean = false;
   deleteMode: 'single' | 'all' = 'all';
   itemToDeleteId: string = '';
-  user = "67b798659f02ecbe9f4d7ef0";
+  user = "67b87e4bee6c8c97157670ed";
 
 
 
@@ -50,7 +51,7 @@ export class CartComponent {
 
   removeProduct(orderedItemId: string) {
     this.isLoading = true;
-    this.cartService.removeItem("67b87e4bee6c8c97157670ed", orderedItemId).subscribe({
+    this.cartService.removeItem(this.user, orderedItemId).subscribe({
       next: () => {
         this.updateCart();
       },
@@ -63,17 +64,25 @@ export class CartComponent {
   }
 
   removeAllProducts() {
-    if (this.cart) {
-      if (this.cart.items.length > 1) {
-        this.cart.items.forEach(element => {
-          this.cartService.removeItem("67b87e4bee6c8c97157670ed", element.orderedItemId.toString()).subscribe((data) => {
-          });
-        });
-      } else {
-        this.orderedItemService.deleteById(this.cart.items[0].orderedItemId.toString()).subscribe((data) => {
+    if (!this.cart || this.cart.items.length === 0) {
+      return;
+    }
+    const removalOperations: any = [];
+    this.cart.items.forEach(element => {
+      const removal$ = this.cartService.removeItem(this.user, element.orderedItemId.toString());
+      removalOperations.push(removal$);
+    });
+
+    if (removalOperations.length > 0) {
+      forkJoin(removalOperations).subscribe({
+        next: () => {
           this.updateCart();
-        });
-      }
+        },
+        error: (err) => {
+          console.error('Error removing products:', err);
+          this.updateCart();
+        }
+      });
     }
   }
 
@@ -98,7 +107,7 @@ export class CartComponent {
   //   // return quantity;
   // }
   private updateQuantity(orderedItemId: string, itemQ: string) {
-    this.cartService.updateCart("67b87e4bee6c8c97157670ed", { itemOrderedId: orderedItemId, newQuantity: itemQ }).subscribe({
+    this.cartService.updateCart(this.user, { itemOrderedId: orderedItemId, newQuantity: itemQ }).subscribe({
       next: (updatedCart) => {
         this.cart = updatedCart;
       },
