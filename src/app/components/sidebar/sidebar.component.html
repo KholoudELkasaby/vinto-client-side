@@ -76,18 +76,19 @@
 
     <!-- Dropdown menu -->
     <div
-      id="dropdownHelper"
-      class="hidden bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-60"
-    >
+  id="dropdownHelper"
+  *ngIf="isDropdownVisible"  
+  class="bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-60"
+>
       <ul
         class="space-y-1 text-sm text-gray-700"
         aria-labelledby="dropdownHelperButton"
       >
         <diV class="p-10">
-          <div class="flex justify-around items-center m-1">
+          <div class="flex  items-center  mt-3 mb-3 ml-5">
             <label
               for="checked1-checkbox"
-              class="text-sm font-medium text-gray-900"
+              class="text-sm font-medium text-gray-900 mr-[37px]"
               >Furniture</label
             >
             <input
@@ -98,10 +99,10 @@
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm"
             />
           </div>
-          <div class="flex justify-around items-center m-3">
+          <div class="flex items-center mt-3 mb-3 ml-5  ">
             <label
               for="checked2-checkbox"
-              class="text-sm font-medium text-gray-900"
+              class="text-sm font-medium text-gray-900 mr-4"
               >Accessories</label
             >
             <input
@@ -113,10 +114,10 @@
             />
           </div>
 
-          <div class="flex justify-around items-center">
+          <div class="flex  items-center mt-3 mb-3 ml-5">
             <label
               for="checked3-checkbox"
-              class="text-sm font-medium text-gray-900"
+              class="text-sm font-medium text-gray-900 mr-[45px]"
               >Fashion
             </label>
             <input
@@ -124,14 +125,14 @@
               (change)="updateFilters()"
               type="checkbox"
               value=""
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 "
             />
           </div>
 
-          <div class="flex justify-around items-center m-3">
+          <div class="flex  items-center  mt-3 mb-3 ml-5">
             <label
               for="checked4-checkbox"
-              class="text-sm font-medium text-gray-900"
+              class="text-sm font-medium text-gray-900 mr-[23px]"
               >Electronics
             </label>
             <input
@@ -143,10 +144,10 @@
             />
           </div>
 
-          <div class="flex justify-around items-center">
+          <div class="flex  items-center  mt-3 mb-3 ml-5">
             <label
               for="checked5-checkbox"
-              class="text-sm font-medium text-gray-900"
+              class="text-sm font-medium text-gray-900  mr-[50px]"
               >Bottles
             </label>
             <input
@@ -189,7 +190,7 @@
       </button>
     </div>
 
-    <div
+    <!-- <div
       id="dropdownHelperp"
       class="hidden bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-full"
     >
@@ -197,9 +198,7 @@
         class="space-y-1 text-sm text-gray-700"
         aria-labelledby="dropdownpriceButton"
       >
-        <!--  ......................................................................-->
         <div class="  ">
-          <!-- ....................................................... -->
           <div class="m-3 max-w-md mx-auto">
             <label class="block mb-4 text-sm font-medium text-gray-900"
               >Price Range in <b>EGP</b></label
@@ -213,23 +212,41 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+    <div
+  id="dropdownHelperp"
+  *ngIf="isDropdownVisible2"
+  class="bg-gray-50 divide-y divide-gray-100 rounded-lg shadow-sm w-full"
+>
+  <div class=" text-sm text-gray-700" aria-labelledby="dropdownpriceButton">
+    <div>
+      <div class=" mt-4 pt-10 max-w-md mx-auto">
+        <label class="block mb-4 text-sm font-medium text-gray-900">Price Range in <b>EGP</b></label>
+        <div class="relative w-full flex justify-center items-center">
+          <app-slider-range (saveSliderEvent)="receiveSliderValues($event)"></app-slider-range>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
 
     <!-- ---------------------New to old , old to new----------------------------------------- -->
 
     <div class="flex ml-4">
       <div
         (click)="pressno($event)"
-        class="ml-3 text-black hover:bg-gray-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+        class="ml-4 text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
       >
         <button class="text-sm font-medium">Old To New</button>
       </div>
     </div>
 
-    <div class="flex ml-6">
+    <div class="flex ml-8">
       <div
         (click)="pressno($event)"
-        class="text-black hover:bg-gray-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+        class="text-black  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
       >
         <button class="font-medium">New To Old</button>
       </div>
