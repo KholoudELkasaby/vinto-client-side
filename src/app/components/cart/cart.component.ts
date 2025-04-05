@@ -29,7 +29,7 @@ export class CartComponent {
   constructor(
     private router: Router,
     private cartService: CartService,
-    private removeAll: OrderedItemsService
+    private orderedItemService: OrderedItemsService
   ) { }
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class CartComponent {
           });
         });
       } else {
-        this.removeAll.deleteById(this.cart.items[0].orderedItemId.toString()).subscribe((data) => {
+        this.orderedItemService.deleteById(this.cart.items[0].orderedItemId.toString()).subscribe((data) => {
           this.updateCart();
         });
       }
@@ -87,6 +87,16 @@ export class CartComponent {
     this.updateQuantity(orderedItemId, (quantity - 1).toString());
   }
 
+  // private getQuantity(orderedItemId: string): number {
+  //   let quantity: number
+  //   this.orderedItemService.getProduct(orderedItemId).subscribe({
+  //     next: (data) => {
+  //       // console.log(quantity)
+  //     }
+  //   })
+  //
+  //   // return quantity;
+  // }
   private updateQuantity(orderedItemId: string, itemQ: string) {
     this.cartService.updateCart("67b87e4bee6c8c97157670ed", { itemOrderedId: orderedItemId, newQuantity: itemQ }).subscribe({
       next: (updatedCart) => {

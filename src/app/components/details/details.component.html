@@ -13,7 +13,7 @@
           ></i>
         </a>
         <div
-          (click)="toggleFavorite()"
+          (click)="toggleFavorite(); toggleWish(userId, product._id)"
           class="rounded-full w-8 h-8 p-2 border border-black flex items-center justify-center bg-background-color cursor-pointer hover:scale-105 active:scale-90"
         >
           <i

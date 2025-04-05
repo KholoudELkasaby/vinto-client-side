@@ -4,10 +4,12 @@ import { DetailsInfoComponent } from './details-info/details-info.component';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
+import { WishService } from '../../services/wish.service';
 
 @Component({
   selector: 'app-details',
   imports: [CommonModule, DetailsInfoComponent, RouterModule],
+  providers: [WishService],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
@@ -17,10 +19,16 @@ export class DetailsComponent {
   selectedImage: string = '';
   isFavorite: boolean = false;
   isFading = false;
+  userId = '67b798659f02ecbe9f4d7ef0';
+  quantity: number = 1;
+  inWishlist: boolean = false;
+  wishlistItems: any[] = [];
+  products: Product[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private wishService: WishService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +43,35 @@ export class DetailsComponent {
   }
 
 
+
+  toggleWish(userId: string, productId: string): void {
+    this.wishService.getAll(userId).subscribe({
+      next: (response) => {
+        const wishlist = response.data.wishlist;
+        this.wishlistItems = wishlist.products;
+
+        const exists = this.wishlistItems.some(item => item._id === productId);
+
+        if (exists) {
+          this.removefromWish(userId, productId);
+        } else {
+          this.addToWish(userId, productId);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching wishlist:', err);
+      }
+    });
+  }
+  addToWish(id: string, productId: string): void {
+    this.wishService.addWish(id, productId).subscribe({})
+  }
+  removefromWish(id: string, productId: string): void {
+    this.wishService.removeOne(id, productId).subscribe({})
+  }
+  isInWishlist(productId: string): boolean {
+    return this.wishlistItems.some(item => item.product._id === productId);
+  }
 
 
   selectImage(image: string): void {

@@ -6,10 +6,11 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { ProductService } from '../../../services/product.service';
 import { CartService } from '../../../services/cart.service';
+import { WishService } from '../../../services/wish.service';
 
 @Component({
   selector: 'app-card',
@@ -21,14 +22,19 @@ import { CartService } from '../../../services/cart.service';
 export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
   userId = '67b798659f02ecbe9f4d7ef0';
-
+  quantity: number = 1;
+  inWishlist: boolean = false;
+  wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router,
+    private wishService: WishService
   ) { }
+
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -38,6 +44,42 @@ export class CardComponent implements OnInit, OnChanges {
     if (changes['activeTab']) {
       this.fetchProducts();
     }
+  }
+
+  addToCart(id: string, productId: string, quantity: number): void {
+    this.cartService.addToCart(id, productId, quantity).subscribe({
+      next: (response) => {
+        this.router.navigate(["/cart"])
+      }
+    })
+  }
+
+  toggleWish(userId: string, productId: string): void {
+    this.wishService.getAll(userId).subscribe({
+      next: (response) => {
+        const wishlist = response.data.wishlist;
+        this.wishlistItems = wishlist.products;
+        const exists = this.wishlistItems.some(item => item.product._id === productId);
+
+        if (exists) {
+          this.removefromWish(userId, productId);
+        } else {
+          this.addToWish(userId, productId);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching wishlist:', err);
+      }
+    });
+  }
+  addToWish(id: string, productId: string): void {
+    this.wishService.addWish(id, productId).subscribe({})
+  }
+  removefromWish(id: string, productId: string): void {
+    this.wishService.removeOne(id, productId).subscribe({})
+  }
+  isInWishlist(productId: string): boolean {
+    return this.wishlistItems.some(item => item.product._id === productId);
   }
 
   productStates: {
@@ -81,6 +123,7 @@ export class CardComponent implements OnInit, OnChanges {
   toggleFavorite(productId: string): void {
     this.productStates[productId].isFavorite =
       !this.productStates[productId].isFavorite;
+    this.toggleWish(this.userId, productId);
   }
   //   loadCartState(): void {
   //   this.cartService.getCart(this.userId).subscribe(
