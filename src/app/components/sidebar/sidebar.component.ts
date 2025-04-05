@@ -189,6 +189,7 @@ export class SidebarComponent {
             // });
             this.x = products.data.products;
             console.log(this.x);
+            
           },
           error: (err) => {
             console.log(err);
@@ -220,6 +221,12 @@ export class SidebarComponent {
             // });
             this.x = products.data.products;
             // console.log(this.x);
+            this.arr=[]
+            this.tot_pages = products.data.totalPages;
+            for (var i = 1; i <= this.tot_pages; i++) {
+              this.arr.push(i);
+            }
+            this.total_page.emit(this.arr);
           },
           error: (err) => {
             console.log(err);
@@ -248,18 +255,14 @@ export class SidebarComponent {
             console.log(data);
             var products: any = data;
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
             this.total_page.emit(this.arr);
             console.log('ana hna fe sidebar component ', this.arr);
 
-            this.arr = [];
-            this.tot_pages = products.totalpages;
-            for (var i = 1; i <= this.tot_pages; i++) {
-              this.arr.push(i);
-            }
+           
 
             console.log(
               '1111111111112222222222222222222222222222333333333333333333333333333333'
@@ -294,7 +297,7 @@ export class SidebarComponent {
             console.log(data);
             var products: any = data;
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
@@ -402,7 +405,7 @@ export class SidebarComponent {
           console.log(data);
           var products: any = data;
           this.arr = [];
-          this.tot_pages = products.totalpages;
+          this.tot_pages = products.data.totalPages;
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }
@@ -441,7 +444,7 @@ export class SidebarComponent {
           console.log(data);
           var products: any = data;
           this.arr = [];
-          this.tot_pages = products.totalpages;
+          this.tot_pages = products.data.totalPages;
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }
@@ -480,7 +483,8 @@ export class SidebarComponent {
           console.log(data);
           var products: any = data;
           this.arr = [];
-          this.tot_pages = products.totalpages;
+          this.tot_pages = products.data.totalPages;
+          console.log("tota", this.tot_pages) 
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }
@@ -564,7 +568,7 @@ export class SidebarComponent {
             console.log(data);
             var products: any = data;
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
@@ -607,7 +611,7 @@ export class SidebarComponent {
             var products: any = data;
 
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
@@ -686,7 +690,8 @@ export class SidebarComponent {
             var products: any = data;
 
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
+
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
@@ -735,7 +740,7 @@ export class SidebarComponent {
             var products: any = data;
 
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
@@ -781,7 +786,7 @@ export class SidebarComponent {
             var products: any = data;
 
             this.arr = [];
-            this.tot_pages = products.totalpages;
+            this.tot_pages = products.data.totalPages;
             for (var i = 1; i <= this.tot_pages; i++) {
               this.arr.push(i);
             }
