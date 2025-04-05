@@ -30,6 +30,7 @@ export class ProductsComponent implements OnInit {
   constructor(private PoroductsService: ProductService) { }
   //  products:any;
   arr: number[] = [];
+  flag:boolean=false;
 
   ngOnInit(): void {
     this.PoroductsService.getallproducts().subscribe({
@@ -109,6 +110,9 @@ export class ProductsComponent implements OnInit {
   updateProducts(sortedProducts: any[]) {
     this.x = sortedProducts;
     console.log(this.x);
+    if(!this.x.length ){
+      this.flag=true;
+    }
 
   }
   updatetotalpage(total_page: any[]) {
