@@ -13,7 +13,7 @@ export class WishService {
   constructor(private http: HttpClient) { }
 
   getAll(id: string): Observable<WishlistResponse> {
-    return this.http.get<WishlistResponse>(`${this.URL}/${id}`);
+    return this.http.get<WishlistResponse>(`${this.URL}/${id}`,);
   }
 
   removeOne(id: string, product: string) {
