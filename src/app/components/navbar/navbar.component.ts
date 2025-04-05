@@ -27,7 +27,7 @@ export class NavbarComponent {
     private authService: AuthService,
     private router: Router,
     private cartService: CartService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.checkLoginStatus();
@@ -41,6 +41,7 @@ export class NavbarComponent {
       this.isLoggedIn = status;
     });
   }
+
   toggleNotifications() {
     this.notificationDropDown = !this.notificationDropDown;
   }
