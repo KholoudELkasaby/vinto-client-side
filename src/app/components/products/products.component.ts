@@ -30,14 +30,15 @@ export class ProductsComponent implements OnInit {
   arr: number[] = [];
 
   ngOnInit(): void {
-    this.PoroductsService.getAllProducts().subscribe({
+    this.PoroductsService.getallproducts().subscribe({
+      
       next: (data) => {
         console.log('Full API response:', data);
         const products: any = data;
 
         // Check if totalPages exists and populate arr
-        if (products.totalPages) {
-          this.tot_pages = products.totalPages || 0; // Use totalPages if available, otherwise default to 0
+        if (products.data.totalPages) {
+          this.tot_pages = products.data.totalPages || 0; // Use totalPages if available, otherwise default to 0
           this.arr = [];
           for (let i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
@@ -63,10 +64,38 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  //
+  
 
-  //
+  
 
+  //   ngOnInit(): void {
+  //   this.PoroductsService.getallproducts().subscribe({
+  //     next: (data) => {
+  //       console.log(data);
+  //       var products: any = data;
+
+  //       console.log(this.arr);
+  //       this.tot_pages = products.data.totalPages;
+  //       for (var i = 1; i <= this.tot_pages; i++) {
+  //         this.arr.push(i);
+  //       }
+  //       console.log(this.tot_pages);
+  //       // console.log((products.data.products))
+  //       // products.data.products.forEach(element => {
+  //       //   console.log(element)
+
+  //       // });
+  //       this.x = products.data.products;
+  //       // this.latestFilteredProducts= products.data.products;
+  //     },
+  //     error: (err) => {
+  //       // console.log(err);
+  //     },
+  //     complete: () => {
+  //       console.log('completeeee');
+  //     },
+  //   });
+  // }
   updateProducts(sortedProducts: any[]) {
     this.x = sortedProducts;
     console.log(this.x);
@@ -182,7 +211,7 @@ export class ProductsComponent implements OnInit {
           );
 
           this.arr = [];
-          this.tot_pages = products.totalpages;
+          this.tot_pages = products.data.totalPages;
           console.log('totalllll', this.tot_pages);
           console.log(this.arr);
 
@@ -224,7 +253,7 @@ export class ProductsComponent implements OnInit {
             '1111111111112222222222222222222222222222333333333333333333333333333333'
           );
           this.arr = [];
-          this.tot_pages = products.totalpages;
+          this.tot_pages = products.data.totalPages;
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }
@@ -260,7 +289,7 @@ export class ProductsComponent implements OnInit {
           this.arr = [];
           console.log('arr before', this.arr);
 
-          this.tot_pages = products.totalpages;
+          this.tot_pages = products.data.totalPages;
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }
@@ -282,13 +311,48 @@ export class ProductsComponent implements OnInit {
     }
 
     if (this.receivedCategories.length == 0 && this.oldtonew) {
-      this.PoroductsService.getnewest().subscribe({
+      // this.PoroductsService.getnewest().subscribe({
+      //   next: (data) => {
+      //     console.log(data);
+      //     var products: any = data;
+      //     console.log(
+      //       '1111111111112222222222222222222222222222333333333333333333333333333333'
+      //     );
+      //     console.log(products.data.products);
+      //     this.x = products.data.products;
+
+      //     this.x = products.data.products;
+      //   },
+      //   error: (err) => {
+      //     console.log(err);
+      //   },
+      //   complete: () => {
+      //     console.log('completeeee');
+      //   },
+      // });
+      this.PoroductsService.getFilteredProducts(
+        [],
+        this.minprice,
+        this.maxprice,
+        8,
+        buttonValue ,
+        'newest'
+      ).subscribe({
         next: (data) => {
           console.log(data);
           var products: any = data;
           console.log(
             '1111111111112222222222222222222222222222333333333333333333333333333333'
           );
+          this.arr = [];
+          this.tot_pages = products.data.totalPages;
+          for (var i = 1; i <= this.tot_pages; i++) {
+            this.arr.push(i);
+          }
+
+          console.log("newwwwwwwwwww") ;
+          console.log(this.arr)
+          console.log(data)
           console.log(products.data.products);
           this.x = products.data.products;
 
@@ -301,16 +365,53 @@ export class ProductsComponent implements OnInit {
           console.log('completeeee');
         },
       });
+ 
     }
 
     if (this.receivedCategories.length == 0 && this.newtoold) {
-      this.PoroductsService.getoldest().subscribe({
+      // this.PoroductsService.getoldest().subscribe({
+      //   next: (data) => {
+      //     console.log(data);
+      //     var products: any = data;
+      //     console.log(
+      //       '1111111111112222222222222222222222222222333333333333333333333333333333'
+      //     );
+      //     console.log(products.data.products);
+      //     this.x = products.data.products;
+
+      //     this.x = products.data.products;
+      //   },
+      //   error: (err) => {
+      //     console.log(err);
+      //   },
+      //   complete: () => {
+      //     console.log('completeeee');
+      //   },
+      // });
+       console.log(buttonValue)
+      this.PoroductsService.getFilteredProducts(
+        [],
+        this.minprice,
+        this.maxprice,
+        8,
+        buttonValue ,
+        'oldest'
+      ).subscribe({
         next: (data) => {
           console.log(data);
           var products: any = data;
           console.log(
             '1111111111112222222222222222222222222222333333333333333333333333333333'
           );
+          this.arr = [];
+          this.tot_pages = products.data.totalPages;
+          for (var i = 1; i <= this.tot_pages; i++) {
+            this.arr.push(i);
+          }
+
+          console.log("newwwwwwwwwww") ;
+          console.log(this.arr)
+          console.log(data)
           console.log(products.data.products);
           this.x = products.data.products;
 
@@ -323,6 +424,7 @@ export class ProductsComponent implements OnInit {
           console.log('completeeee');
         },
       });
+ 
     }
   }
 }
