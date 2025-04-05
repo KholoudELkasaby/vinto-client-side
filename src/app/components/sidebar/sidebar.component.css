@@ -14,6 +14,51 @@ body {
   padding: 0;
   background-color: aqua;
 }
-#xx {
-  height: 1600px;
+/* #xx {
+  height: 1100px;
+} */
+
+
+/* @media (max-width: 1450px) { 
+  #xx {
+    height:100px;
+  }
+} */
+
+@media (max-width: 1400px) { 
+  #xx {
+    height:1100px;
+  }
 }
+
+@media (max-width: 1300px) { 
+  #xx {
+    height:1600px;
+  }
+}
+
+
+@media (max-width: 1024px) { 
+  #xx {
+    height:1680px;
+  }
+}
+
+
+@media (max-width: 800px) { 
+  #xx {
+    height:2180px;
+  }
+}
+
+@media (max-width: 640px) { 
+  #xx {
+    height:4200px;
+  }
+}
+
+
+
+
+
+

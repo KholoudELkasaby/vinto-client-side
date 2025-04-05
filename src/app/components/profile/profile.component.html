@@ -1,0 +1,228 @@
+<div
+  class="signup-container flex items-center justify-center w-full min-h-screen bg-white"
+>
+  <div class="relative w-full max-w-[1440px] h-screen lg:h-[1024px]">
+    <div class="relative h-full flex flex-col items-center justify-center px-4">
+      <div class="text-center mb-8">
+        <h1
+          class="text-xl lg:text-[36px] font-poppins font-medium text-gray-800"
+        >
+          My Profile
+        </h1>
+      </div>
+
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+        class="w-full max-w-md"
+      >
+        <div class="mb-8">
+          <div class="flex items-center space-x-4">
+            <div
+              class="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden bg-gray-200"
+            >
+              <img
+                *ngIf="imagePreview"
+                [src]="imagePreview"
+                class="w-full h-full object-cover"
+                alt="Profile preview"
+              />
+              <div
+                *ngIf="!imagePreview"
+                class="w-full h-full flex items-center justify-center bg-gray-100"
+              >
+                <span class="text-red-400">Upload photo*</span>
+              </div>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              class="hidden"
+              #fileInput
+            />
+            <button
+              type="button"
+              (click)="fileInput.click()"
+              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            >
+              Upload Photo
+            </button>
+          </div>
+          <div
+            *ngIf="(!selectedFile && profileForm.get('picture')?.touched) || (profileForm.get('picture')?.errors?.['required'] && profileForm.touched)"
+            class="text-red-500 text-xs mt-2"
+          >
+            Profile picture is required
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1">
+            <label
+              class="font-poppins text-sm text-gray-800"
+              [class.text-black]="currentFocusedInput === 'firstName'"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              formControlName="firstName"
+              (focus)="onFocus('firstName')"
+              (blur)="onBlur()"
+              class="h-10 bg-gray-100 rounded-md px-3 font-poppins text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              [class.ring-2]="currentFocusedInput === 'firstName'"
+            />
+            <div
+              *ngIf="profileForm.get('firstName')?.touched && profileForm.get('firstName')?.errors?.['required']"
+              class="text-red-500 text-xs mt-1"
+            >
+              First name is required
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label
+              class="font-poppins text-sm text-gray-800"
+              [class.text-black]="currentFocusedInput === 'lastName'"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              formControlName="lastName"
+              (focus)="onFocus('lastName')"
+              (blur)="onBlur()"
+              class="h-10 bg-gray-100 rounded-md px-3 font-poppins text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              [class.ring-2]="currentFocusedInput === 'lastName'"
+            />
+            <div
+              *ngIf="profileForm.get('lastName')?.touched && profileForm.get('lastName')?.errors?.['required']"
+              class="text-red-500 text-xs mt-1"
+            >
+              Last name is required
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label
+              class="font-poppins text-sm text-gray-800"
+              [class.text-black]="currentFocusedInput === 'phoneNumber'"
+            >
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              formControlName="phoneNumber"
+              (focus)="onFocus('phoneNumber')"
+              (blur)="onBlur()"
+              placeholder="+1234567890"
+              class="h-10 bg-gray-100 rounded-md px-3 font-poppins text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              [class.ring-2]="currentFocusedInput === 'phoneNumber'"
+            />
+            <div
+              *ngIf="
+                profileForm.get('phoneNumber')?.touched &&
+                profileForm.get('phoneNumber')?.errors
+              "
+              class="text-red-500 text-xs mt-1"
+            >
+              <span *ngIf="profileForm.get('phoneNumber')?.errors?.['required']"
+                >Phone number is required</span
+              >
+              <span *ngIf="profileForm.get('phoneNumber')?.errors?.['pattern']"
+                >Please enter a valid phone number</span
+              >
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label
+              class="font-poppins text-sm text-gray-800"
+              [class.text-black]="currentFocusedInput === 'address'"
+            >
+              Address
+            </label>
+            <input
+              type="text"
+              formControlName="address"
+              (focus)="onFocus('address')"
+              (blur)="onBlur()"
+              class="h-10 bg-gray-100 rounded-md px-3 font-poppins text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              [class.ring-2]="currentFocusedInput === 'address'"
+            />
+            <div
+              *ngIf="profileForm.get('address')?.touched && profileForm.get('address')?.errors?.['required']"
+              class="text-red-500 text-xs mt-1"
+            >
+              Address is required
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label
+              class="font-poppins text-sm text-gray-800"
+              [class.text-black]="currentFocusedInput === 'country'"
+            >
+              Country
+            </label>
+            <select
+              formControlName="country"
+              class="h-10 bg-gray-100 rounded-md px-3 font-poppins text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+            >
+              <option value="">Select Country</option>
+              <option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+              </option>
+            </select>
+            <div
+              *ngIf="profileForm.get('country')?.touched && profileForm.get('country')?.errors?.['required']"
+              class="text-red-500 text-xs mt-1"
+            >
+              Country is required
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label
+              class="font-poppins text-sm text-gray-800"
+              [class.text-black]="currentFocusedInput === 'city'"
+            >
+              City
+            </label>
+            <select
+              formControlName="city"
+              class="h-10 bg-gray-100 rounded-md px-3 font-poppins text-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              [disabled]="!profileForm.get('country')?.value"
+            >
+              <option value="">Select City</option>
+              <option *ngFor="let city of availableCities" [value]="city">
+                {{ city }}
+              </option>
+            </select>
+            <div
+              *ngIf="profileForm.get('city')?.touched && profileForm.get('city')?.errors?.['required']"
+              class="text-red-500 text-xs mt-1"
+            >
+              City is required
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessages.length > 0" class="mt-4">
+          <p *ngFor="let message of errorMessages" class="text-red-500 text-sm">
+            {{ message }}
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!profileForm.valid || isLoading"
+          class="w-full h-10 bg-black text-white rounded-md mt-6 font-poppins text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800"
+        >
+          {{ isLoading ? "Saving..." : "Save Profile" }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -147,7 +147,7 @@ export class ProductService {
       params += `&category=${categoryIds[0]}`;
 
       for (let i = 1; i < categoryIds.length; i++) {
-        params += `&${categoryIds[i]}`;
+        params += `,${categoryIds[i]}`;
       }
     }
 

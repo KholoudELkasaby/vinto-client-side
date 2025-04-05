@@ -1,6 +1,5 @@
 import { Component, input, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RatingModule } from 'primeng/rating';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
@@ -38,7 +37,7 @@ export class ProductitemComponent {
     if (index < fullStars) {
       return 'full-star';
     }
-    if (decimalPart > 0) {
+    if (index === fullStars) {
       if (decimalPart > 0 && decimalPart <= 0.25) return 'quarter-star';
       if (decimalPart > 0.25 && decimalPart <= 0.5) return 'half-star';
       if (decimalPart > 0.5 && decimalPart <= 0.75) return 'three-quarter-star';
