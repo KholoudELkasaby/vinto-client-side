@@ -1,0 +1,19 @@
+.signup-container {
+  @apply w-full h-screen bg-white flex justify-center items-center overflow-hidden;
+}
+
+@media (min-width: 1024px) {
+  .signup-container {
+    @apply flex justify-center items-center;
+  }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

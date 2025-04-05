@@ -1,0 +1,9 @@
+router.post("/check-email", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const existingUser = await User.findOne({ email });
+    res.json({ exists: !!existingUser });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
