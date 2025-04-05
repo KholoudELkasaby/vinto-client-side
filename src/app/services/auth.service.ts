@@ -11,6 +11,22 @@ export class AuthService {
   );
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.id;
+    } catch (e) {
+      console.error('Error decoding token:', e);
+      this.logout();
+      return null;
+    }
+  }
   login(token: string) {
     localStorage.setItem('token', token);
     this.isLoggedInSubject.next(true);

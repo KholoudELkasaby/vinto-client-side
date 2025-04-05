@@ -14,6 +14,9 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
 import { CartComponent } from './components/cart/cart.component';
 import { AboutComponent } from './components/about/about.component';
 import { ProductsComponent } from './components/products/products.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { ProgressComponent } from './components/progress/progress.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -57,9 +60,9 @@ export const routes: Routes = [
   },
   { path: 'cart', component: CartComponent },
   { path: 'wishlist', component: WishListComponent },
-  { path: 'checkout', component: HomeComponent }, //
-  { path: 'history', component: HomeComponent }, //
-  { path: 'order-progress', component: HomeComponent }, //
+  { path: 'checkout', component: CheckoutComponent }, //
+  { path: 'history', component: OrderHistoryComponent }, //
+  { path: 'order-progress', component: ProgressComponent }, //
   { path: 'reviews', component: HomeComponent }, //
   { path: '**', component: HomeComponent }, //
 ];

@@ -8,7 +8,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../Services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 interface LoginResponse {
   status: string;

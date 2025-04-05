@@ -3,6 +3,8 @@ import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { OrederItemComponent } from './oreder-item/oreder-item.component';
 import { ProgressComponent } from '../progress/progress.component';
+import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-history',
@@ -19,14 +21,29 @@ export class OrderHistoryComponent {
   history: any = { data: { carts: [] } };
   historyDisplayed: any[] = [];
   selectedStatus: string | null = null;
+  user: any;
+  private authSubscription!: Subscription;
+  isLoggedIn: boolean = false;
+  private authSub!: Subscription;
 
 
-  constructor() {
-    this.loadData();
+  constructor(
+    private authService: AuthService
+  ) {
+  }
+  ngOnInit() {
+    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      this.user = this.authService.getUserId();
+      if (loggedIn && this.user) {
+        this.loadData();
+      } else {
+      }
+    });
   }
 
   private loadData() {
-    this.cartService.getHistory("67b87e4bee6c8c97157670ed").subscribe({
+    this.cartService.getHistory(this.user).subscribe({
       next: (data) => {
         this.history = data;
         this.historyDisplayed = this.cartService.filterHistory(this.activeTab);

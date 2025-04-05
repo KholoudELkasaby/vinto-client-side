@@ -5,6 +5,8 @@ import { State, City } from 'country-state-city';
 import { CartService } from '../../services/cart.service';
 import { OrderedItemsService } from '../../services/ordered-items.service';
 import { StripeService } from '../../services/stripe.service';
+import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -27,10 +29,23 @@ export class CheckoutComponent {
   citiesInEgypt: any[] = [];
   statesInEgypt: any[] = [];
   selectedValue = signal<string>('');
+  private authSubscription!: Subscription;
+  isLoggedIn: boolean = false;
+  private authSub!: Subscription;
 
-  user: string = "67b798659f02ecbe9f4d7ef0";
+  user: any;
 
-  constructor(private stripeService: StripeService, private fb: FormBuilder) {
+  constructor(private stripeService: StripeService, private fb: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      this.user = this.authService.getUserId();
+
+      if (loggedIn && this.user) {
+      } else {
+      }
+    });
 
     this.cartService.getCart(this.user).subscribe({
       next: (data) => {
@@ -51,6 +66,8 @@ export class CheckoutComponent {
         this.cartItems = { items: [], total: 0 };
       }
     });
+
+
 
     this.checkoutForm = this.fb.group({
       address: ['', Validators.required],

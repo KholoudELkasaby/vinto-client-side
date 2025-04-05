@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { WishService } from '../../services/wish.service';
+import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-productitem',
@@ -18,17 +20,35 @@ export class ProductitemComponent {
   @Input() controlName: any;
   @Input() rate: number = 0;
   @Input() id: any;
-  userId = '67b87e4bee6c8c97157670ed';
+  userId: any;
   quantity: number = 1;
   inWishlist: boolean = false;
   wishlistItems: any[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
+  deleteMode: 'single' | 'all' = 'all';
+  itemToDeleteId: string = '';
+  private authSubscription!: Subscription;
+  isLoggedIn: boolean = false;
+  private authSub!: Subscription;
 
   constructor(
     private cartService: CartService,
     private router: Router,
-    private wishService: WishService
-  ) {}
+    private wishService: WishService,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit() {
+    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      this.userId = this.authService.getUserId();
+
+      if (loggedIn && this.userId) {
+      } else {
+      }
+    });
+  }
+
   getStarClass(index: number): any {
     const fullStars = Math.floor(this.rate);
     const decimalPart = this.rate - fullStars;

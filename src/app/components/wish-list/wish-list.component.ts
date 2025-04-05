@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { WishService } from '../../services/wish.service';
 import { Product } from '../../models/product.model';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-wish-list',
@@ -13,11 +15,23 @@ import { Product } from '../../models/product.model';
 })
 export class WishListComponent {
   wishlist?: Product[];
+  private authSubscription!: Subscription;
+  isLoggedIn: boolean = false;
+  private authSub!: Subscription;
 
-  user: string = "67b798659f02ecbe9f4d7ef0"
-  constructor(private router: Router, private wishListService: WishService) { }
+  user: any;
+  constructor(private router: Router, private wishListService: WishService,
+    private authService: AuthService
+  ) { }
   ngOnInit(): void {
-    this.getWishList()
+    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      this.user = this.authService.getUserId();
+      if (loggedIn && this.user) {
+        this.getWishList()
+      } else {
+      }
+    });
   }
   getWishList(): void {
     this.wishListService.getAll(this.user).subscribe((data) => {

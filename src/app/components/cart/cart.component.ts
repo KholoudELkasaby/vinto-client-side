@@ -5,7 +5,8 @@ import { CartService } from '../../services/cart.service';
 import { Cart, CartItem } from '../../models/cart.model';
 import { OrderedItemsService } from '../../services/ordered-items.service';
 import { ConfirmationModalComponent } from '../admin/admin-selection/confirmation-modal/confirmation-modal.component';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-cart',
@@ -23,18 +24,30 @@ export class CartComponent {
   isLoading: boolean = false;
   deleteMode: 'single' | 'all' = 'all';
   itemToDeleteId: string = '';
-  user = "67b87e4bee6c8c97157670ed";
-
+  user: any;
+  private authSubscription!: Subscription;
+  isLoggedIn: boolean = false;
+  private authSub!: Subscription;
 
 
   constructor(
     private router: Router,
     private cartService: CartService,
-    private orderedItemService: OrderedItemsService
+    private orderedItemService: OrderedItemsService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.updateCart();
+    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      this.user = this.authService.getUserId();
+
+      if (loggedIn && this.user) {
+        console.log(this.user)
+        this.updateCart()
+      } else {
+      }
+    });
   }
 
   updateCart() {
@@ -146,7 +159,7 @@ export class CartComponent {
   getSelectedCount(): number {
     return this.deleteMode === 'all' && this.cart ? this.cart.items.length : 1;
   }
-  chickout(): void {
-    this.router.navigate(["/checkout"])
+  checkout(): void {
+    this.router.navigate(['/checkout'])
   }
 }

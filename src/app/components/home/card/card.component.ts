@@ -11,6 +11,8 @@ import { Product } from '../../../models/product.model';
 import { ProductService } from '../../../services/product.service';
 import { CartService } from '../../../services/cart.service';
 import { WishService } from '../../../services/wish.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-card',
@@ -21,23 +23,39 @@ import { WishService } from '../../../services/wish.service';
 })
 export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
-  userId = "67b87e4bee6c8c97157670ed";
+  userId: any;
   quantity: number = 1;
   inWishlist: boolean = false;
   wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
 
+  deleteMode: 'single' | 'all' = 'all';
+  itemToDeleteId: string = '';
+  private authSubscription!: Subscription;
+  isLoggedIn: boolean = false;
+  private authSub!: Subscription;
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
-    private wishService: WishService
+    private wishService: WishService,
+    private authService: AuthService
   ) { }
 
 
   ngOnInit(): void {
-    this.fetchProducts();
+    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      this.userId = this.authService.getUserId();
+
+      if (loggedIn && this.userId) {
+        console.log(this.userId)
+        this.fetchProducts();
+      } else {
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

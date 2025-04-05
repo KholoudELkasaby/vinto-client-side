@@ -5,7 +5,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CartService } from '../../services/cart.service';
 
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../Services/auth.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -27,7 +27,7 @@ export class NavbarComponent {
     private authService: AuthService,
     private router: Router,
     private cartService: CartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.checkLoginStatus();
