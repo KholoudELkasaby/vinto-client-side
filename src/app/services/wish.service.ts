@@ -17,10 +17,10 @@ export class WishService {
   }
 
   removeOne(id: string, product: string) {
-    return this.http.delete(`${this.URL}/${id}/${product}`)
+    return this.http.delete(`${this.URL}`, { body: { user: id, products: [product] } })
   }
 
   addWish(id: string, product: string) {
-    return this.http.patch(`${this.URL}`, { user: id, products: [product] })
+    return this.http.post(`${this.URL}`, { user: id, products: [product] })
   }
 }

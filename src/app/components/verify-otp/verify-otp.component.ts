@@ -8,6 +8,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../Services/auth.service';
 
 interface RegisterResponse {
   status: string;
@@ -36,7 +37,8 @@ export class VerifyOTPComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Assuming AuthService is imported correctly
   ) {
     this.otpForm = this.fb.group({
       digit1: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
@@ -93,32 +95,57 @@ export class VerifyOTPComponent implements OnInit {
     this.router.navigate(['/signup']);
   }
 
-  onSubmit() {
+  verifyOTP() {
     if (this.otpForm.valid) {
       this.isLoading = true;
+      this.errorMessages = [];
+
+      // Construct OTP from all digits
       const otp = Object.values(this.otpForm.value).join('');
+
       const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
+      if (!signupData.userId) {
+        this.router.navigate(['/signup']);
+        return;
+      }
 
       this.http
-        .post<RegisterResponse>('http://localhost:4000/api/auth/verify-otp', {
-          userId: signupData.userId,
-          otp: otp,
-        })
+        .post<{ status: string; message: string; token: string; data: any }>(
+          'http://localhost:4000/api/auth/verify-otp',
+          {
+            userId: signupData.userId,
+            otp: otp,
+          }
+        )
         .subscribe({
           next: (response) => {
             if (response.status === 'success') {
-              if (response.token) {
-                localStorage.setItem('token', response.token);
-                localStorage.setItem('userEmail', signupData.email);
-              }
+              // Store user data first
+              localStorage.setItem(
+                'userData',
+                JSON.stringify({
+                  userId: signupData.userId,
+                  email: signupData.email,
+                  username: signupData.username,
+                  // Add any other user data from response.data
+                  ...response.data,
+                })
+              );
+
+              // Store token
+              localStorage.setItem('token', response.token);
+
+              // Clear signup data
               localStorage.removeItem('signupData');
-              this.router.navigate(['/welcome']);
+
+              // Navigate to profile page
+              this.router.navigate(['/profile']);
             }
           },
           error: (error) => {
             this.isLoading = false;
             this.errorMessages = [
-              error.error?.message || 'Verification failed',
+              error.error?.message || 'Failed to verify OTP. Please try again.',
             ];
           },
           complete: () => {

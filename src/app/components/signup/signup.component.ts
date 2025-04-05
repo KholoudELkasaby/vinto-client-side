@@ -25,6 +25,16 @@ interface AuthResponse {
   };
 }
 
+interface RegisterResponse {
+  status: string;
+  message: string;
+  data?: {
+    userId: string;
+    email: string;
+    username: string;
+  };
+}
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -112,45 +122,47 @@ export class SignupComponent {
   onSubmit() {
     if (this.signupForm.valid) {
       this.isLoading = true;
+      this.errorMessages = [];
 
       const signupData = {
-        email: this.signupForm.get('email')?.value,
-        username: this.signupForm.get('username')?.value,
-        password: this.signupForm.get('password')?.value,
-        confirmPassword: this.signupForm.get('confirmPassword')?.value,
+        username: this.signupForm.value.username,
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.password,
+        confirmPassword: this.signupForm.value.confirmPassword,
+        gender: this.signupForm.value.gender,
         role: 'user',
       };
 
       this.http
-        .post<AuthResponse>(
+        .post<RegisterResponse>(
           'http://localhost:4000/api/auth/register',
           signupData
         )
         .subscribe({
           next: (response) => {
+            console.log('Signup response:', response);
+
             if (response.status === 'success' && response.data) {
               localStorage.setItem(
                 'signupData',
                 JSON.stringify({
-                  ...this.signupForm.value,
                   userId: response.data.userId,
+                  email: response.data.email,
+                  username: response.data.username,
                 })
               );
-              this.router.navigate(['/profile']);
+
+              this.router.navigate(['/verify-otp']).then(() => {
+                console.log('Navigation completed');
+              });
             }
           },
           error: (error) => {
+            console.error('Signup error:', error);
             this.isLoading = false;
-            if (
-              error.error?.code === 11000 ||
-              error.error?.message?.includes('duplicate key error')
-            ) {
-              this.errorMessages = ['This email is already registered'];
-            } else {
-              this.errorMessages = [
-                error.error?.message || 'Failed to send verification email',
-              ];
-            }
+            this.errorMessages = [
+              error.error?.message || 'Failed to create account',
+            ];
           },
           complete: () => {
             this.isLoading = false;
