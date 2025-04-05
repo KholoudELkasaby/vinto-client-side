@@ -9,6 +9,7 @@
         (sortedProducts)="updateProducts($event)"
         (total_page)="updatetotalpage($event)"
         (dataToParent)="updateDatapages($event)"
+        (noProductsFoundChange)="onNoProductsFoundChange($event)"
       ></app-sidebar>
     </div>
 
@@ -33,19 +34,52 @@
         </app-productitem>
         }
 
+
+
+        <!-- //////////////////////////not found -->
+
+    @if(!x.length){
+      <div >
+        <app-not-product-found  id="img" style="display: block;"></app-not-product-found>
+      </div>
+    }  
+    @else {
+      <div >
+        <app-not-product-found  id="img" style="display: none;"></app-not-product-found>
+      </div>
+    } 
+
+
         <!-- ----------------------------Slider of page------------------------------>
 
         <div class="mt-5 mb-5 flex justify-center flex-wrap">
-          <ng-container *ngIf="arr.length > 0">
-            <button
-              *ngFor="let item of arr; let i = index"
-              type="button"
-              class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-              (click)="press($event)"
-            >
-              {{ item }}
-            </button>
+          @if(arr.length > 0){
+            <ng-container *ngIf="arr.length > 0">
+              <button
+                *ngFor="let item of arr; let i = index"
+                type="button"
+                class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                (click)="press($event)"
+              >
+                {{ item }}
+              </button>
+            </ng-container>
+          }
+         
+        
+         @else  {
+          <ng-container >
+            <button   type="button"
+            class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            (click)="press($event)">
+            "return"
+          </button>
+
+
           </ng-container>
+         }
+         
+      
        
           <!-- For debugging -->
         </div>
@@ -53,3 +87,5 @@
     </div>
   </div>
 </div>
+
+

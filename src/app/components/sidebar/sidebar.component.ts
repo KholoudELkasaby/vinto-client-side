@@ -5,6 +5,7 @@ import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FilteredImageComponent } from '../filtered-image/filtered-image.component';
+import { NotProductFoundComponent } from '../not-product-found/not-product-found.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,6 +14,7 @@ import { FilteredImageComponent } from '../filtered-image/filtered-image.compone
     FormsModule,
     CommonModule,
     FilteredImageComponent,
+    NotProductFoundComponent
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
@@ -29,6 +31,7 @@ export class SidebarComponent {
 
   @Output() sortedProducts = new EventEmitter<any[]>(); // Emits sorted products
   @Output() total_page = new EventEmitter<any[]>(); // Emits sorted products
+  @Output() noProductsFoundChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New EventEmitter
 
   //////////////////pages updaye when filter/////
 
@@ -49,7 +52,9 @@ export class SidebarComponent {
     });
   }
   x: any[] = [];
-
+  /////hna notfound////////////////////
+ notfound:boolean= false;
+ //////////////////////////////////////////////////////
   isDropdownVisible = false;
   isDropdownVisible2 = false;
   x1: string = 'M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7';
@@ -79,22 +84,47 @@ export class SidebarComponent {
 
     this.PoroductsService.getSrearched(this.searchText).subscribe({
       next: (data) => {
+        console.log("mmmmm")
         console.log(data);
         var products: any = data;
-        console.log('prois', products.data.products);
-        if (products?.data?.products?.length > 0) {
-          this.sortedProducts.emit(products.data.products);
-          this.x = products.data.products;
+        console.log('prois', products.data.paginatedResults);
+        this.x=products.data.paginatedResults
+        if (this.x.length !=0) {
+          console.log("not eeeeee")
+          this.sortedProducts.emit( products.data.paginatedResults);
+          this.x =  products.data.paginatedResults;
           this.noProductsFound = false;
+          this.arr=[]
+          this.tot_pages = products.data.totalPages;
+          for (var i = 1; i <= this.tot_pages; i++) {
+            this.arr.push(i);
+          }
+          this.total_page.emit(this.arr);
         } else {
           this.noProductsFound = true;
           this.sortedProducts.emit([]); // Emit a message
+           this.arr=[]
+          // this.tot_pages = products.data.totalPages;
+          // for (var i = 1; i <= this.tot_pages; i++) {
+          //   this.arr.push(i);
+          // }
+           this.total_page.emit(this.arr);
+          console.log(this.arr);
+          
+
+          this.noProductsFoundChange.emit(this.noProductsFound); 
+
+////////appear not product found//////////
         }
       },
       error: (err) => {
         // console.log(err);
         this.noProductsFound = true;
         this.sortedProducts.emit([]); // Handle error as no data
+        this.noProductsFound = true;
+
+        this.noProductsFoundChange.emit(this.noProductsFound); 
+
       },
       complete: () => {
         console.log('complete');

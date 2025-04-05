@@ -4,6 +4,7 @@ import { FilteredImageComponent } from '../filtered-image/filtered-image.compone
 import { ProductitemComponent } from '../productitem/productitem.component';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
+import { NotProductFoundComponent } from '../not-product-found/not-product-found.component';
 
 @Component({
   selector: 'app-products',
@@ -12,6 +13,7 @@ import { ProductService } from '../../services/product.service';
     FilteredImageComponent,
     ProductitemComponent,
     CommonModule,
+    NotProductFoundComponent 
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -65,8 +67,13 @@ export class ProductsComponent implements OnInit {
   }
 
   
+  noProductsFound: boolean = false;
 
-  
+  onNoProductsFoundChange(value: boolean) {
+    this.noProductsFound = value;
+    console.log('No products found:', this.noProductsFound);
+
+  }
 
   //   ngOnInit(): void {
   //   this.PoroductsService.getallproducts().subscribe({
@@ -99,6 +106,7 @@ export class ProductsComponent implements OnInit {
   updateProducts(sortedProducts: any[]) {
     this.x = sortedProducts;
     console.log(this.x);
+
   }
   updatetotalpage(total_page: any[]) {
     this.arr = total_page;
