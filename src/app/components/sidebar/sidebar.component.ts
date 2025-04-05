@@ -118,6 +118,9 @@ export class SidebarComponent {
       error: (err) => {
         // console.log(err);
         this.noProductsFound = true;
+        this.arr=[]
+        this.total_page.emit(this.arr);
+
         this.sortedProducts.emit([]); // Handle error as no data
         this.noProductsFound = true;
 
