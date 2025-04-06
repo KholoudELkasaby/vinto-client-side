@@ -175,7 +175,7 @@ export class CheckoutComponent {
     };
     if (this.checkoutForm.valid) {
       console.log(this.checkoutForm.valid)
-      this.stripeService.createCheckoutSession(shipmentData)
+      this.stripeService.createCheckoutSession(this.user, shipmentData)
         .then(response => {
           if (response && response.url) {
             window.location.href = response.url;

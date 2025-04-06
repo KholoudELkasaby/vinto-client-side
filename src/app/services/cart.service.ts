@@ -13,6 +13,8 @@ export class CartService {
 
 
   private URL = "http://localhost:4000/api/cart";
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSubject.asObservable();
   private historySubject = new BehaviorSubject<any[]>([]);
   private historyData: any[] = [];
 
@@ -60,26 +62,46 @@ export class CartService {
 
   getCart(userId: string): Observable<Cart> {
     return this.http.get<{ data: { cart: Cart } }>(`${this.URL}/${userId}`)
-      .pipe(map((response): Cart => response.data.cart))
+      .pipe(
+        map((response): Cart => {
+          console.log('Cart response:', response);
+          return response.data.cart;
+        }),
+        // tap(cart => {
+        //   console.log('Cart items count:', cart.items.length);
+        //   this.cartCountSubject.next(cart.items.length);
+        // })
+      )
   }
 
   getAllCarts(): Observable<CartItem[]> {
     return this.http
       .get<{ data: { cart: CartItem[] } }>(`${this.URL}`)
-      .pipe(map((response): CartItem[] => response.data.cart));
+      .pipe(
+        map((response): CartItem[] => response.data.cart),
+      );
   }
 
-  updateCart(id: string, body: { itemOrderedId: string, newQuantity: string }): Observable<Cart> {
+  updateCart(id: string, body: { itemOrderedId: string, newQuantity: number }): Observable<Cart> {
     return this.http
       .patch<{ data: { cart: Cart } }>(`${this.URL}/${id}`, body)
-      .pipe(map((response): Cart => response.data.cart));
+      .pipe(map((response): Cart => response.data.cart),
+        tap(cart => this.cartCountSubject.next(cart.items.length))
+      );
   }
 
   removeItem(id: string, itemOrderedId: string) {
-    return this.http.post(`${this.URL}/remove/${id}`, { itemOrderedId: itemOrderedId })
+    return this.http.post(`${this.URL}/remove/${id}`, { itemOrderedId })
+    // return this.http.post<{ data: { cart: Cart } }>(`${this.URL}/remove/${id}`, { itemOrderedId }).pipe(
+    //   map(response => response.data.cart),
+    //   // tap(cart => this.cartCountSubject.next(cart.items.length)) // Update count
+    // );
   }
 
   addToCart(id: string, productId: string, quantity: number) {
-    return this.http.post(`${this.URL}/${id}`, { productId: productId, quantity: quantity })
+    return this.http.post<{ data: { cart: Cart } }>(`${this.URL}/${id}`, { productId, quantity }).pipe(
+      map(response => response.data.cart),
+      // tap(cart => this.cartCountSubject.next(cart.items.length))
+    );
   }
 }

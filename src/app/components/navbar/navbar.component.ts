@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CartService } from '../../services/cart.service';
 
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { GenralService } from '../../services/genral.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterModule, CommonModule, SidebarComponent],
-  providers: [CartService],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnDestroy {
   notificationDropDown = false;
   dropdownOpen = false;
   isSidebarOpen = false;
@@ -22,18 +22,27 @@ export class NavbarComponent {
   user: string = '67b87e4bee6c8c97157670ed';
   numOfItems: number = 0;
   private loginSub!: Subscription;
+  private cartCountSub: Subscription;
+
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cartService: CartService
-  ) {}
+    private cartService: CartService,
+    private genral: GenralService
+  ) {
+    this.cartCountSub = this.cartService.cartCount$.subscribe(
+      count => {
+        this.numOfItems = count;
+        console.log('Cart count updated:', this.numOfItems);
+      }
+    );
+    this.cartService.getCart(this.user).subscribe();
+    console.log(this.numOfItems)
+  }
 
   ngOnInit(): void {
     this.checkLoginStatus();
-    this.cartService.getCart(this.user).subscribe((data) => {
-      this.numOfItems = data.items.length;
-    });
   }
 
   checkLoginStatus(): void {
@@ -74,6 +83,7 @@ export class NavbarComponent {
 
   ngOnDestroy() {
     this.loginSub?.unsubscribe();
+    this.cartCountSub?.unsubscribe();
   }
 
   @HostListener('document:click', ['$event'])

@@ -44,9 +44,34 @@ export class ProductitemComponent {
       this.userId = this.authService.getUserId();
 
       if (loggedIn && this.userId) {
+        this.fetchWishlist();
       } else {
+        this.wishlistItems = [];
+        this.liked = false;
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['products'] && this.products) {
+      this.updateLikedState();
+    }
+  }
+
+  fetchWishlist() {
+    this.wishService.getAll(this.userId).subscribe({
+      next: (response) => {
+        this.wishlistItems = response.data.wishlist.products;
+        this.updateLikedState();
+      },
+      error: (err) => console.error('Error fetching wishlist:', err)
+    });
+  }
+
+  updateLikedState() {
+    if (this.userId && this.products) {
+      this.liked = this.isInWishlist(this.products._id);
+    }
   }
 
   getStarClass(index: number): any {
@@ -77,7 +102,6 @@ export class ProductitemComponent {
       next: (response) => {
         const wishlist = response.data.wishlist;
         this.wishlistItems = wishlist.products;
-        console.log(this.wishlistItems);
         const exists = this.wishlistItems.some(
           (item) => item._id === productId
         );
@@ -93,15 +117,18 @@ export class ProductitemComponent {
       },
     });
   }
+  isInWishlist(productId: string): boolean {
+    return this.wishlistItems.some((item) => item._id === productId); // Use item._id
+  }
   addToWish(id: string, productId: string): void {
     this.wishService.addWish(id, productId).subscribe({});
   }
   removefromWish(id: string, productId: string): void {
     this.wishService.removeOne(id, productId).subscribe({});
   }
-  isInWishlist(productId: string): boolean {
-    return this.wishlistItems.some((item) => item.product._id === productId);
-  }
+  // isInWishlist(productId: string): boolean {
+  //   return this.wishlistItems.some((item) => item.product._id === productId);
+  // }
   toggleLike(): void {
     this.liked = !this.liked;
   }

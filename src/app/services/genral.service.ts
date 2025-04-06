@@ -9,4 +9,5 @@ export class GenralService {
   modelCategories: string[] = ["Authentication and Authorization", "Store"]
   authModels: string[] = ["User"]
   storeModels: string[] = ["Product", "ItemOrdered", "Cart", "shipingInfo", "Shipment"];
+  total: number = 0;
 }

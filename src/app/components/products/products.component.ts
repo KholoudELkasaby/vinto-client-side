@@ -13,7 +13,7 @@ import { NotProductFoundComponent } from '../not-product-found/not-product-found
     FilteredImageComponent,
     ProductitemComponent,
     CommonModule,
-    NotProductFoundComponent 
+    NotProductFoundComponent
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -30,11 +30,11 @@ export class ProductsComponent implements OnInit {
   constructor(private PoroductsService: ProductService) { }
   //  products:any;
   arr: number[] = [];
-  flag:boolean=false;
+  flag: boolean = false;
 
   ngOnInit(): void {
     this.PoroductsService.getallproducts().subscribe({
-      
+
       next: (data) => {
         console.log('Full API response:', data);
         const products: any = data;
@@ -67,10 +67,10 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-   reloadPage() {
-    window.location.reload(); 
+  reloadPage() {
+    window.location.reload();
   }
-  
+
   noProductsFound: boolean = false;
 
   onNoProductsFoundChange(value: boolean) {
@@ -110,8 +110,8 @@ export class ProductsComponent implements OnInit {
   updateProducts(sortedProducts: any[]) {
     this.x = sortedProducts;
     console.log(this.x);
-    if(!this.x.length ){
-      this.flag=true;
+    if (!this.x.length) {
+      this.flag = true;
     }
 
   }
@@ -350,7 +350,7 @@ export class ProductsComponent implements OnInit {
         this.minprice,
         this.maxprice,
         8,
-        buttonValue ,
+        buttonValue,
         'newest'
       ).subscribe({
         next: (data) => {
@@ -365,7 +365,7 @@ export class ProductsComponent implements OnInit {
             this.arr.push(i);
           }
 
-          console.log("newwwwwwwwwww") ;
+          console.log("newwwwwwwwwww");
           console.log(this.arr)
           console.log(data)
           console.log(products.data.products);
@@ -380,7 +380,7 @@ export class ProductsComponent implements OnInit {
           console.log('completeeee');
         },
       });
- 
+
     }
 
     if (this.receivedCategories.length == 0 && this.newtoold) {
@@ -403,13 +403,13 @@ export class ProductsComponent implements OnInit {
       //     console.log('completeeee');
       //   },
       // });
-       console.log(buttonValue)
+      console.log(buttonValue)
       this.PoroductsService.getFilteredProducts(
         [],
         this.minprice,
         this.maxprice,
         8,
-        buttonValue ,
+        buttonValue,
         'oldest'
       ).subscribe({
         next: (data) => {
@@ -424,7 +424,7 @@ export class ProductsComponent implements OnInit {
             this.arr.push(i);
           }
 
-          console.log("newwwwwwwwwww") ;
+          console.log("newwwwwwwwwww");
           console.log(this.arr)
           console.log(data)
           console.log(products.data.products);
@@ -439,7 +439,7 @@ export class ProductsComponent implements OnInit {
           console.log('completeeee');
         },
       });
- 
+
     }
   }
 }

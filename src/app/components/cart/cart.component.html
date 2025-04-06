@@ -31,7 +31,7 @@
               <div class="flex w-11/12">
                 <div class="flex flex-col gap-2 w-full">
                   <h1 class="text-xl font-semibold">{{ product.product.title }}</h1>
-                  <p class="text-gray-color text-sm">{{ product.product.category }}</p>
+                  <!-- <p class="text-gray-color text-sm">{{ product.product.category }}</p> -->
                   <p class="text-base font-semibold">EGP {{ product.product.price }}</p>
                 </div>
                   <!-- Quantity Controls -->
@@ -44,12 +44,14 @@
                     <span class="quantity-display min-w-[30px] text-center">
                       {{ product.quantity }}
                     </span>
-                    <button *ngIf="product.quantity < product.maxAllowed"
+                  @if(product.quantity < product.maxAllowed){
+                    <button
                     (click)="incrementQuantity(product.orderedItemId, product.quantity, $event)"
                             [disabled]="product.quantity  >= product.maxAllowed"
                             class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
                       +
                     </button>
+                  }
                   </div>
                   <div class="flex items-center">
                     <button (click)="confirmDelete(product.orderedItemId, $event)" [disabled]="isLoading"

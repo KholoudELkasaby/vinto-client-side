@@ -12,10 +12,10 @@ export class StripeService {
 
   constructor(private http: HttpClient) { }
 
-  async createCheckoutSession(shipmentData: any): Promise<any> {
+  async createCheckoutSession(id: string, shipmentData: any): Promise<any> {
     try {
       return await firstValueFrom(
-        this.http.post(`${this.apiUrl}/create-checkout-session/67b87e4bee6c8c97157670ed`, { shipmentData })
+        this.http.post(`${this.apiUrl}/create-checkout-session/${id}`, { shipmentData })
       );
     } catch (error) {
       console.error('Error creating checkout session:', error);

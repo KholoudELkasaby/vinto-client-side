@@ -66,10 +66,9 @@ export class CardComponent implements OnInit, OnChanges {
 
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
-      next: (response) => {
-        this.router.navigate(["/cart"])
-      }
-    })
+      next: (response) => this.router.navigate(["/cart"]),
+      error: (err) => console.error('Failed to add to cart:', err)
+    });
   }
 
   toggleWish(userId: string, productId: string): void {
@@ -158,10 +157,12 @@ export class CardComponent implements OnInit, OnChanges {
 
   ////
   toggleCart(productId: string): void {
-    this.cartService.addToCart("userId", productId, 1).subscribe(
-      () => (this.productStates[productId].isInCart = true),
-      (error) => console.error('Error adding item:', error)
-    );
+    if (!this.userId) return;
+
+    this.cartService.addToCart(this.userId, productId, this.quantity).subscribe({
+      next: () => this.productStates[productId].isInCart = true,
+      error: (err) => console.error('Error adding to cart:', err)
+    });
   }
   ////
 

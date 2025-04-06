@@ -51,10 +51,9 @@ export class CartComponent {
   }
 
   updateCart() {
-    this.cartService.getCart(this.user)
-      .subscribe((data) => {
-        this.cart = data;
-      });
+    this.cartService.getCart(this.user).subscribe((data) => {
+      this.cart = data || [];
+    });
   }
 
 
@@ -101,12 +100,14 @@ export class CartComponent {
 
   incrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {
     event.stopPropagation();
-    this.updateQuantity(orderedItemId, (quantity + 1).toString());
+    console.log("q", quantity)
+    this.updateQuantity(orderedItemId, (quantity + 1));
+    console.log("q", quantity)
   }
 
   decrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {
     event.stopPropagation();
-    this.updateQuantity(orderedItemId, (quantity - 1).toString());
+    this.updateQuantity(orderedItemId, (quantity - 1));
   }
 
   // private getQuantity(orderedItemId: string): number {
@@ -119,7 +120,7 @@ export class CartComponent {
   //
   //   // return quantity;
   // }
-  private updateQuantity(orderedItemId: string, itemQ: string) {
+  private updateQuantity(orderedItemId: string, itemQ: number) {
     this.cartService.updateCart(this.user, { itemOrderedId: orderedItemId, newQuantity: itemQ }).subscribe({
       next: (updatedCart) => {
         this.cart = updatedCart;
