@@ -110,7 +110,7 @@
 
       <div class="flex justify-between w-[80%] mt-6">
         <p class="text-lg font-semibold">Shipping Fees</p>
-        <p class="text-xl font-semibold text-primary">EGP 10300</p>
+        <p class="text-xl font-semibold text-primary">EGP {{deliveryFees }}</p>
       </div>
 
       <hr class="bg-gray-color text-gray-color h-[2px] w-[80%] mt-3" />
@@ -118,7 +118,7 @@
       <!-- Total Cost -->
       <div class="flex justify-between w-[80%] mt-6">
         <p class="text-xl font-semibold">Total Cost</p>
-        <p class="text-lg font-semibold">EGP {{ (cart.total + 10300| number:'1.2-2' )}}</p>
+        <p class="text-lg font-semibold">EGP {{ cart.items.length > 0 ? (cart.total + 1000| number:'1.2-2' ) : 0}}</p>
       </div>
     }
 

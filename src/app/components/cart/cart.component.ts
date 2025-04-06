@@ -7,6 +7,7 @@ import { OrderedItemsService } from '../../services/ordered-items.service';
 import { ConfirmationModalComponent } from '../admin/admin-selection/confirmation-modal/confirmation-modal.component';
 import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { GenralService } from '../../services/genral.service';
 
 @Component({
   selector: 'app-cart',
@@ -29,16 +30,19 @@ export class CartComponent {
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
+  deliveryFees: number = 0;
 
 
   constructor(
     private router: Router,
     private cartService: CartService,
     private orderedItemService: OrderedItemsService,
+    private genral: GenralService,
     private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.deliveryFees = this.genral.deliveryFees;
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
@@ -100,8 +104,10 @@ export class CartComponent {
   }
 
   incrementQuantity(max: number, orderedItemId: string, quantity: number, event: MouseEvent) {
-    // event.stopPropagation();
-    if (quantity + 1 > max) this.toMuch = orderedItemId;
+    event.stopPropagation();
+    if (quantity + 1 > max) { this.toMuch = orderedItemId; return; }
+
+    this.toMuch = "";
     this.updateQuantity(orderedItemId, (quantity + 1));
   }
 

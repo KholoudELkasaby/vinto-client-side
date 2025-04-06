@@ -7,6 +7,7 @@ import { OrderedItemsService } from '../../services/ordered-items.service';
 import { StripeService } from '../../services/stripe.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { GenralService } from '../../services/genral.service';
 
 
 @Component({
@@ -32,12 +33,13 @@ export class CheckoutComponent {
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
-
+  deliveryFees: number = 0;
   user: any;
 
   constructor(private stripeService: StripeService, private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService, private genral: GenralService
   ) {
+    this.deliveryFees = this.genral.deliveryFees;
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
@@ -155,7 +157,6 @@ export class CheckoutComponent {
   }
 
   checkout(): void {
-    console.log("test")
     this.isProcessing = true;
 
     if (this.checkoutForm.invalid) {
@@ -163,7 +164,6 @@ export class CheckoutComponent {
       this.isProcessing = false;
       return;
     }
-    console.log("test1")
 
     const shipmentData = {
       street: this.checkoutForm.value.address,
@@ -174,7 +174,6 @@ export class CheckoutComponent {
       phone2: this.checkoutForm.value.phone2
     };
     if (this.checkoutForm.valid) {
-      console.log(this.checkoutForm.valid)
       this.stripeService.createCheckoutSession(this.user, shipmentData)
         .then(response => {
           if (response && response.url) {
