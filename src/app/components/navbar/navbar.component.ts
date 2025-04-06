@@ -22,7 +22,7 @@ export class NavbarComponent implements OnDestroy {
   user: string = '67b87e4bee6c8c97157670ed';
   numOfItems: number = 0;
   private loginSub!: Subscription;
-  private cartCountSub: Subscription;
+  // private cartCountSub: Subscription;
 
 
   constructor(
@@ -31,13 +31,13 @@ export class NavbarComponent implements OnDestroy {
     private cartService: CartService,
     private genral: GenralService
   ) {
-    this.cartCountSub = this.cartService.cartCount$.subscribe(
-      count => {
-        this.numOfItems = count;
-        console.log('Cart count updated:', this.numOfItems);
-      }
-    );
-    this.cartService.getCart(this.user).subscribe();
+    // this.cartCountSub = this.cartService.cartCount$.subscribe(
+    //   count => {
+    //     this.numOfItems = count;
+    //     console.log('Cart count updated:', this.numOfItems);
+    //   }
+    // );
+    // this.cartService.getCart(this.user).subscribe();
     console.log(this.numOfItems)
   }
 
@@ -83,7 +83,7 @@ export class NavbarComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.loginSub?.unsubscribe();
-    this.cartCountSub?.unsubscribe();
+    // this.cartCountSub?.unsubscribe();
   }
 
   @HostListener('document:click', ['$event'])
