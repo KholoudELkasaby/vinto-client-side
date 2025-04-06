@@ -24,7 +24,6 @@ export class NavbarComponent implements OnDestroy {
   private loginSub!: Subscription;
   // private cartCountSub: Subscription;
 
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -38,7 +37,7 @@ export class NavbarComponent implements OnDestroy {
     //   }
     // );
     // this.cartService.getCart(this.user).subscribe();
-    console.log(this.numOfItems)
+    console.log(this.numOfItems);
   }
 
   ngOnInit(): void {
