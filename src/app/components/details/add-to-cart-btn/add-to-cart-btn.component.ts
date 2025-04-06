@@ -3,6 +3,7 @@ import { CartService } from '../../../services/cart.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class AddToCartBtnComponent {
   constructor(
     private cartService: CartService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService
   ) { }
   ngOnInit() {
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
@@ -44,7 +46,14 @@ export class AddToCartBtnComponent {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
-        this.router.navigate(["/cart"])
+        console.log("Tesss from cart");
+        this.toastr.info('Test Toastr Notification', 'Info');
+        this.toastr.success('Test Toastr Notification', 'Success', {
+          positionClass: 'toast-top-right', // Change position if necessary
+          timeOut: 3000,                   // Notification timeout
+          closeButton: true                // Enable close button
+        });
+        this.router.navigate(['/cart']);
       }
     })
   }

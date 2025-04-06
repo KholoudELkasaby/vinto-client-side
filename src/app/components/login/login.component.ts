@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 interface LoginResponse {
   status: string;
@@ -45,7 +46,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -70,6 +72,10 @@ export class LoginComponent {
                 this.loginForm.get('email')?.value
               );
               this.authService.login(response.token || ''); // Replace with real token
+              console.log("Test Loginnnnnnnnnnn");
+              this.notificationService.showNotification(
+                'Login successful! Welcome back!'
+              );
               this.router.navigate(['/']);
             }
           },

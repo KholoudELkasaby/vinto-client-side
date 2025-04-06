@@ -1,6 +1,8 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,ts,css,scss}"],
+  content: [
+    "./src/**/*.{html,ts,css,scss}",
+    "node_modules/ngx-toastr/toastr.css"
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -21,6 +23,6 @@ module.exports = {
     },
   },
   plugins: [],
-  important: true,
+  important: false,
   darkMode: "class",
 };

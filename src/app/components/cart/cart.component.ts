@@ -7,6 +7,7 @@ import { OrderedItemsService } from '../../services/ordered-items.service';
 import { ConfirmationModalComponent } from '../admin/admin-selection/confirmation-modal/confirmation-modal.component';
 import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
@@ -35,9 +36,11 @@ export class CartComponent {
     private cartService: CartService,
     private orderedItemService: OrderedItemsService,
     private authService: AuthService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
+    this.toastr.success('Test Toastr Notification', 'Success');
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
