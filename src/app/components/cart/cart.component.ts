@@ -18,6 +18,7 @@ import { AuthService } from '../../services/auth.service';
 
 export class CartComponent {
   cart?: Cart;
+  toMuch: string = "";
   deleteRequest: EventEmitter<void> = new EventEmitter<void>();
   selectedItems: boolean[] = [];
   showDeleteModal: boolean = false;
@@ -98,11 +99,10 @@ export class CartComponent {
     }
   }
 
-  incrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {
-    event.stopPropagation();
-    console.log("q", quantity)
+  incrementQuantity(max: number, orderedItemId: string, quantity: number, event: MouseEvent) {
+    // event.stopPropagation();
+    if (quantity + 1 > max) this.toMuch = orderedItemId;
     this.updateQuantity(orderedItemId, (quantity + 1));
-    console.log("q", quantity)
   }
 
   decrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {

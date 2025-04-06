@@ -2,7 +2,7 @@
   <!-- title & count items -->
 
 
-  <div class="w-[80%] lg:col-span-8 mx-auto mt-6 overflow-x-hidden">
+  <div class="  mb-40 w-[80%] lg:col-span-8 mx-auto mt-6 overflow-x-hidden">
     <app-confirmation-modal [visible]="showDeleteModal"
       (confirmed)="handleDeleteConfirmation($event)"
       [itemName]="deleteMode === 'single' ? 'this item' : (cart?.items?.length || 0) + ' items'"
@@ -37,6 +37,10 @@
                   <!-- Quantity Controls -->
                 <div class="flex justify-end w-full">
                   <div class="flex items-center gap-3 m-6">
+
+                  @if(product.orderedItemId == toMuch && product.quantity >= product.maxAllowed){
+                    <small class="text-red-500">⚠️ The requested quantity exceeds available stock.</small>
+                  }
                     <button (click)="decrementQuantity(product.orderedItemId, product.quantity, $event)"
                             class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
                       -
@@ -44,14 +48,11 @@
                     <span class="quantity-display min-w-[30px] text-center">
                       {{ product.quantity }}
                     </span>
-                  @if(product.quantity < product.maxAllowed){
                     <button
-                    (click)="incrementQuantity(product.orderedItemId, product.quantity, $event)"
-                            [disabled]="product.quantity  >= product.maxAllowed"
+                    (click)="incrementQuantity(product.maxAllowed ,product.orderedItemId, product.quantity, $event)"
                             class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
                       +
                     </button>
-                  }
                   </div>
                   <div class="flex items-center">
                     <button (click)="confirmDelete(product.orderedItemId, $event)" [disabled]="isLoading"
