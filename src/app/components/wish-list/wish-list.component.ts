@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './wish-list.component.css',
 })
 export class WishListComponent {
+  hoveredId: string | null = null;
   wishlist?: Product[];
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
@@ -22,15 +23,17 @@ export class WishListComponent {
   private subs = new Subscription();
 
   user: any;
-  constructor(private router: Router, private wishListService: WishService,
+  constructor(
+    private router: Router,
+    private wishListService: WishService,
     private authService: AuthService
-  ) { }
+  ) {}
   ngOnInit(): void {
-    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+    this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
       if (loggedIn && this.user) {
-        this.getWishList()
+        this.getWishList();
       } else {
       }
     });
@@ -52,13 +55,13 @@ export class WishListComponent {
   removeWish(product: string): void {
     this.wishListService.removeOne(this.user, product).subscribe((data) => {
       this.getWishList();
-    })
+    });
   }
 
   removeAll(): void {
     this.wishListService.removeAll(this.user).subscribe((data) => {
       this.getWishList();
-    })
+    });
   }
 
   ngOnDestroy(): void {

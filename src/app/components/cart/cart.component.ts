@@ -17,7 +17,8 @@ import { GenralService } from '../../services/genral.service';
   styleUrl: './cart.component.css',
 })
 export class CartComponent {
-  hovered = false;
+  hoveredId: string | null = null;
+
   cart?: Cart;
   toMuch: string = '';
   deleteRequest: EventEmitter<void> = new EventEmitter<void>();

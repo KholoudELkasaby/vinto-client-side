@@ -1,4 +1,6 @@
-<div class="min-h-screen grid lg:grid-cols-12 max-w-full h-full overflow-x-hidden mb-5">
+<div
+  class="pt-16 md:pt-0 grid lg:grid-cols-12 max-w-full mb-24 overflow-x-hidden"
+>
   <!-- title & count items -->
   <div class="w-[80%] lg:col-span-12 mx-auto mt-6 overflow-hidden">
     <div class="flex items-center justify-center">
@@ -7,51 +9,85 @@
     <hr class="bg-gray-color text-gray-color h-[2px] mt-3" />
     <!-- remove all -->
     <div class="flex items-center justify-between mt-3">
-      <p class="items text-lg font-semibold text-center">{{ wishlist?.length || 0 }} items</p>
-      <button class="remove-all text-lg font-semibold hover:text-red-600 active:scale-95" (click)="removeAll()">
+      <p class="items text-lg font-semibold text-center">
+        {{ wishlist?.length || 0 }} items
+      </p>
+      <button
+        class="remove-all text-lg font-semibold hover:text-red-600 active:scale-95"
+        (click)="removeAll()"
+      >
         Remove All
       </button>
     </div>
-        <div class="Products flex flex-col gap-4 mt-7">
-      @if(wishlist && wishlist.length > 0){
-        @for(product of wishlist; track product._id){
-        <div (click)="goToDetails(product)"
-          class="product flex items-center justify-between shadow-md rounded-lg w-[100%]">
-            <div class="flex items-center gap-4 w-[100%]">
-              <img src="{{product.img[0]}}" alt="" class="w-[80px] h-[80px] rounded-lg object-cover" />
-              <div class="flex w-11/12">
-                <div class="flex flex-col gap-2 w-full">
-                  <h1 class="text-xl font-semibold">{{ product.title }}</h1>
-                  <!-- <p class="text-gray-color text-sm">{{ product.category }}</p> -->
-                  <p class="text-base font-semibold">EGP {{ product.price }}</p>
-                </div>
-                  <!-- Quantity Controls -->
-                <div class="flex justify-end w-full">
-                  <div class="flex items-center">
-                    <button (click)="removeWish(product._id);$event.stopPropagation();"
-                        class="text-red-500 hover:text-red-700 remove text-lg font-semibold active:scale-95 hover:scale-110 mr-10">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+    <div class="Products flex justify-center w-full flex-col gap-4 mt-7">
+      @if(wishlist && wishlist.length > 0){ @for(product of wishlist; track
+      product._id){
+      <div
+        (click)="goToDetails(product)"
+        class="product cursor-pointer scale-90 hover:scale-95 flex items-center justify-center shadow-md hover:shadow hover:shadow-gray-500 rounded-lg w-full"
+      >
+        <div class="flex justify-center items-center gap-4 w-full">
+          <img
+            src="{{ product.img[0] }}"
+            alt=""
+            class="w-[80px] h-[80px] rounded-lg object-cover"
+          />
+          <div class="flex w-11/12">
+            <div class="flex flex-col gap-2 w-full">
+              <h1 class="text-base line-clamp-1 font-semibold">
+                {{ product.title }}
+              </h1>
+              <!-- <p class="text-gray-color text-sm">{{ product.category }}</p> -->
+              <p class="text-sm font-semibold">EGP {{ product.price }}</p>
+            </div>
+            <!-- Quantity Controls -->
+            <div class="flex justify-end w-full">
+              <div class="flex items-center">
+                <button
+                  (mouseenter)="hoveredId = product._id"
+                  (mouseleave)="hoveredId = null"
+                  (click)="removeWish(product._id); $event.stopPropagation()"
+                  class="active:scale-95 hover:scale-110 mr-7"
+                >
+                  <i
+                    [ngClass]="{ 'fa-bounce': hoveredId === product._id }"
+                    class="fa-solid fa-trash-can text-red-500 text-lg font-semibold"
+                  ></i>
+                </button>
               </div>
             </div>
           </div>
-        }
-          }@else{
-          <div class=" flex justify-center items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="300" height="300" preserveAspectRatio="xMidYMid meet">
-              <!-- Heart shape -->
-              <path d="M32 58s-26-15.3-26-34a14 14 0 0 1 28 0 14 14 0 0 1 28 0c0 18.7-26 34-26 34z" fill="none" stroke="#666" stroke-width="2"/>
-              <!-- Simulated crack in the heart -->
-              <path d="M32 20 l-4 8 l8 4 l-4 8" stroke="#666" stroke-width="2" fill="none"/>
-
-            </svg>
-          </div>
-          }
+        </div>
+      </div>
+      } }@else{
+      <div class="flex flex-col h-full w-full justify-center items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 64 64"
+          width="200"
+          height="200"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <!-- Heart shape -->
+          <path
+            d="M32 58s-26-15.3-26-34a14 14 0 0 1 28 0 14 14 0 0 1 28 0c0 18.7-26 34-26 34z"
+            fill="none"
+            stroke="#666"
+            stroke-width="2"
+          />
+          <!-- Simulated crack in the heart -->
+          <path
+            d="M32 20 l-4 8 l8 4 l-4 8"
+            stroke="#666"
+            stroke-width="2"
+            fill="none"
+          />
+        </svg>
+        <h1 class="text-3xl font-semibold text-center text-gray-color">
+          Your WishList is empty
+        </h1>
+      </div>
+      }
     </div>
     <!-- end of products container -->
   </div>

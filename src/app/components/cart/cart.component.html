@@ -1,5 +1,5 @@
 <div
-  class="pt-16 lg:pt-0 grid lg:grid-cols-12 max-w-full overflow-x-hidden lg:gap-0"
+  class="pt-16 md:pt-0 grid lg:grid-cols-12 max-w-full overflow-x-hidden lg:gap-0"
 >
   <!-- title & count items -->
 
@@ -109,14 +109,16 @@
                 </div>
 
                 <button
-                  (mouseenter)="hovered = true"
-                  (mouseleave)="hovered = false"
+                  (mouseenter)="hoveredId = product.product._id"
+                  (mouseleave)="hoveredId = null"
                   (click)="confirmDelete(product.orderedItemId, $event)"
                   [disabled]="isLoading"
                   class="active:scale-95 hover:scale-110"
                 >
                   <i
-                    [ngClass]="{ 'fa-bounce': hovered }"
+                    [ngClass]="{
+                      'fa-bounce': hoveredId === product.product._id
+                    }"
                     class="fa-solid fa-trash-can text-red-500 text-lg font-semibold"
                   ></i>
                 </button>
@@ -219,7 +221,7 @@
           />
         </svg>
         <h1 class="text-3xl font-semibold text-center text-gray-color">
-          Your cart is empty
+          Your Cart is empty
         </h1>
       </div>
       }
@@ -265,9 +267,11 @@
       Checkout
     </button>
 
-    <div class="flex w-full justify-center gap-2 mb-8">
-      <i class="fa-solid text-red-500 fa-circle-exclamation"></i>
-      <p class="text-sm text-center text-red-500">
+    <div class="flex w-[90%] justify-center gap-1 mb-8">
+      <i
+        class="fa-solid text-red-500 fa-circle-exclamation text-xs lg:text-sm"
+      ></i>
+      <p class="text-xs lg:text-sm text-center text-red-500">
         Your Order is not available for now, please try again later
       </p>
     </div>
