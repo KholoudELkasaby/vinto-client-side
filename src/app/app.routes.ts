@@ -17,6 +17,8 @@ import { ProductsComponent } from './components/products/products.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { ProgressComponent } from './components/progress/progress.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -60,9 +62,17 @@ export const routes: Routes = [
   },
   { path: 'cart', component: CartComponent },
   { path: 'wishlist', component: WishListComponent },
-  { path: 'checkout', component: CheckoutComponent }, //
-  { path: 'history', component: OrderHistoryComponent }, //
-  { path: 'order-progress', component: ProgressComponent }, //
-  { path: 'reviews', component: HomeComponent }, //
-  { path: '**', component: HomeComponent }, //
+  { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard] }, //
+  {
+    path: 'history',
+    component: OrderHistoryComponent,
+    canActivate: [authGuard],
+  }, //
+  {
+    path: 'order-progress',
+    component: ProgressComponent,
+    canActivate: [authGuard],
+  }, //
+  { path: 'not-auth', component: NotAuthorizedComponent },
+  { path: '**', component: NotFoundComponent }, //
 ];
