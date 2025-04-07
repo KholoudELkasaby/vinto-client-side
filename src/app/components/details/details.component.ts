@@ -7,6 +7,7 @@ import { Product } from '../../models/product.model';
 import { WishService } from '../../services/wish.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-details',
@@ -34,11 +35,12 @@ export class DetailsComponent {
     private route: ActivatedRoute,
     private productService: ProductService,
     private wishService: WishService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+    this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.userId = this.authService.getUserId();
 
@@ -51,8 +53,6 @@ export class DetailsComponent {
         this.liked = false;
       }
     });
-
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -77,7 +77,7 @@ export class DetailsComponent {
         this.wishlistItems = response.data.wishlist.products;
         this.updateLikedState();
       },
-      error: (err) => console.error('Error fetching wishlist:', err)
+      error: (err) => console.error('Error fetching wishlist:', err),
     });
   }
 
@@ -117,7 +117,6 @@ export class DetailsComponent {
     this.wishService.removeOne(id, productId).subscribe({});
   }
 
-
   selectImage(image: string): void {
     this.isFading = true;
     setTimeout(() => {
@@ -126,8 +125,11 @@ export class DetailsComponent {
     }, 300);
   }
 
-
   toggleLike(): void {
     this.liked = !this.liked;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

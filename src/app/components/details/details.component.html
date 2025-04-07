@@ -6,7 +6,7 @@
       <!-- Top Navigation -->
       <div class="absolute top-0 left-0 w-full py-5 px-10 flex justify-between">
         <a
-          routerLink="/"
+          (click)="goBack()"
           class="cursor-pointer hover:scale-105 active:scale-90"
         >
           <i
@@ -14,7 +14,11 @@
           ></i>
         </a>
         <div
-          (click)="toggleWish(userId, product._id); toggleLike(); $event.stopPropagation()"
+          (click)="
+            toggleWish(userId, product._id);
+            toggleLike();
+            $event.stopPropagation()
+          "
           class="rounded-full w-8 h-8 p-2 border border-black flex items-center justify-center bg-background-color cursor-pointer hover:scale-105 active:scale-90"
         >
           <i
