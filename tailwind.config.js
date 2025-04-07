@@ -5,6 +5,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      //--------------------
+      animation: {
+        progress: 'progress 5s linear forwards',
+      },
+      keyframes: {
+        progress: {
+          '0%': { width: '100%' },
+          '100%': { width: '0%' },
+        }
+      },
+      //---------------------
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
       },
@@ -21,6 +32,7 @@ module.exports = {
         "light-brown": "#A46016",
       },
     },
+
   },
   plugins: [],
   important: false,

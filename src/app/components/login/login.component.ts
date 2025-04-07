@@ -74,7 +74,8 @@ export class LoginComponent {
               this.authService.login(response.token || ''); // Replace with real token
               console.log("Test Loginnnnnnnnnnn");
               this.notificationService.showNotification(
-                'Login successful! Welcome back!'
+                'Login successful! Welcome back!',
+                'success'
               );
               this.router.navigate(['/']);
             }
@@ -83,6 +84,10 @@ export class LoginComponent {
             this.isLoading = false;
             if (error.error?.userId) {
               // Store userId for verification if email not verified
+              this.notificationService.showNotification(
+                'Login Failed! Please verify your email.',
+                'error'
+              );
               localStorage.setItem(
                 'signupData',
                 JSON.stringify({

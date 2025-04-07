@@ -1,18 +1,24 @@
-
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
+export type NotificationType = 'success' | 'error' | 'warning' | 'info';
+
+export interface Notification {
+  message: string;
+  type?: NotificationType;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  private notificationSource = new BehaviorSubject<string | null>(null);
+  private notificationSource = new BehaviorSubject<Notification | null>(null);
   notification$ = this.notificationSource.asObservable();
 
-  showNotification(message: string) {
-    console.log(`NotificationService: ${message}`); // Log the message to the console
-    this.notificationSource.next(message);
-    setTimeout(() => this.clearNotification(), 3000); // Notification disappears after 3 seconds
+  showNotification(message: string, type: NotificationType = 'info') {
+    console.log(`NotificationService: ${message} (${type})`);
+    this.notificationSource.next({ message, type });
+    setTimeout(() => this.clearNotification(), 5000);
   }
 
   clearNotification() {
