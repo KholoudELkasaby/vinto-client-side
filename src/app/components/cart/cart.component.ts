@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { Cart, CartItem } from '../../models/cart.model';
@@ -11,15 +11,15 @@ import { GenralService } from '../../services/genral.service';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule, ConfirmationModalComponent],
+  imports: [CommonModule, ConfirmationModalComponent, RouterModule],
   providers: [CartService, OrderedItemsService],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
-
 export class CartComponent {
+  hovered = false;
   cart?: Cart;
-  toMuch: string = "";
+  toMuch: string = '';
   deleteRequest: EventEmitter<void> = new EventEmitter<void>();
   selectedItems: boolean[] = [];
   showDeleteModal: boolean = false;
@@ -32,23 +32,22 @@ export class CartComponent {
   private authSub!: Subscription;
   deliveryFees: number = 0;
 
-
   constructor(
     private router: Router,
     private cartService: CartService,
     private orderedItemService: OrderedItemsService,
     private genral: GenralService,
-    private authService: AuthService,
-  ) { }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.deliveryFees = this.genral.deliveryFees;
-    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+    this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
 
       if (loggedIn && this.user) {
-        this.updateCart()
+        this.updateCart();
       } else {
       }
     });
@@ -60,9 +59,8 @@ export class CartComponent {
     });
   }
 
-
   goToDetails(product: any) {
-    this.router.navigate(['/details', product.id]);
+    this.router.navigate(['/details', product._id]);
   }
 
   removeProduct(orderedItemId: string) {
@@ -75,7 +73,7 @@ export class CartComponent {
         console.error('Delete error:', err);
         this.isLoading = false;
       },
-      complete: () => this.isLoading = false
+      complete: () => (this.isLoading = false),
     });
   }
 
@@ -84,8 +82,11 @@ export class CartComponent {
       return;
     }
     const removalOperations: any = [];
-    this.cart.items.forEach(element => {
-      const removal$ = this.cartService.removeItem(this.user, element.orderedItemId.toString());
+    this.cart.items.forEach((element) => {
+      const removal$ = this.cartService.removeItem(
+        this.user,
+        element.orderedItemId.toString()
+      );
       removalOperations.push(removal$);
     });
 
@@ -97,22 +98,34 @@ export class CartComponent {
         error: (err) => {
           console.error('Error removing products:', err);
           this.updateCart();
-        }
+        },
       });
     }
   }
 
-  incrementQuantity(max: number, orderedItemId: string, quantity: number, event: MouseEvent) {
+  incrementQuantity(
+    max: number,
+    orderedItemId: string,
+    quantity: number,
+    event: MouseEvent
+  ) {
     event.stopPropagation();
-    if (quantity + 1 > max) { this.toMuch = orderedItemId; return; }
+    if (quantity + 1 > max) {
+      this.toMuch = orderedItemId;
+      return;
+    }
 
-    this.toMuch = "";
-    this.updateQuantity(orderedItemId, (quantity + 1));
+    this.toMuch = '';
+    this.updateQuantity(orderedItemId, quantity + 1);
   }
 
-  decrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {
+  decrementQuantity(
+    orderedItemId: string,
+    quantity: number,
+    event: MouseEvent
+  ) {
     event.stopPropagation();
-    this.updateQuantity(orderedItemId, (quantity - 1));
+    this.updateQuantity(orderedItemId, quantity - 1);
   }
 
   // private getQuantity(orderedItemId: string): number {
@@ -126,14 +139,19 @@ export class CartComponent {
   //   // return quantity;
   // }
   private updateQuantity(orderedItemId: string, itemQ: number) {
-    this.cartService.updateCart(this.user, { itemOrderedId: orderedItemId, newQuantity: itemQ }).subscribe({
-      next: (updatedCart) => {
-        this.cart = updatedCart;
-      },
-      error: (err) => {
-        console.error('Error updating quantity:', err);
-      }
-    });
+    this.cartService
+      .updateCart(this.user, {
+        itemOrderedId: orderedItemId,
+        newQuantity: itemQ,
+      })
+      .subscribe({
+        next: (updatedCart) => {
+          this.cart = updatedCart;
+        },
+        error: (err) => {
+          console.error('Error updating quantity:', err);
+        },
+      });
   }
 
   confirmDeleteAll() {
@@ -166,6 +184,6 @@ export class CartComponent {
     return this.deleteMode === 'all' && this.cart ? this.cart.items.length : 1;
   }
   checkout(): void {
-    this.router.navigate(['/checkout'])
+    this.router.navigate(['/checkout']);
   }
 }
