@@ -12,5 +12,9 @@ export class SidebarComponent {
   @Input() isOpen: boolean = false;
   @Output() closeSidebar = new EventEmitter<void>();
   @Input() isLoggedIn: boolean = true;
+  @Input() profilePictureUrl: string = '';
+  @Input() username: string = '';
   @Output() signOut = new EventEmitter<void>();
+
+  userEmail = localStorage.getItem('userEmail');
 }

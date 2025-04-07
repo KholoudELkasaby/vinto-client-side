@@ -1,5 +1,5 @@
 <nav
-  class="[20vh] sticky z-50 top-0 md:static w-full bg-black flex justify-center"
+  class="[20vh] fixed z-50 top-0 md:static w-full bg-black flex justify-center"
 >
   <div
     class="container h-full flex justify-around md:justify-between items-center w-full"
@@ -148,9 +148,20 @@
         src="/Images/dress.jfif"
         alt=""
       /> -->
-      <i
-        class="fa-regular fa-circle-user text-white text-4xl cursor-pointer transition-transform duration-300"
-      ></i>
+
+      <ng-container *ngIf="isLoggedIn; else defaultIcon">
+        <img
+          [src]="profilePictureUrl"
+          alt="Profile Picture"
+          class="w-full h-full object-cover rounded-full text-white fa-circle-user"
+        />
+      </ng-container>
+
+      <ng-template #defaultIcon>
+        <i
+          class="fa-regular fa-circle-user text-white text-4xl cursor-pointer transition-transform duration-300"
+        ></i>
+      </ng-template>
       <!-- Dropdown Menu -->
       <div
         *ngIf="dropdownOpen"
@@ -207,6 +218,8 @@
       class="block md:hidden sidebar"
       [isOpen]="isSidebarOpen"
       [isLoggedIn]="isLoggedIn"
+      [profilePictureUrl]="profilePictureUrl"
+      [username]="username"
       (closeSidebar)="toggleSidebar()"
       (signOut)="signOut()"
     />

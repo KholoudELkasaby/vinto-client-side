@@ -10,20 +10,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-
-interface UserProfile {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  address: string;
-  city: string;
-  country: string;
-  picture: string;
-  user: {
-    _id: string;
-  };
-}
+import { UserProfile } from '../../models/userProfile.model';
 
 interface UpdateProfileData {
   firstName?: string;
@@ -61,6 +48,7 @@ export class UserDetailsComponent implements OnInit {
   selectedFile: File | null = null;
   imagePreview: string | null = null;
   userId: string = '';
+  UserProfile: UserProfile | null = null;
   private apiUrl = 'http://localhost:4000';
 
   countries = [
