@@ -14,11 +14,11 @@
           ></i>
         </a>
         <div
-          (click)="toggleFavorite(); toggleWish(userId, product._id)"
+          (click)="toggleWish(userId, product._id); toggleLike(); $event.stopPropagation()"
           class="rounded-full w-8 h-8 p-2 border border-black flex items-center justify-center bg-background-color cursor-pointer hover:scale-105 active:scale-90"
         >
           <i
-            [ngClass]="{ 'fa-regular': !isFavorite, 'fa-solid': isFavorite }"
+            [ngClass]="{ 'fa-regular': !liked, 'fa-solid': liked }"
             class="fa-heart"
           ></i>
         </div>

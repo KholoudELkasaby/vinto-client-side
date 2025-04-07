@@ -25,7 +25,6 @@ export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
   userId: any;
   quantity: number = 1;
-  inWishlist: boolean = false;
   wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
@@ -35,6 +34,7 @@ export class CardComponent implements OnInit, OnChanges {
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
+
 
   constructor(
     private productService: ProductService,
@@ -61,43 +61,21 @@ export class CardComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeTab']) {
       this.fetchProducts();
+      this.updateLikedState();
     }
+    // if (changes['product'] && this.products) {
+    // }
   }
 
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
-      next: (response) => this.router.navigate(["/cart"]),
-      error: (err) => console.error('Failed to add to cart:', err)
-    });
-  }
-
-  toggleWish(userId: string, productId: string): void {
-    this.wishService.getAll(userId).subscribe({
       next: (response) => {
-        const wishlist = response.data.wishlist;
-        this.wishlistItems = wishlist.products;
-        const exists = this.wishlistItems.some(item => item.product._id === productId);
-
-        if (exists) {
-          this.removefromWish(userId, productId);
-        } else {
-          this.addToWish(userId, productId);
-        }
+        this.router.navigate(['/cart']);
       },
-      error: (err) => {
-        console.error('Error fetching wishlist:', err);
-      }
     });
   }
-  addToWish(id: string, productId: string): void {
-    this.wishService.addWish(id, productId).subscribe({})
-  }
-  removefromWish(id: string, productId: string): void {
-    this.wishService.removeOne(id, productId).subscribe({})
-  }
-  isInWishlist(productId: string): boolean {
-    return this.wishlistItems.some(item => item.product._id === productId);
-  }
+
+
 
   productStates: {
     [productId: string]: {
@@ -131,7 +109,9 @@ export class CardComponent implements OnInit, OnChanges {
             };
           }
         });
-        //this.loadCartState();
+        if (this.userId) {
+          this.fetchWishlist();
+        }
       },
       (error) => console.error(error)
     );
@@ -156,14 +136,14 @@ export class CardComponent implements OnInit, OnChanges {
   // }
 
   ////
-  toggleCart(productId: string): void {
-    if (!this.userId) return;
-
-    this.cartService.addToCart(this.userId, productId, this.quantity).subscribe({
-      next: () => this.productStates[productId].isInCart = true,
-      error: (err) => console.error('Error adding to cart:', err)
-    });
-  }
+  // toggleCart(productId: string): void {
+  //   if (!this.userId) return;
+  //
+  //   this.cartService.addToCart(this.userId, productId, this.quantity).subscribe({
+  //     next: () => this.productStates[productId].isInCart = true,
+  //     error: (err) => console.error('Error adding to cart:', err)
+  //   });
+  // }
   ////
 
   startImageRotation(productId: string, images: string[]): void {
@@ -181,4 +161,55 @@ export class CardComponent implements OnInit, OnChanges {
       delete this.imageIntervals[productId];
     }
   }
+
+  fetchWishlist() {
+    this.wishService.getAll(this.userId).subscribe({
+      next: (response) => {
+        this.wishlistItems = response.data.wishlist.products;
+        this.updateLikedState();
+      },
+      error: (err) => console.error('Error fetching wishlist:', err)
+    });
+  }
+
+  updateLikedState() {
+    if (this.userId && this.products) {
+      this.products.forEach(product => {
+        if (this.productStates[product._id]) {
+          this.productStates[product._id].isFavorite = this.isInWishlist(product._id);
+        }
+      })
+    }
+  }
+
+  toggleWish(userId: string, productId: string): void {
+    this.wishService.getAll(userId).subscribe({
+      next: (response) => {
+        const wishlist = response.data.wishlist;
+        this.wishlistItems = wishlist.products;
+        const exists = this.wishlistItems.some(
+          (item) => item._id === productId
+        );
+
+        if (exists) {
+          this.removefromWish(userId, productId);
+        } else {
+          this.addToWish(userId, productId);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching wishlist:', err);
+      },
+    });
+  }
+  isInWishlist(productId: string): boolean {
+    return this.wishlistItems.some((item) => item._id === productId); // Use item._id
+  }
+  addToWish(id: string, productId: string): void {
+    this.wishService.addWish(id, productId).subscribe({});
+  }
+  removefromWish(id: string, productId: string): void {
+    this.wishService.removeOne(id, productId).subscribe({});
+  }
+
 }

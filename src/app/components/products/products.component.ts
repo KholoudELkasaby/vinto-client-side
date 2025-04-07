@@ -27,10 +27,11 @@ export class ProductsComponent implements OnInit {
   productsPerPage: number = 10; // Number of items per page
   pageNumbers: number[] = [];
   tot_pages = 0;
-  constructor(private PoroductsService: ProductService) { }
   //  products:any;
   arr: number[] = [];
   flag: boolean = false;
+
+  constructor(private PoroductsService: ProductService) { }
 
   ngOnInit(): void {
     this.PoroductsService.getallproducts().subscribe({

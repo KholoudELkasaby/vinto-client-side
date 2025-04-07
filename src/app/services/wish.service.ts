@@ -20,6 +20,9 @@ export class WishService {
     return this.http.delete(`${this.URL}`, { body: { user: id, products: [product] } })
   }
 
+  removeAll(id: string) {
+    return this.http.delete(`${this.URL}/${id}`)
+  }
   addWish(id: string, product: string) {
     return this.http.post(`${this.URL}`, { user: id, products: [product] })
   }
