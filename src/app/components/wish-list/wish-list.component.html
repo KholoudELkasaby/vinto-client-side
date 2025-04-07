@@ -14,7 +14,8 @@
     </div>
         <div class="Products flex flex-col gap-4 mt-7">
       @if(wishlist && wishlist.length > 0){
-        <div *ngFor="let product of wishlist; let i = index" (click)="goToDetails(product)"
+        @for(product of wishlist; track product._id){
+        <div (click)="goToDetails(product)"
           class="product flex items-center justify-between shadow-md rounded-lg w-[100%]">
             <div class="flex items-center gap-4 w-[100%]">
               <img src="{{product.img[0]}}" alt="" class="w-[80px] h-[80px] rounded-lg object-cover" />
@@ -27,7 +28,7 @@
                   <!-- Quantity Controls -->
                 <div class="flex justify-end w-full">
                   <div class="flex items-center">
-                    <button (click)="removeWish(product._id)"
+                    <button (click)="removeWish(product._id);$event.stopPropagation();"
                         class="text-red-500 hover:text-red-700 remove text-lg font-semibold active:scale-95 hover:scale-110 mr-10">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -39,6 +40,7 @@
               </div>
             </div>
           </div>
+        }
           }@else{
           <div class=" flex justify-center items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="300" height="300" preserveAspectRatio="xMidYMid meet">

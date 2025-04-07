@@ -29,6 +29,7 @@ export class AddToCartBtnComponent {
     private router: Router,
     private authService: AuthService
   ) { }
+
   ngOnInit() {
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
@@ -44,9 +45,9 @@ export class AddToCartBtnComponent {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
-        this.router.navigate(["/cart"])
-      }
-    })
+        this.router.navigate(['/cart']);
+      },
+    });
   }
 
 }
