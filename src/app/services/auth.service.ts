@@ -12,10 +12,22 @@ export class AuthService {
   );
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
+  private userEmailSubject = new BehaviorSubject<string | null>(
+    localStorage.getItem('userEmail') || null
+  );
+
+  userEmail$ = this.userEmailSubject.asObservable();
+
   private userSubject = new BehaviorSubject<UserPayload | null>(
     this.decodeToken()
   );
   user$ = this.userSubject.asObservable();
+
+  private profilePictureSubject = new BehaviorSubject<string | null>(null);
+  profilePicture$ = this.profilePictureSubject.asObservable();
+
+  private usernameSubject = new BehaviorSubject<string | null>(null);
+  username$ = this.usernameSubject.asObservable();
 
   private decodeToken(): UserPayload | null {
     const token = localStorage.getItem('token');
@@ -42,6 +54,11 @@ export class AuthService {
     localStorage.setItem('token', token);
     this.isLoggedInSubject.next(true);
     this.userSubject.next(this.decodeToken());
+  }
+
+  updateUserProfile(picture: string, username: string) {
+    this.profilePictureSubject.next(picture);
+    this.usernameSubject.next(username);
   }
 
   logout() {

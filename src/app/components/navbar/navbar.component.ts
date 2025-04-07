@@ -25,6 +25,7 @@ export class NavbarComponent implements OnDestroy {
   numOfItems: number = 0;
   // imagePreview: string | null = null;
   private loginSub!: Subscription;
+  private profileSub!: Subscription;
   userProfile: UserProfile | null = null;
   profilePictureUrl: string = '';
   username: string = '';
@@ -53,6 +54,10 @@ export class NavbarComponent implements OnDestroy {
     // this.subscribeToUserData();
     console.log('ngOnInit triggered');
     this.fetchUserProfile();
+
+    this.profileSub = this.authService.profilePicture$.subscribe((pic) => {
+      this.profilePictureUrl = pic || '';
+    });
   }
 
   checkLoginStatus(): void {
@@ -85,6 +90,11 @@ export class NavbarComponent implements OnDestroy {
             this.username = response.data.firstName;
 
             console.log('User First Name:', this.userProfile.firstName);
+            // Emit to AuthService
+            this.authService.updateUserProfile(
+              this.profilePictureUrl,
+              this.username
+            );
           }
         },
         error: (error) => {
@@ -144,6 +154,7 @@ export class NavbarComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.loginSub?.unsubscribe();
+    this.profileSub?.unsubscribe();
     // this.userDataSub?.unsubscribe();
     // this.cartCountSub?.unsubscribe();
   }
