@@ -18,6 +18,9 @@ module.exports = {
         "yellow-color": "#FFD43B",
         "light-brown": "#A46016",
       },
+      screens: {
+        'min767': { 'min': '767px' },
+      },
     },
   },
   plugins: [],

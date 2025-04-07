@@ -18,9 +18,9 @@ import { GenralService } from '../../services/genral.service';
 })
 export class CartComponent {
   hoveredId: string | null = null;
-
   cart?: Cart;
   toMuch: string = '';
+  errorMessage: string = '';
   deleteRequest: EventEmitter<void> = new EventEmitter<void>();
   selectedItems: boolean[] = [];
   showDeleteModal: boolean = false;
@@ -32,6 +32,10 @@ export class CartComponent {
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
   deliveryFees: number = 0;
+  isUpdating: { [key: string]: boolean } = {};
+  pendingUpdates: { [key: string]: number } = {};
+  originalQuantities: { [key: string]: number } = {};
+  total: number = 0;
 
   constructor(
     private router: Router,
@@ -39,15 +43,17 @@ export class CartComponent {
     private orderedItemService: OrderedItemsService,
     private genral: GenralService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.deliveryFees = this.genral.deliveryFees;
+    this.loadPendingUpdatesFromStorage();
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
 
       if (loggedIn && this.user) {
+        // this.clearStorageUpdates();
         this.updateCart();
       } else {
       }
@@ -57,6 +63,14 @@ export class CartComponent {
   updateCart() {
     this.cartService.getCart(this.user).subscribe((data) => {
       this.cart = data || [];
+      if (this.cart?.items) {
+        this.cart.items.forEach(item => {
+          if (this.pendingUpdates[item.orderedItemId]) {
+            item.quantity = this.pendingUpdates[item.orderedItemId];
+          }
+        });
+      }
+      this.calculateTotal();
     });
   }
 
@@ -107,54 +121,69 @@ export class CartComponent {
   incrementQuantity(
     max: number,
     orderedItemId: string,
-    quantity: number,
+    currentQuantity: number,
     event: MouseEvent
   ) {
+    this.errorMessage = '';
     event.stopPropagation();
-    if (quantity + 1 > max) {
+    const newQuantity = currentQuantity + 1;
+
+    if (newQuantity > max) {
       this.toMuch = orderedItemId;
       return;
     }
 
     this.toMuch = '';
-    this.updateQuantity(orderedItemId, quantity + 1);
+    this.pendingUpdates[orderedItemId] = newQuantity;
+    this.updateLocalQuantity(orderedItemId, newQuantity);
   }
 
   decrementQuantity(
     orderedItemId: string,
-    quantity: number,
+    currentQuantity: number,
     event: MouseEvent
   ) {
+    this.errorMessage = '';
     event.stopPropagation();
-    this.updateQuantity(orderedItemId, quantity - 1);
+    const newQuantity = currentQuantity - 1;
+    if (this.toMuch === orderedItemId) {
+      this.toMuch = '';
+    }
+    if (newQuantity < 1) {
+      this.removeProduct(orderedItemId);
+      return;
+    }
+    this.pendingUpdates[orderedItemId] = newQuantity;
+    this.updateLocalQuantity(orderedItemId, newQuantity)
   }
 
-  // private getQuantity(orderedItemId: string): number {
-  //   let quantity: number
-  //   this.orderedItemService.getProduct(orderedItemId).subscribe({
-  //     next: (data) => {
-  //       // console.log(quantity)
-  //     }
-  //   })
-  //
-  //   // return quantity;
-  // }
-  private updateQuantity(orderedItemId: string, itemQ: number) {
-    this.cartService
-      .updateCart(this.user, {
-        itemOrderedId: orderedItemId,
-        newQuantity: itemQ,
-      })
-      .subscribe({
-        next: (updatedCart) => {
-          this.cart = updatedCart;
-        },
-        error: (err) => {
-          console.error('Error updating quantity:', err);
-        },
-      });
-  }
+  private updateLocalQuantity(orderedItemId: string, newQuantity: number): void {
+    const item = this.cart?.items.find(i => i.orderedItemId === orderedItemId);
 
+    if (item) {
+      if (!(orderedItemId in this.originalQuantities)) {
+        this.originalQuantities[orderedItemId] = item.quantity;
+      }
+      item.quantity = newQuantity;
+    }
+    this.savePendingUpdatesToStorage();
+    this.calculateTotal();
+
+  }
+  calculateTotal(): void {
+    if (!this.cart || !this.cart.items) {
+      this.total = 0;
+      return;
+    }
+
+    this.total = this.cart?.items.reduce((sum, item) => {
+      const quantity = this.pendingUpdates[item.orderedItemId] || item.quantity;
+      const price = item.product.price;
+      const discount = item.product.discount || 0;
+      const discountedPrice = price * (1 - discount / 100);
+      return sum + (discountedPrice * quantity);
+    }, 0)
+  }
   confirmDeleteAll() {
     this.deleteMode = 'all';
     this.showDeleteModal = true;
@@ -184,7 +213,48 @@ export class CartComponent {
   getSelectedCount(): number {
     return this.deleteMode === 'all' && this.cart ? this.cart.items.length : 1;
   }
+
   checkout(): void {
-    this.router.navigate(['/checkout']);
+    if (Object.keys(this.pendingUpdates).length > 0) {
+      this.isLoading = true;
+      this.cartService.updateCart(this.user, this.pendingUpdates).subscribe({
+        next: (updateCart) => {
+          this.cart = updateCart;
+          this.pendingUpdates = {};
+          this.originalQuantities = {};
+          this.errorMessage = '';
+          this.clearStorageUpdates();
+          this.router.navigate(['/checkout']);
+        },
+        error: (err) => {
+          console.error("update failed", err);
+          this.errorMessage = err.error?.message || 'Failed to update cart. Please try again.';
+          Object.entries(this.originalQuantities).forEach(([id, qty]) => {
+            const item = this.cart?.items.find(i => i.orderedItemId === id);
+            if (item) item.quantity = qty;
+          });
+          this.pendingUpdates = {};
+          this.originalQuantities = {};
+          this.isLoggedIn = false;
+        }
+      })
+    } else {
+      this.router.navigate(['/checkout']);
+    }
+  }
+
+  private savePendingUpdatesToStorage(): void {
+    localStorage.setItem('pendingCartUpdates', JSON.stringify(this.pendingUpdates));
+  }
+
+  private loadPendingUpdatesFromStorage(): void {
+    const savedUpdates = localStorage.getItem('pendingCartUpdates');
+    if (savedUpdates) {
+      this.pendingUpdates = JSON.parse(savedUpdates);
+    }
+  }
+
+  private clearStorageUpdates(): void {
+    localStorage.removeItem('pendingCartUpdates');
   }
 }
