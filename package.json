@@ -23,6 +23,7 @@
     "@angular/router": "^19.1.0",
     "country-state-city": "^3.2.1",
     "detect-passive-events": "^2.0.3",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "ng5-slider": "^1.2.6",
     "ngx-toastr": "^19.0.0",

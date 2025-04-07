@@ -26,10 +26,10 @@ export class CartService {
   getHistory(userId: string): Observable<any> {
     if (this.historyData.length === 0) {
       return this.http.get(`${this.URL}/history/${userId}`).pipe(
-        // tap((data: any) => {
-        //   this.historySubject.next(data);
-        //   this.historyData = data.data.carts;
-        // })
+        tap((data: any) => {
+          this.historySubject.next(data);
+          this.historyData = data.data.carts;
+        })
       );
     } else {
       return of(this.historySubject.value);

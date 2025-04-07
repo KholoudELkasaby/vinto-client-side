@@ -135,9 +135,6 @@ export class VerifyOTPComponent implements OnInit {
               // Store token
               localStorage.setItem('token', response.token);
 
-              // Clear signup data
-              localStorage.removeItem('signupData');
-
               // Navigate to profile page
               this.router.navigate(['/profile']);
             }

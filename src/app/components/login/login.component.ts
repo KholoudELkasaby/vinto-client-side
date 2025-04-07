@@ -71,12 +71,10 @@ export class LoginComponent {
                 'userEmail',
                 this.loginForm.get('email')?.value
               );
-              this.authService.login(response.token || ''); // Replace with real token
-              console.log("Test Loginnnnnnnnnnn");
-              this.notificationService.showNotification(
-                'Login successful! Welcome back!',
-                'success'
-              );
+              if (!localStorage.getItem('userData')) {
+                localStorage.setItem('userData', JSON.stringify(response.data)); // Store user data (including picture)
+              }
+              this.authService.login(response.token || ''); // No need to pass userData
               this.router.navigate(['/']);
             }
           },

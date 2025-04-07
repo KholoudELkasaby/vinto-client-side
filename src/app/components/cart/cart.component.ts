@@ -7,7 +7,7 @@ import { OrderedItemsService } from '../../services/ordered-items.service';
 import { ConfirmationModalComponent } from '../admin/admin-selection/confirmation-modal/confirmation-modal.component';
 import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { GenralService } from '../../services/genral.service';
 
 @Component({
   selector: 'app-cart',
@@ -19,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class CartComponent {
   cart?: Cart;
+  toMuch: string = "";
   deleteRequest: EventEmitter<void> = new EventEmitter<void>();
   selectedItems: boolean[] = [];
   showDeleteModal: boolean = false;
@@ -29,24 +30,25 @@ export class CartComponent {
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
+  deliveryFees: number = 0;
 
 
   constructor(
     private router: Router,
     private cartService: CartService,
     private orderedItemService: OrderedItemsService,
+    private genral: GenralService,
     private authService: AuthService,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
-    this.toastr.success('Test Toastr Notification', 'Success');
+    this.deliveryFees = this.genral.deliveryFees;
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
       this.user = this.authService.getUserId();
 
       if (loggedIn && this.user) {
-        console.log(this.user)
         this.updateCart()
       } else {
       }
@@ -101,11 +103,12 @@ export class CartComponent {
     }
   }
 
-  incrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {
+  incrementQuantity(max: number, orderedItemId: string, quantity: number, event: MouseEvent) {
     event.stopPropagation();
-    console.log("q", quantity)
+    if (quantity + 1 > max) { this.toMuch = orderedItemId; return; }
+
+    this.toMuch = "";
     this.updateQuantity(orderedItemId, (quantity + 1));
-    console.log("q", quantity)
   }
 
   decrementQuantity(orderedItemId: string, quantity: number, event: MouseEvent) {
