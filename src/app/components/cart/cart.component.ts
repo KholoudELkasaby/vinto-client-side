@@ -48,7 +48,6 @@ export class CartComponent {
       this.user = this.authService.getUserId();
 
       if (loggedIn && this.user) {
-        console.log(this.user)
         this.updateCart()
       } else {
       }

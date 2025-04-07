@@ -46,6 +46,7 @@ export class DetailsComponent {
         this.fetchProduct();
         this.fetchWishlist();
       } else {
+        this.fetchProduct();
         this.wishlistItems = [];
         this.liked = false;
       }
