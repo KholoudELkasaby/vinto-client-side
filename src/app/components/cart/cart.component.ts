@@ -39,7 +39,6 @@ export class CartComponent {
     private orderedItemService: OrderedItemsService,
     private genral: GenralService,
     private authService: AuthService,
-    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
