@@ -112,16 +112,6 @@ export class NavbarComponent implements OnDestroy {
     return fullUrl;
   }
 
-  // subscribeToUserData(): void {
-  //   this.userDataSub = this.authService.user$.subscribe((userData) => {
-  //     if (userData) {
-  //       this.imagePreview = userData.picture || null; // Fetch picture from the userData
-  //     } else {
-  //       this.imagePreview = null;
-  //     }
-  //   });
-  // }
-
   toggleNotifications() {
     this.notificationDropDown = !this.notificationDropDown;
   }
@@ -155,7 +145,7 @@ export class NavbarComponent implements OnDestroy {
   ngOnDestroy() {
     this.loginSub?.unsubscribe();
     this.profileSub?.unsubscribe();
-    // this.userDataSub?.unsubscribe();
+
     // this.cartCountSub?.unsubscribe();
   }
 
