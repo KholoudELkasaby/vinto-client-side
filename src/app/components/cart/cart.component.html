@@ -25,38 +25,48 @@
     <div class="Products flex flex-col gap-4 mt-7">
       @if(cart && cart.items.length > 0){
         <div *ngFor="let product of cart.items; let i = index" (click)="goToDetails(product)"
-          class="product flex items-center justify-between shadow-md rounded-lg w-[100%]">
-            <div *ngIf="cart" class="flex items-center gap-4 w-[100%]">
-              <img src="{{product.product.img[0]}}" alt="" class="w-[80px] h-[80px] rounded-lg object-cover" />
-              <div class="flex w-11/12">
-                <div class="flex flex-col gap-2 w-full">
-                  <h1 class="text-xl font-semibold">{{ product.product.title }}</h1>
-                  <!-- <p class="text-gray-color text-sm">{{ product.product.category }}</p> -->
-                  <p class="text-base font-semibold">EGP {{ product.product.price }}</p>
-                </div>
-                  <!-- Quantity Controls -->
-                <div class="flex justify-end w-full">
-                  <div class="flex items-center gap-3 m-6">
+              class="product flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 p-4 sm:p-6 shadow-md rounded-lg w-full">
 
-                  @if(product.orderedItemId == toMuch && product.quantity >= product.maxAllowed){
-                    <small class="text-red-500">⚠️ The requested quantity exceeds available stock.</small>
-                  }
-                    <button (click)="decrementQuantity(product.orderedItemId, product.quantity, $event)"
-                            class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
-                      -
-                    </button>
-                    <span class="quantity-display min-w-[30px] text-center">
-                      {{ product.quantity }}
-                    </span>
-                    <button
-                    (click)="incrementQuantity(product.maxAllowed ,product.orderedItemId, product.quantity, $event)"
-                            class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
-                      +
-                    </button>
+              <!-- Image Section (same styling) -->
+              <div class="flex lg:block w-full sm:w-auto items-center justify-center">
+                <img src="{{product.product.img[0]}}" alt=""
+                    class="w-[60%] h-[60%] sm:w-[80px] md:h-[80px] rounded-lg object-cover" />
+              </div>
+
+              <!-- Content Area -->
+              <div class="flex flex-col sm:flex-row justify-between w-full gap-4 sm:gap-0">
+
+                <!-- Product Info (original structure) -->
+                <div class="flex flex-col gap-2 w-full min767:my-4">
+                  <h1 class="text-xl font-semibold text-center min767:text-start">{{ product.product.title }}</h1>
+                  <p class="text-base font-semibold text-center min767:text-start">EGP {{ product.product.price }}</p>
+                </div>
+
+                <!-- Quantity Controls (original styling) -->
+                <div class="flex flex-col min767:flex-row items-center sm:items-end justify-between">
+                  <div class="flex items-center gap-3">
+                    @if(product.orderedItemId == toMuch && product.quantity >= product.maxAllowed){
+                      <small class="text-red-500">⚠️ The requested quantity exceeds available stock.</small>
+                    }
+                    <div class="flex items-center gap-3 md:mx-4">
+                      <button (click)="decrementQuantity(product.orderedItemId, product.quantity, $event)"
+                              class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
+                        -
+                      </button>
+                      <span class="quantity-display min-w-[30px] text-center">
+                        {{ product.quantity }}
+                      </span>
+                      <button (click)="incrementQuantity(product.maxAllowed, product.orderedItemId, product.quantity, $event)"
+                              class="quantity-btn w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200">
+                        +
+                      </button>
+                    </div>
                   </div>
-                  <div class="flex items-center">
+
+                  <!-- Delete Button (original positioning) -->
+                  <div class="mt-4 sm:mt-0">
                     <button (click)="confirmDelete(product.orderedItemId, $event)" [disabled]="isLoading"
-                        class="text-red-500 hover:text-red-700 remove text-lg font-semibold active:scale-95 hover:scale-110 mr-10">
+                            class="text-red-500 hover:text-red-700 remove text-lg font-semibold active:scale-95 hover:scale-110">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -66,7 +76,6 @@
                 </div>
               </div>
             </div>
-          </div>
           }@else{
             <div class="flex justify-center items-center">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
