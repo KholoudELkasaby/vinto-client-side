@@ -37,7 +37,7 @@ export class DetailsComponent {
     private wishService: WishService,
     private authService: AuthService,
     private location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {

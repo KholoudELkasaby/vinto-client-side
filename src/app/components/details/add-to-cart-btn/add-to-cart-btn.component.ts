@@ -3,6 +3,7 @@ import { CartService } from '../../../services/cart.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { GenralService } from '../../../services/genral.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class AddToCartBtnComponent {
   constructor(
     private cartService: CartService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private genral: GenralService
   ) { }
 
   ngOnInit() {
@@ -45,6 +47,7 @@ export class AddToCartBtnComponent {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
+        this.genral.increment();
         this.router.navigate(['/cart']);
       },
     });

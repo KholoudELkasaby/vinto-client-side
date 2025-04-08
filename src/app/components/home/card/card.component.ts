@@ -13,6 +13,7 @@ import { CartService } from '../../../services/cart.service';
 import { WishService } from '../../../services/wish.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
+import { GenralService } from '../../../services/genral.service';
 
 @Component({
   selector: 'app-card',
@@ -41,7 +42,8 @@ export class CardComponent implements OnInit, OnChanges {
     private cartService: CartService,
     private router: Router,
     private wishService: WishService,
-    private authService: AuthService
+    private authService: AuthService,
+    private genral: GenralService
   ) { }
 
 
@@ -70,6 +72,7 @@ export class CardComponent implements OnInit, OnChanges {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
+        this.genral.increment();
         this.router.navigate(['/cart']);
       },
     });

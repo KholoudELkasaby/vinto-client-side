@@ -37,7 +37,9 @@ export class NavbarComponent implements OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private http: HttpClient //private cartService: CartService, //private genral: GenralService
+    private http: HttpClient,
+    //private cartService: CartService,
+    private genral: GenralService
   ) {
     // this.cartCountSub = this.cartService.cartCount$.subscribe(
     //   count => {
@@ -46,7 +48,6 @@ export class NavbarComponent implements OnDestroy {
     //   }
     // );
     // this.cartService.getCart(this.user).subscribe();
-    console.log(this.numOfItems);
   }
 
   ngOnInit(): void {
@@ -54,10 +55,14 @@ export class NavbarComponent implements OnDestroy {
     // this.subscribeToUserData();
     console.log('ngOnInit triggered');
     this.fetchUserProfile();
-
     this.profileSub = this.authService.profilePicture$.subscribe((pic) => {
       this.profilePictureUrl = pic || '';
     });
+    this.genral.currentCartItemNumber$.subscribe(
+      (newValue) => (this.numOfItems = newValue)
+    );
+    this.genral.updateCartValue(this.userId);
+
   }
 
   checkLoginStatus(): void {
