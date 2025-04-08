@@ -6,6 +6,7 @@ export type NotificationType = 'success' | 'error' | 'warning' | 'info';
 export interface Notification {
   message: string;
   type?: NotificationType;
+  duration?: number; // in milliseconds
 }
 
 @Injectable({
@@ -15,10 +16,27 @@ export class NotificationService {
   private notificationSource = new BehaviorSubject<Notification | null>(null);
   notification$ = this.notificationSource.asObservable();
 
-  showNotification(message: string, type: NotificationType = 'info') {
-    console.log(`NotificationService: ${message} (${type})`);
-    this.notificationSource.next({ message, type });
-    setTimeout(() => this.clearNotification(), 5000);
+  showNotification(notification: Notification | string) {
+    let notificationObj: Notification;
+
+    if (typeof notification === 'string') {
+      notificationObj = {
+        message: notification,
+        type: 'info',
+        duration: 3000
+      };
+    } else {
+      notificationObj = {
+        type: 'info',
+        duration: 3000,
+        ...notification
+      };
+    }
+
+    console.log(`NotificationService: ${notificationObj.message}`, notificationObj);
+    this.notificationSource.next(notificationObj);
+
+    setTimeout(() => this.clearNotification(), notificationObj.duration);
   }
 
   clearNotification() {

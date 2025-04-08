@@ -75,6 +75,10 @@ export class LoginComponent {
                 localStorage.setItem('userData', JSON.stringify(response.data)); // Store user data (including picture)
               }
               this.authService.login(response.token || ''); // No need to pass userData
+              this.notificationService.showNotification({
+                message: "Test from Login Successfully!",
+                type: 'success',
+              })
               this.router.navigate(['/']);
             }
           },
@@ -82,10 +86,6 @@ export class LoginComponent {
             this.isLoading = false;
             if (error.error?.userId) {
               // Store userId for verification if email not verified
-              this.notificationService.showNotification(
-                'Login Failed! Please verify your email.',
-                'error'
-              );
               localStorage.setItem(
                 'signupData',
                 JSON.stringify({

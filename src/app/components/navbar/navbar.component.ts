@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { GenralService } from '../../services/genral.service';
 import { UserProfile } from '../../models/userProfile.model';
+import { NotificationService, Notification } from '../../services/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,11 +34,13 @@ export class NavbarComponent implements OnDestroy {
   private apiUrl = 'http://localhost:4000'; // Your API base URL
   // private userDataSub!: Subscription;
   // private cartCountSub: Subscription;
-
+  unreadNotifications: Notification[] = [];
+  notificationCount: number = 0;
   constructor(
     private authService: AuthService,
     private router: Router,
-    private http: HttpClient //private cartService: CartService, //private genral: GenralService
+    private http: HttpClient, //private cartService: CartService, //private genral: GenralService
+    private notificationService: NotificationService,
   ) {
     // this.cartCountSub = this.cartService.cartCount$.subscribe(
     //   count => {
@@ -57,6 +60,17 @@ export class NavbarComponent implements OnDestroy {
 
     this.profileSub = this.authService.profilePicture$.subscribe((pic) => {
       this.profilePictureUrl = pic || '';
+    });
+    this.notificationService.notification$.subscribe((notification) => {
+      if (notification) {
+        this.unreadNotifications.unshift(notification);
+        this.notificationCount = this.unreadNotifications.length;
+
+        setTimeout(() => {
+          this.unreadNotifications = this.unreadNotifications.filter(n => n !== notification);
+          this.notificationCount = this.unreadNotifications.length;
+        }, notification.duration || 3000);
+      }
     });
   }
 
@@ -195,5 +209,9 @@ export class NavbarComponent implements OnDestroy {
   toggleFlag() {
     this.flagSrc =
       this.flagSrc === '/Images/usa.svg' ? '/Images/sa.svg' : '/Images/usa.svg';
+  }
+  markAsRead() {
+    this.notificationCount = 0;
+    this.notificationDropDown = true;
   }
 }

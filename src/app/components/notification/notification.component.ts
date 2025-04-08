@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService, Notification, NotificationType } from '../../services/notification.service';
+import { NotificationService, NotificationType } from '../../services/notification.service';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -31,13 +31,20 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ]
 })
 export class NotificationComponent implements OnInit {
-  notification: Notification | null = null;
+  notification: { message: string; type: NotificationType } | null = null;
 
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.notificationService.notification$.subscribe((notification) => {
-      this.notification = notification;
+      if (notification) {
+        this.notification = {
+          message: notification.message,
+          type: notification.type || 'info'
+        };
+      } else {
+        this.notification = null;
+      }
     });
   }
 
