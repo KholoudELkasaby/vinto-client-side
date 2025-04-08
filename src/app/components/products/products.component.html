@@ -2,7 +2,7 @@
   <div class="flex h-full">
     <div
       id="xx"
-      class="text-white w-fit absolute top-0 left-0 z-50 w-72 cursor-pointer"
+      class="text-white w-fit absolute top-[1%] left-0 z-20 w-72 cursor-pointer"
     >
       <app-sidebar
         id="slider"
@@ -13,15 +13,15 @@
       ></app-sidebar>
     </div>
 
-    <div class="flex-1 ml-[calc(85px)] z-10">
+    <div class="flex-1 ml-[calc(85px)] ">
       <div class="block">
         <button
           (mouseenter)="onHover(true)"
           (mouseleave)="onHover(false)"
-          class="flex space-evenly mt-5 w-[100px] z-50 ml-8"
+          class="flex space-evenly  w-[100px] z-20 ml-8"
         >
           <b
-            ><app-filtered-image class="p-4" id="filterr"></app-filtered-image
+            ><app-filtered-image class="pb-4 pl-4 pr-4" id="filterr"></app-filtered-image
           ></b>
         </button>
 
@@ -34,6 +34,8 @@
         </app-productitem>
         }
 
+
+<!-- ///////////////////////////////////////// -->
 
 
         <!-- //////////////////////////not found -->
@@ -52,14 +54,27 @@
 
         <!-- ----------------------------Slider of page------------------------------>
 
-        <div class="mt-5 mb-5 flex justify-center flex-wrap">
+        <div class="mt-5 mb-5 flex justify-center flex-wrap items-center">
+
+          <button  id="prev"  (click)="pressclickedp($event)"
+         
+          
+          class="flex items-center justify-center w-[50px] h-[50px]   rounded-full hover:bg-gray-100 cursor-pointer mb-2   ">
+            <i class="fa-solid fa-chevron-left text-l font-bold"></i>
+          </button>
           @if(arr.length > 0){
             <ng-container *ngIf="arr.length > 0">
               <button
                 *ngFor="let item of arr; let i = index"
                 type="button"
-                class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                class="text-black  hover:bg-gray-100  font-medium rounded-lg text-lg px-4 py-2.5  mb-2 ml-2"
                 (click)="press($event)"
+
+                [ngClass]="{
+                  'bg-gray-50 text-black': item === buttonValueclickedd,
+                  'bg-gray-150 hover:bg-gray-300 text-black': item !== buttonValueclickedd
+                }"
+              
               >
                 {{ item }}
               </button>
@@ -71,7 +86,7 @@
           @if(flag){
           <ng-container >
             <button   type="button"
-            class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            class="text-white bg-gray-200 hover:bg-gray-200   font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
             (click)="reloadPage()">
             return
           </button>
@@ -81,10 +96,15 @@
         }
          }
          
-      
+         <div    id="next"  (click)="pressclickedn($event)"  class="flex items-center justify-center w-[50px] h-[50px]   rounded-full hover:bg-gray-100 cursor-pointer mb-2 ">
+          <i class="fa-solid fa-chevron-right text-l font-bold"></i>
+        </div>
        
           <!-- For debugging -->
         </div>
+    <!-- /////////////////// -->
+    
+<!-- ///////////////// -->
       </div>
     </div>
   </div>
