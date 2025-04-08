@@ -14,6 +14,7 @@ import { WishService } from '../../../services/wish.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { GenralService } from '../../../services/genral.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-card',
