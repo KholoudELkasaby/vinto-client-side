@@ -82,6 +82,7 @@ export class CartComponent {
     this.isLoading = true;
     this.cartService.removeItem(this.user, orderedItemId).subscribe({
       next: () => {
+        this.genral.decrement();
         this.updateCart();
       },
       error: (err) => {
@@ -102,6 +103,7 @@ export class CartComponent {
         this.user,
         element.orderedItemId.toString()
       );
+      this.genral.decrement();
       removalOperations.push(removal$);
     });
 
