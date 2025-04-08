@@ -103,13 +103,13 @@ export class CartComponent {
         this.user,
         element.orderedItemId.toString()
       );
+      this.genral.decrement();
       removalOperations.push(removal$);
     });
 
     if (removalOperations.length > 0) {
       forkJoin(removalOperations).subscribe({
         next: () => {
-          this.genral.decrement();
           this.updateCart();
         },
         error: (err) => {
