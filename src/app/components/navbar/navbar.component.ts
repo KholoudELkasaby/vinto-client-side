@@ -6,7 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { UserProfile } from '../../models/userProfile.model';
-import { NotificationService, Notification } from '../../services/notification.service';
+import { NotificationService } from '../../services/notification.service';
+import { Notification } from '../../models/notification.model';
+import { GenralService } from '../../services/genral.service';
 
 @Component({
   selector: 'app-navbar',
@@ -42,7 +44,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     //private cartService: CartService,
-    private genral: GenralService
+    private genral: GenralService,
+    private notificationService: NotificationService
   ) {
     // this.cartCountSub = this.cartService.cartCount$.subscribe(
     //   count => {
