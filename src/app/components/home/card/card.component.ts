@@ -20,8 +20,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-card',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterModule, NgxSkeletonLoaderModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css',
@@ -64,7 +64,7 @@ export class CardComponent implements OnInit, OnChanges {
       if (loggedIn && this.userId) {
         console.log(this.userId);
         this.fetchProducts();
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       } else {
       }
     });
@@ -74,7 +74,7 @@ export class CardComponent implements OnInit, OnChanges {
     if (changes['activeTab']) {
       this.fetchProducts();
       this.updateLikedState();
-      this.cdr.markForCheck();
+      this.cdr.detectChanges();
     }
 
     // if (changes['product'] && this.products) {
@@ -121,7 +121,7 @@ export class CardComponent implements OnInit, OnChanges {
             };
           }
         });
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
         if (this.userId) {
           this.fetchWishlist();
         }

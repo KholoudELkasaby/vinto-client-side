@@ -9,7 +9,14 @@
     >
       <p
         *ngIf="activeTab.trim().toLowerCase() === 'offers'"
-        class="offer absolute top-2 left-2 bg-red-500 text-white font-medium text-sm px-1 text-center z-10"
+        class="offer absolute top-0 left-0 transform -rotate-45 bg-red-500 text-white font-medium text-sm px-4 py-1 z-10"
+        style="
+          transform-origin: top left;
+          width: 100px;
+          top: 50px;
+          left: -20px;
+          text-align: center;
+        "
       >
         {{ product.discount }}% OFF
       </p>
@@ -23,20 +30,8 @@
           loading="lazy"
           [alt]="product.title"
           class="product-img w-full h-full object-cover"
+          (load)="imageLoaded(product._id)"
         />
-        <ngx-skeleton-loader
-          *ngIf="
-            imageLoading[product._id] ||
-            !product.img[productStates[product._id].currentIndex]
-          "
-          [theme]="{
-            height: '100%',
-            width: '100%',
-            'border-radius': '0',
-            'background-color': '#E2E0E0',
-            
-          }"
-        ></ngx-skeleton-loader>
       </figure>
       <div class="card-body flex justify-between px-3">
         <h2 class="card-title font-medium w-full truncate">
