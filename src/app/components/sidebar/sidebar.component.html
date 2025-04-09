@@ -16,7 +16,8 @@
         <input
           type="search"
           [(ngModel)]="searchText"
-          (keydown.enter)="onSearch()"
+          (input)="onSearchChange(); onSearch()"
+
           id="default-search"
           class="block w-full p-4 ps-10 h-2 text-sm text-gray-700 border-gray-600 rounded-[200px] border bg-gray-50"
           placeholder="Search "
