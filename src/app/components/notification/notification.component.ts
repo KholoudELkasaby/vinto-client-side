@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService} from '../../services/notification.service';
+import { NotificationService } from '../../services/notification.service';
 import { NotificationType } from '../../models/notification.model';
 import { CommonModule } from '@angular/common';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-notification',
@@ -12,24 +18,33 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   imports: [CommonModule],
   animations: [
     trigger('fadeInOut', [
-      state('void', style({
-        opacity: 0,
-        transform: 'translateX(100%)'
-      })),
+      state(
+        'void',
+        style({
+          opacity: 0,
+          transform: 'translateX(100%)',
+        })
+      ),
       transition(':enter', [
-        animate('300ms ease-out', style({
-          opacity: 1,
-          transform: 'translateX(0)'
-        }))
+        animate(
+          '300ms ease-out',
+          style({
+            opacity: 1,
+            transform: 'translateX(0)',
+          })
+        ),
       ]),
       transition(':leave', [
-        animate('250ms ease-in', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
-      ])
-    ])
-  ]
+        animate(
+          '250ms ease-in',
+          style({
+            opacity: 0,
+            transform: 'translateX(100%)',
+          })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class NotificationComponent implements OnInit {
   notification: {
@@ -48,7 +63,7 @@ export class NotificationComponent implements OnInit {
           id: notification.id,
           message: notification.message,
           type: notification.type || 'info',
-          duration: notification.duration
+          duration: notification.duration,
         };
       } else {
         this.notification = null;

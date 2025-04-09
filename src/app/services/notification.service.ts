@@ -24,10 +24,12 @@ export class NotificationService {
     if (savedNotifications) {
       try {
         const parsedNotifications = JSON.parse(savedNotifications);
-        const notificationsWithDateObjects = parsedNotifications.map((n: any) => ({
-          ...n,
-          timestamp: new Date(n.timestamp)
-        }));
+        const notificationsWithDateObjects = parsedNotifications.map(
+          (n: any) => ({
+            ...n,
+            timestamp: new Date(n.timestamp),
+          })
+        );
         this.notificationsListSource.next(notificationsWithDateObjects);
         this.updateUnreadCount();
       } catch (error) {
@@ -38,7 +40,10 @@ export class NotificationService {
   }
 
   private saveNotificationsToStorage() {
-    localStorage.setItem('notifications', JSON.stringify(this.notificationsListSource.value));
+    localStorage.setItem(
+      'notifications',
+      JSON.stringify(this.notificationsListSource.value)
+    );
   }
 
   showNotification(notification: Notification | string) {
@@ -51,7 +56,7 @@ export class NotificationService {
         type: 'info',
         duration: 3000,
         read: false,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     } else {
       notificationObj = {
@@ -60,12 +65,14 @@ export class NotificationService {
         duration: 3000,
         read: false,
         timestamp: new Date(),
-        ...notification
+        ...notification,
       };
     }
 
-    console.log(`NotificationService: ${notificationObj.message}`, notificationObj);
-
+    console.log(
+      `NotificationService: ${notificationObj.message}`,
+      notificationObj
+    );
 
     this.notificationSource.next(notificationObj);
 
@@ -86,10 +93,12 @@ export class NotificationService {
   }
 
   markAllAsRead() {
-    const updatedList = this.notificationsListSource.value.map(notification => ({
-      ...notification,
-      read: true
-    }));
+    const updatedList = this.notificationsListSource.value.map(
+      (notification) => ({
+        ...notification,
+        read: true,
+      })
+    );
 
     this.notificationsListSource.next(updatedList);
     this.saveNotificationsToStorage();
@@ -97,7 +106,7 @@ export class NotificationService {
   }
 
   markAsRead(id: string) {
-    const updatedList = this.notificationsListSource.value.map(notification =>
+    const updatedList = this.notificationsListSource.value.map((notification) =>
       notification.id === id ? { ...notification, read: true } : notification
     );
 
@@ -113,11 +122,16 @@ export class NotificationService {
   }
 
   private updateUnreadCount() {
-    const unreadCount = this.notificationsListSource.value.filter(n => !n.read).length;
+    const unreadCount = this.notificationsListSource.value.filter(
+      (n) => !n.read
+    ).length;
     this.unreadCountSource.next(unreadCount);
   }
 
   private generateId(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15)
+    );
   }
 }
