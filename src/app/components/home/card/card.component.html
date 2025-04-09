@@ -51,7 +51,7 @@
           <i
             [ngClass]="{
               'fa-regular': !productStates[product._id].isFavorite,
-              'fa-solid': productStates[product._id].isFavorite
+              'fa-solid text-red-500': productStates[product._id].isFavorite
             }"
             class="wish-list fa-heart cursor-pointer hover:scale-125 scale-105 transition-all active:scale-95"
             (click)="toggleFavorite(product._id); $event.stopPropagation()"

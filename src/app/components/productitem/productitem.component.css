@@ -14,7 +14,6 @@
   width: 20%;
   text-align: center;
   margin-left: 40px;
-
 }
 
 /* Responsive behavior */
@@ -22,25 +21,24 @@
   #card {
     width: 25%;
     margin: 2rem auto;
-    margin-left: auto; 
-    margin-right: 3rem; 
+    margin-left: auto;
+    margin-right: 3rem;
   }
 }
 
 @media (max-width: 800px) {
   #card {
     width: 40%;
-    margin-left: auto; 
-    margin-right: 3rem; 
+    margin-left: auto;
+    margin-right: 3rem;
   }
 }
 
 @media (max-width: 600px) {
   #card {
     width: 80%;
-    margin-left: auto; 
-    margin-right: 3rem; 
-
+    margin-left: auto;
+    margin-right: 3rem;
   }
 }
 
@@ -77,7 +75,7 @@
 .star-rating .half-star::before,
 .star-rating .quarter-star::before,
 .star-rating .three-quarter-star::before {
-  content: '★';
+  content: "★";
   position: absolute;
   top: 0;
   left: 0;
@@ -98,7 +96,8 @@
 }
 
 /* Prevent horizontal scroll */
-html, body {
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
 }
