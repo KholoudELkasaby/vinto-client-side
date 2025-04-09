@@ -5,6 +5,8 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Product } from '../../../models/product.model';
@@ -18,6 +20,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule, RouterModule, NgxSkeletonLoaderModule],
   templateUrl: './card.component.html',
@@ -43,7 +46,8 @@ export class CardComponent implements OnInit, OnChanges {
     private router: Router,
     private wishService: WishService,
     private authService: AuthService,
-    private genral: GenralService
+    private genral: GenralService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +112,7 @@ export class CardComponent implements OnInit, OnChanges {
             };
           }
         });
+        this.cdr.markForCheck();
         if (this.userId) {
           this.fetchWishlist();
         }
@@ -151,6 +156,7 @@ export class CardComponent implements OnInit, OnChanges {
     this.imageIntervals[productId] = setInterval(() => {
       const state = this.productStates[productId];
       state.currentIndex = (state.currentIndex + 1) % images.length;
+      this.cdr.markForCheck();
     }, 1000);
   }
 
