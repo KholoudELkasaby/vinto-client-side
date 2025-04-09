@@ -21,7 +21,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { ShipmentManagementComponent } from './components/shipment-management/shipment-management.component';
 
-
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
@@ -75,6 +74,12 @@ export const routes: Routes = [
     component: ProgressComponent,
     canActivate: [authGuard],
   }, //
+  {
+    path: 'shipments',
+    component: ShipmentManagementComponent,
+    canActivate: [authGuard],
+    data: { roles: ['admin'] }, // Only allow access to users with the 'admin' role
+  },
   { path: 'not-auth', component: NotAuthorizedComponent },
   { path: '**', component: NotFoundComponent }, //
 ];
