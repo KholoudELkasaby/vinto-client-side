@@ -163,10 +163,10 @@
         <div class="space-y-2">
           @if(cartItems && cartItems.items){
           @for(item of cartItems.items; track item.product._id || $index){
-          <div class="flex justify-between">
-            <span class="w-2/4 overflow-hidden text-ellipsis whitespace-nowrap" title="{{item.product.title}}">{{item.product.title || 'Unknown product'}}</span>
-            <span>EGP {{item.product.price| number:'1.2-2'}}</span>
-          </div>
+              <div class="flex justify-between">
+                <span class="w-2/4 overflow-hidden text-ellipsis whitespace-nowrap" title="{{item.product.title}}">{{item.quantity}}x {{item.product.title || 'Unknown product'}}</span>
+                <span>EGP {{item.product.price * item.quantity | number:'1.2-2'}}</span>
+              </div>
           }
           <div class="flex justify-between my-3">
             <span class="w-2/4 text-primary text-xl overflow-hidden text-ellipsis whitespace-nowrap">Shipping Fees</span>

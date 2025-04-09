@@ -219,9 +219,12 @@ export class CartComponent {
   checkout(): void {
     if (Object.keys(this.pendingUpdates).length > 0) {
       this.isLoading = true;
+
       this.cartService.updateCart(this.user, this.pendingUpdates).subscribe({
         next: (updateCart) => {
+          console.log(this.user);
           this.cart = updateCart;
+          console.log("test", updateCart)
           this.pendingUpdates = {};
           this.originalQuantities = {};
           this.errorMessage = '';

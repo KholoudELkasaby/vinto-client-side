@@ -85,37 +85,37 @@
         <thead class="bg-gray-50">
           <tr>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               ID
             </th>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Order Date
             </th>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Delivery Date
             </th>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Address
             </th>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Phone
             </th>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Status
             </th>
             <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Actions
             </th>
@@ -148,14 +148,14 @@
             class="hover:bg-gray-50"
           >
             <td
-              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+              class="px-3 py-4 whitespace-nowrap text-xs font-medium text-gray-900"
             >
               {{ shipment._id }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-3 py-4 whitespace-nowrap text-xs text-gray-500">
               {{ getFormattedDate(shipment.dateOfOrder) }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-3 py-4 whitespace-nowrap text-xs text-gray-500">
               <div class="relative">
                 <input
                   type="datetime-local"
@@ -166,7 +166,8 @@
                   [(ngModel)]="shipment.dateOfDelivery"
                   [min]="getMinimumDateString(shipment.dateOfOrder)"
                   [value]="
-                    shipment.dateOfDelivery || getMinimumDateString(shipment.dateOfOrder)
+                    shipment.dateOfDelivery ||
+                    getMinimumDateString(shipment.dateOfOrder)
                   "
                   class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   (change)="updateDeliveryDate(shipment)"
@@ -200,7 +201,7 @@
                 </div>
               </div>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500">
+            <td class="px-3 py-4 text-xs text-gray-500">
               <ng-container *ngIf="shipment.shipmentInfo; else noAddress">
                 {{ shipment.shipmentInfo.street }},
                 {{ shipment.shipmentInfo.city }},
@@ -211,14 +212,14 @@
                 <span class="text-gray-400">No address information</span>
               </ng-template>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
               {{
                 shipment.shipmentInfo
                   ? getPhoneDisplay(shipment.shipmentInfo.phones)
                   : "N/A"
               }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <td class="px-3 py-4 whitespace-nowrap text-sm">
               <span
                 [class]="
                   'inline-flex px-2 py-1 rounded-full border ' +
@@ -228,7 +229,7 @@
                 {{ shipment.status }}
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <td class="px-3 py-4 whitespace-nowrap text-sm">
               <div class="relative">
                 <select
                   [disabled]="updatingId === shipment._id"

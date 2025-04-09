@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Notification } from '../models/notification.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,6 +15,37 @@ export class NotificationService {
   private unreadCountSource = new BehaviorSubject<number>(0);
   unreadCount$ = this.unreadCountSource.asObservable();
 
+  constructor() {
+    this.loadNotificationsFromStorage();
+  }
+
+  private loadNotificationsFromStorage() {
+    const savedNotifications = localStorage.getItem('notifications');
+    if (savedNotifications) {
+      try {
+        const parsedNotifications = JSON.parse(savedNotifications);
+        const notificationsWithDateObjects = parsedNotifications.map(
+          (n: any) => ({
+            ...n,
+            timestamp: new Date(n.timestamp),
+          })
+        );
+        this.notificationsListSource.next(notificationsWithDateObjects);
+        this.updateUnreadCount();
+      } catch (error) {
+        console.error('Error parsing saved notifications:', error);
+        localStorage.removeItem('notifications');
+      }
+    }
+  }
+
+  private saveNotificationsToStorage() {
+    localStorage.setItem(
+      'notifications',
+      JSON.stringify(this.notificationsListSource.value)
+    );
+  }
+
   showNotification(notification: Notification | string) {
     let notificationObj: Notification;
 
@@ -24,7 +56,7 @@ export class NotificationService {
         type: 'info',
         duration: 3000,
         read: false,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     } else {
       notificationObj = {
@@ -33,23 +65,24 @@ export class NotificationService {
         duration: 3000,
         read: false,
         timestamp: new Date(),
-        ...notification
+        ...notification,
       };
     }
 
-    console.log(`NotificationService: ${notificationObj.message}`, notificationObj);
+    console.log(
+      `NotificationService: ${notificationObj.message}`,
+      notificationObj
+    );
 
-    // Update the popup notification
     this.notificationSource.next(notificationObj);
 
-    // Add to notification list
     const currentList = this.notificationsListSource.value;
     this.notificationsListSource.next([notificationObj, ...currentList]);
 
-    // Update unread count
+    this.saveNotificationsToStorage();
+
     this.updateUnreadCount();
 
-    // Auto-clear popup after duration
     setTimeout(() => {
       this.clearPopupNotification();
     }, notificationObj.duration);
@@ -60,35 +93,45 @@ export class NotificationService {
   }
 
   markAllAsRead() {
-    const updatedList = this.notificationsListSource.value.map(notification => ({
-      ...notification,
-      read: true
-    }));
+    const updatedList = this.notificationsListSource.value.map(
+      (notification) => ({
+        ...notification,
+        read: true,
+      })
+    );
 
     this.notificationsListSource.next(updatedList);
+    this.saveNotificationsToStorage();
     this.updateUnreadCount();
   }
 
   markAsRead(id: string) {
-    const updatedList = this.notificationsListSource.value.map(notification =>
+    const updatedList = this.notificationsListSource.value.map((notification) =>
       notification.id === id ? { ...notification, read: true } : notification
     );
 
     this.notificationsListSource.next(updatedList);
+    this.saveNotificationsToStorage();
     this.updateUnreadCount();
   }
 
   clearAllNotifications() {
     this.notificationsListSource.next([]);
+    localStorage.removeItem('notifications');
     this.updateUnreadCount();
   }
 
   private updateUnreadCount() {
-    const unreadCount = this.notificationsListSource.value.filter(n => !n.read).length;
+    const unreadCount = this.notificationsListSource.value.filter(
+      (n) => !n.read
+    ).length;
     this.unreadCountSource.next(unreadCount);
   }
 
   private generateId(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15)
+    );
   }
 }

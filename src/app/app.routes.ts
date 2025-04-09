@@ -78,7 +78,7 @@ export const routes: Routes = [
     path: 'shipments',
     component: ShipmentManagementComponent,
     canActivate: [authGuard],
-    //data: { roles: ['admin'] }, // Only allow access to users with the 'admin' role
+    data: { roles: ['admin'] }, // Only allow access to users with the 'admin' role
   },
   { path: 'not-auth', component: NotAuthorizedComponent },
   { path: '**', component: NotFoundComponent }, //
