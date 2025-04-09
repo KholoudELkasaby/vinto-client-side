@@ -1,29 +1,37 @@
 @for(pro of cart.items; track pro.product._id){
 <div
   (click)="onItemClick()"
-  class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 sm:p-6 p-4 bg-white border-b border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 transition-colors duration-150 ease-in-out">
+  class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 sm:p-6 p-4 bg-white border-b border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 transition-colors duration-150 ease-in-out"
+>
   <div class="w-24 flex-shrink-0 mb-4 sm:mb-0">
-    <img src="{{ pro.product.img?.[0] }}" alt="{{pro.product.title}}" class="rounded-lg w-full" />
+    <img
+      src="{{ pro.product.img?.[0] }}"
+      alt="{{ pro.product.title }}"
+      class="rounded-lg w-full h-28"
+    />
   </div>
   <div class="flex flex-col sm:flex-row flex-1 gap-4 w-full sm:w-auto">
-
-    <div class="flex-1 mb-4 sm:mb-0 text-center sm:text-left">
-      <h3 class="text-lg font-semibold text-gray-900">{{ pro.product.title }}</h3>
+    <div class="flex-1 mb-4 sm:mb-0 text-center lg:text-left">
+      <h3 class="text-base font-semibold text-gray-900 w-[25ch]text-ellipsis">
+        {{ pro.product.title }}
+      </h3>
       <p class="text-sm text-gray-500 mt-1">Qty: {{ pro.quantity }}</p>
-      <p class="text-sm font-medium text-gray-900 mt-1">Price ${{ pro.product.price }}</p>
+      <p class="text-sm font-medium text-gray-900 mt-1">
+        Price:
+        <span class="text-gray-500">EGP {{ pro.product.price }}</span>
+      </p>
     </div>
 
     <div class="flex-1 mb-4 sm:mb-0 text-center">
       <p class="text-sm font-medium text-gray-700">Status</p>
       <p class="text-sm font-medium text-purple-600">
-        {{cart.status}}
+        {{ cart.status }}
       </p>
     </div>
 
-    <div class="text-center sm:text-right flex-1">
-      <p class="text-sm text-gray-600">
-        Expected Delivery Date <span class="font-medium">10th March 2025</span>
-      </p>
+    <div class="text-center sm:text-right flex-col flex items-center">
+      <p class="text-sm text-gray-600">Expected Delivery Date:</p>
+      <span class="text-sm text-gray-600 font-medium">10th March 2025</span>
     </div>
   </div>
 </div>

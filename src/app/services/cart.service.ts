@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Cart, CartItem } from '../models/cart.model';
+import { GenralService } from './genral.service';
 
 
 @Injectable({
@@ -82,9 +83,9 @@ export class CartService {
       );
   }
 
-  updateCart(id: string, body: { itemOrderedId: string, newQuantity: number }): Observable<Cart> {
+  updateCart(id: string, pendingUpdates: { [key: string]: number }): Observable<Cart> {
     return this.http
-      .patch<{ data: { cart: Cart } }>(`${this.URL}/${id}`, body)
+      .patch<{ data: { cart: Cart } }>(`${this.URL}/${id}`, pendingUpdates)
       .pipe(map((response): Cart => response.data.cart)
         // tap(cart => this.cartCountSubject.next(cart.items.length))
       );

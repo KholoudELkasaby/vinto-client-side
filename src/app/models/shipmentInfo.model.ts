@@ -1,4 +1,4 @@
-export interface shipingInfo {
+export interface ShipmentInfo {
   _id: string;
   user: string;
   city: string;
@@ -6,5 +6,5 @@ export interface shipingInfo {
   street: string;
   zipCode: string;
   phones: string[];
-  __v: number
+  __v: number;
 }

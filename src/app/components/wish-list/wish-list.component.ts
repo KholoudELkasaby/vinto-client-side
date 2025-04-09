@@ -27,7 +27,7 @@ export class WishListComponent {
     private router: Router,
     private wishListService: WishService,
     private authService: AuthService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
@@ -64,7 +64,11 @@ export class WishListComponent {
     });
   }
 
+
+
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
+
+
 }

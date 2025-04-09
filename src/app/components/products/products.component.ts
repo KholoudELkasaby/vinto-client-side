@@ -28,13 +28,12 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
   providers: [ProductService],
 })
 export class ProductsComponent implements OnInit {
-  first: number = 0;  // Tracks the first record on the page
-  rows: number = 1;   // Number of records per page
+  first: number = 0;  
+  rows: number = 1;  
 
 
 
   onPageChange(event: any) {
-    // Handle page change event here
     this.first = event.first;
     this.rows = event.rows;
   }
@@ -44,7 +43,6 @@ export class ProductsComponent implements OnInit {
   isSorted: string = '';
   lenn:number=0;
 
-  // latestFilteredProducts: any[] = []; // Store latest filtered data
   isFiltered: boolean = false; // Tracks if we're using filtered data
   productsPerPage: number = 10; // Number of items per page
   pageNumbers: number[] = [];

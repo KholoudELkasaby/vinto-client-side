@@ -1,13 +1,19 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,ts,css,scss}"],
+  content: [
+    "./src/**/*.{html,ts,css,scss}",
+    "node_modules/ngx-toastr/toastr.css",
+  ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["Poppins", "sans-serif"],
+      //--------------------
+      animation: {
+        progress: "progress 3s linear forwards",
       },
-      backgroundImage: {
-        signup: "url('/signup.png')",
+      keyframes: {
+        progress: {
+          "0%": { width: "100%" },
+          "100%": { width: "0%" },
+        },
       },
       colors: {
         "dark-gray": "#E2E0E0",
@@ -18,9 +24,12 @@ module.exports = {
         "yellow-color": "#FFD43B",
         "light-brown": "#A46016",
       },
+      screens: {
+        min767: { min: "767px" },
+      },
     },
   },
   plugins: [],
-  important: true,
+  important: false,
   darkMode: "class",
 };

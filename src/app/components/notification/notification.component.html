@@ -1,0 +1,107 @@
+<div
+  *ngIf="notification"
+  @fadeInOut
+  class="fixed z-50 flex items-center w-full max-w-xs mt-16 lg:mt-0 p-4 pr-8 space-x-4 rtl:space-x-reverse divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow-lg top-4 right-4 md:right-6 md:top-6 bg-white dark:divide-gray-700 dark:bg-gray-800 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+  [class]="{
+    'text-green-600 dark:text-green-400': notification.type === 'success',
+    'text-red-600 dark:text-red-400': notification.type === 'error',
+    'text-yellow-600 dark:text-yellow-400': notification.type === 'warning',
+    'text-indigo-600 dark:text-indigo-400': notification.type === 'info'
+  }"
+  role="alert"
+>
+  <!-- Icon Container -->
+  <div class="flex-shrink-0">
+    <svg
+      *ngIf="notification.type === 'success'"
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 13l4 4L19 7"
+      ></path>
+    </svg>
+    <svg
+      *ngIf="notification.type === 'error'"
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+      ></path>
+    </svg>
+    <svg
+      *ngIf="notification.type === 'warning'"
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+      ></path>
+    </svg>
+    <svg
+      *ngIf="notification.type === 'info'"
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      ></path>
+    </svg>
+  </div>
+
+  <!-- Message -->
+  <div class="ps-4 text-sm font-normal text-gray-600 dark:text-gray-300">
+    {{ notification.message }}
+  </div>
+
+  <!-- Close Button -->
+  <button
+    (click)="dismiss()"
+    class="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+      ></path>
+    </svg>
+  </button>
+
+  <!-- Progress Bar -->
+  <div
+    class="absolute bottom-0 left-0 h-1 w-[90%] justify-center bg-gray-200 rounded-b-lg overflow-hidden"
+  >
+    <div
+      class="h-full animate-progress"
+      [class]="{
+        'bg-green-600': notification.type === 'success',
+        'bg-red-600': notification.type === 'error',
+        'bg-yellow-600': notification.type === 'warning',
+        'bg-indigo-600': notification.type === 'info'
+      }"
+    ></div>
+  </div>
+</div>

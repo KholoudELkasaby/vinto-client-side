@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 interface LoginResponse {
   status: string;
@@ -45,7 +46,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -73,6 +75,10 @@ export class LoginComponent {
                 localStorage.setItem('userData', JSON.stringify(response.data)); // Store user data (including picture)
               }
               this.authService.login(response.token || ''); // No need to pass userData
+              this.notificationService.showNotification({
+                message: 'you Logged in Successfully!',
+                type: 'success',
+              });
               this.router.navigate(['/']);
             }
           },
