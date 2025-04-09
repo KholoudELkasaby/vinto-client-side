@@ -1,0 +1,10 @@
+/* جعل الدائرة الأساسية سوداء */
+
+.custom-slider {
+    --mdc-slider-handle-color: black !important;
+    --mdc-slider-focus-handle-color: black !important;
+    --mdc-slider-hover-handle-color: black !important;
+    --mdc-slider-active-track-color: black !important;
+    --mdc-slider-inactive-track-color: rgb(88, 88, 88) !important;
+  }
+  

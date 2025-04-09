@@ -1,0 +1,14 @@
+/* Remove all regular CSS and use Tailwind classes in the HTML instead */
+
+.signup-container {
+  @apply w-full h-screen bg-[#1a1a1a] flex justify-center items-center overflow-hidden;
+  background-image: url("/Signup.png");
+  background-size: cover;
+  background-position: center;
+}
+
+@media (min-width: 1024px) {
+  .signup-container {
+    @apply flex justify-center items-center;
+  }
+}

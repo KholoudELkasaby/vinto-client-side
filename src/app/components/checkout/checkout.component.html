@@ -1,0 +1,189 @@
+<div class="bg-white min-h-screen">
+  <form [formGroup]="checkoutForm" (ngSubmit)="checkout()" class="min-h-screen flex flex-col md:flex-row mx-auto">
+    <div class="min-h-screen p-6 bg-white md:w-3/4 w-full min-h-[100%]">
+      <div class="p-6">
+        <h2 class="text-2xl font-bold mb-6">Shipping Address</h2>
+
+        <div class="mt-4">
+          <label class="block text-sm font-semibold mb-1">Address</label>
+          <input type="text" formControlName="address" placeholder="Enter your address"
+            [class.border-red-500]="!addressValid && checkoutForm.controls['address'].touched"
+            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500">
+          @if (!addressValid && checkoutForm.controls['address'].touched) {
+          <div class="text-red-500 text-xs mt-1">
+            @if (addressErrors?.['required']) {
+            <div>Address is required</div>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-semibold mb-1">phone</label>
+          <input type="text" formControlName="phone" placeholder="Enter your phone"
+            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500">
+          @if (!phoneValid && checkoutForm.controls['phone'].touched) {
+          <div class="text-red-500 text-xs mt-1">
+            @if (phoneErrors?.['required']) {
+            <div>Phone is required</div>
+            }
+            @if (phoneErrors?.['pattern']) {
+            <div>Invalid Egyptian phone number (01XXXXXXXXX)</div>
+            }
+          </div>
+          }
+        </div>
+
+
+        <div class="mt-4">
+          <label class="block text-sm font-semibold mb-1">phone2</label>
+          <input type="text" formControlName="phone2" placeholder="Enter a second phone number"
+            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500">
+          @if (checkoutForm.controls['phone2'].touched) {
+          <div class="text-red-500 text-xs mt-1">
+            @if (phone2Errors?.['pattern']) {
+            <div>Invalid Egyptian phone number (01XXXXXXXXX)</div>
+            }
+            @if (phone2Errors?.['sameAsPrimary']) {
+            <div>Cannot be same as primary phone</div>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div>
+            <label for="state" class="block text-sm font-semibold mb-1">State</label>
+            <select #state (change)="updateSelectedValue($event)" formControlName="state" id="state"
+              class="w-full p-2 border rounded-md">
+
+              <option value="">Select a city</option>
+              @for(state of statesInEgypt; track state)
+              {
+              <option [value]="state.isoCode">{{state.name}}</option>
+              }
+            </select>
+            @if (!stateValid && checkoutForm.controls['state'].touched) {
+            <div class="text-red-500 text-xs mt-1">State is required</div>
+            }
+          </div>
+          <div>
+            <label for="state" class="block text-sm font-semibold mb-1">State</label>
+            <select formControlName="city" id="state" class="w-full p-2 border rounded-md" onkeydown="">
+
+              <option value="">Select a city</option>
+              @for(city of citiesInEgypt; track city)
+              {
+              <option [value]="city.isoCode">{{city.name}}</option>
+              }
+            </select>
+            @if (!cityValid && checkoutForm.controls['city'].touched) {
+            <div class="text-red-500 text-xs mt-1">City is required</div>
+            }
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Zip Code</label>
+            <input type="text" formControlName="zipCode" placeholder="Zip Code" class="w-full p-2 border rounded-md">
+            @if (!zipCodeValid && checkoutForm.controls['zipCode'].touched) {
+            <div class="text-red-500 text-xs mt-1">
+              @if (zipCodeErrors?.['required']) {
+              <div>Zip code is required</div>
+              }
+              @if (zipCodeErrors?.['pattern']) {
+              <div>5 digits required</div>
+              }
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+
+      <div class="p-4 max-w-full">
+        <h1 class="text-2xl font-bold mb-6 text-black">Payment Method</h1>
+
+        <div class="flex gap-4 mb-5">
+          <!-- Payment method selection -->
+          <!-- <div [class]="method.selected ? 'border-purple-600 shadow-md' : 'border-gray-200 hover:border-purple-600'" -->
+          <div
+            class="w-32 h-32 flex flex-col items-center justify-center border border-blue-600 rounded-lg p-4 cursor-pointer transition-all duration-300">
+
+            <div class="mb-3">
+              <!-- Card Icon -->
+              <div class="flex items-center justify-center w-12 h-12">
+                <svg width="24" height="24" viewBox="0 0 24 24" color="blue">
+                  <rect x="2" y="5" width="20" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
+                  <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2" />
+                  <line x1="6" y1="15" x2="10" y2="15" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wallet Icon -->
+        <!-- <div *ngIf="method.id === 'wallet'" class="flex items-center justify-center w-12 h-12" -->
+        <!--   [ngClass]="method.selected ? 'text-purple-600' : 'text-gray-400'"> -->
+        <!--   <svg width="24" height="24" viewBox="0 0 24 24"> -->
+        <!--     <path -->
+        <!--       d="M18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4Z" -->
+        <!--       fill="none" stroke="currentColor" stroke-width="2" /> -->
+        <!--     <path d="M16 10H20V14H16C14.8954 14 14 13.1046 14 12C14 10.8954 14.8954 10 16 10Z" fill="none" -->
+        <!--       stroke="currentColor" stroke-width="2" /> -->
+        <!--   </svg> -->
+        <!-- </div> -->
+
+        <!-- COD Icon -->
+        <!-- <div *ngIf="method.id === 'cod'" class="flex items-center justify-center w-12 h-12" -->
+        <!--   [ngClass]="method.selected ? 'text-purple-600' : 'text-gray-400'"> -->
+        <!--   <svg width="24" height="24" viewBox="0 0 24 24"> -->
+        <!--     <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2" /> -->
+        <!--     <path d="M12 9V15M9 12H15" stroke="currentColor" stroke-width="2" /> -->
+        <!--   </svg> -->
+        <!-- </div> -->
+        <!-- </div> -->
+
+        <!-- <div [ngClass]="method.selected ? 'text-purple-600' : 'text-gray-500'" class="text-base"> -->
+        <!--   {{ method.name }} -->
+        <!-- </div> -->
+        <!-- </div> -->
+      </div>
+
+      <!-- <div class="p-6"> -->
+      <!--   <div class="border border-black w-1/6 h-24"> -->
+      <!--     Visa -->
+      <!--   </div> -->
+      <!-- </div> -->
+    </div>
+
+
+    <div class="min-h-screen pt-6 p-4 bg-background-color w-full md:w-1/4  order-[-1] sm:order-none">
+      <div class="p-6">
+        <h2 class="text-2xl font-bold mb-4">Cart Summary</h2>
+        <div class="space-y-2">
+          @if(cartItems && cartItems.items){
+          @for(item of cartItems.items; track item.product._id || $index){
+          <div class="flex justify-between">
+            <span class="w-2/4 overflow-hidden text-ellipsis whitespace-nowrap" title="{{item.product.title}}">{{item.product.title || 'Unknown product'}}</span>
+            <span>EGP {{item.product.price| number:'1.2-2'}}</span>
+          </div>
+          }
+          <div class="flex justify-between my-3">
+            <span class="w-2/4 text-primary text-xl overflow-hidden text-ellipsis whitespace-nowrap">Shipping Fees</span>
+            <span class="text-xl text-primary">EGP {{deliveryFees| number:'1.2-2'}}</span>
+          </div>
+          }
+          <div class="flex justify-between font-bold border-t pt-2">
+            <span>Total Cost</span>
+            <span>EGP {{ cartItems ? ((cartItems.total + 1000) | number:'1.2-2') : 0 }}</span>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95">
+          Checkout
+        </button>
+
+      </div>
+    </div>
+  </form>
+</div>

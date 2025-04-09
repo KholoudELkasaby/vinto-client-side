@@ -1,0 +1,23 @@
+<div class="p-8 max-w-4xl mx-auto bg-[#ccc]">
+  @for (category of modelCatList; track category)
+  {
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900 mb-6">{{category}}</h1>
+
+    @for (model of category === "Store"? storeList : authList; track $index)
+    {
+
+      <a routerLinkActive="active" routerLink="/admin/{{ model }}">
+        <div class="space-y-4">
+          <div class="flex justify-between items-center p-3 bg-gray-200 hover:bg-gray-50 rounded mt-3">
+              <span class="text-sm font-semibold text-gray-700">{{model}}</span>
+            <!-- <button class="text-gray-600 hover:bg-gray-200 p-1 rounded transition-colors"> -->
+            <!--   ✦ Add -->
+            <!-- </button> -->
+          </div>
+        </div>
+      </a>
+
+    }
+  </div>
+  }

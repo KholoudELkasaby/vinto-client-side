@@ -1,0 +1,120 @@
+.verify-otp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+}
+
+.verify-otp-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+h2 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.instruction {
+  color: #b4aea9;
+  margin-bottom: 2rem;
+}
+
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+input {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+input.invalid {
+  border-color: #ff4444;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.verify-button,
+.resend-button {
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.verify-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.verify-button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.resend-button {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.resend-button:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.signup-container {
+  @apply w-full h-screen bg-white flex justify-center items-center overflow-hidden;
+}
+
+@media (min-width: 1024px) {
+  .signup-container {
+    @apply flex justify-center items-center;
+  }
+}
+
+/* Hide number input spinners */
+input[type="text"]::-webkit-outer-spin-button,
+input[type="text"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="text"] {
+  -moz-appearance: textfield;
+}

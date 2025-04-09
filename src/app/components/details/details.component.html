@@ -1,0 +1,63 @@
+<div
+  class="grid lg:grid-cols-12 w-full min-h-screen bg-background-color lg:overflow-y-hidden overflow-x-hidden"
+>
+  <section class="md:col-span-6 h-screen flex flex-col relative">
+    <div class="w-full h-full flex flex-col gap-6 justify-center items-center">
+      <!-- Top Navigation -->
+      <div class="absolute top-0 left-0 w-full py-5 px-10 flex justify-between">
+        <a
+          (click)="goBack()"
+          class="cursor-pointer hover:scale-105 active:scale-90"
+        >
+          <i
+            class="fa-solid fa-arrow-left-long text-2xl text-black active:text-dark-brown"
+          ></i>
+        </a>
+        <div
+          (click)="
+            toggleWish(userId, product._id);
+            toggleLike();
+            $event.stopPropagation()
+          "
+          class="rounded-full w-8 h-8 p-2 border border-black flex items-center justify-center bg-background-color cursor-pointer hover:scale-105 active:scale-90"
+        >
+          <i
+            [ngClass]="{ 'fa-regular': !liked, 'fa-solid': liked }"
+            class="fa-heart"
+          ></i>
+        </div>
+      </div>
+
+      <!-- images -->
+      <div class="relative w-[400px] h-[400px]">
+        <img
+          *ngIf="selectedImage"
+          [src]="selectedImage"
+          alt="main-img"
+          class="w-full h-full rounded-3xl object-cover transition-all duration-500 opacity-100"
+          [ngClass]="{ 'opacity-0': isFading, 'opacity-100': !isFading }"
+        />
+      </div>
+      <!-- Image Bar -->
+      <div class="w-full flex justify-center">
+        <div class="flex gap-3">
+          <img
+            *ngFor="let image of images"
+            [src]="image"
+            alt="thumbnail"
+            class="w-16 h-16 object-cover hover:scale-105 active:scale-95 rounded-2xl cursor-pointer"
+            [ngClass]="{
+              'border border-black': image === selectedImage
+            }"
+            (click)="selectImage(image)"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--Right Section -->
+  <section class="details-info mb-5 md:col-span-6 h-screen bg-background-color">
+    <app-details-info *ngIf="product" [product]="product" />
+  </section>
+</div>
