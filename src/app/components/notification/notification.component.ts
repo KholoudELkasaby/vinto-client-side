@@ -31,7 +31,12 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ]
 })
 export class NotificationComponent implements OnInit {
-  notification: { message: string; type: NotificationType } | null = null;
+  notification: {
+    id?: string;
+    message: string;
+    type: NotificationType;
+    duration?: number;
+  } | null = null;
 
   constructor(private notificationService: NotificationService) {}
 
@@ -39,8 +44,10 @@ export class NotificationComponent implements OnInit {
     this.notificationService.notification$.subscribe((notification) => {
       if (notification) {
         this.notification = {
+          id: notification.id,
           message: notification.message,
-          type: notification.type || 'info'
+          type: notification.type || 'info',
+          duration: notification.duration
         };
       } else {
         this.notification = null;
@@ -49,6 +56,9 @@ export class NotificationComponent implements OnInit {
   }
 
   dismiss() {
+    if (this.notification?.id) {
+      this.notificationService.markAsRead(this.notification.id);
+    }
     this.notification = null;
   }
 }

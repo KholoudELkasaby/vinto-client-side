@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       //--------------------
       animation: {
-        progress: 'progress 5s linear forwards',
+        'progress': 'progress 3s linear forwards',
       },
       keyframes: {
         progress: {

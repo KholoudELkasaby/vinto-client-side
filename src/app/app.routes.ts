@@ -17,6 +17,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { ProgressComponent } from './components/progress/progress.component';
+import { ShipmentManagementComponent } from './components/shipment-management/shipment-management.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -57,6 +58,10 @@ export const routes: Routes = [
     path: 'profile/change-password',
     component: ChangePasswordComponent,
     canActivate: [authGuard],
+  },
+  { 
+    path: 'shipments', 
+    component: ShipmentManagementComponent,
   },
   { path: 'cart', component: CartComponent },
   { path: 'wishlist', component: WishListComponent },
