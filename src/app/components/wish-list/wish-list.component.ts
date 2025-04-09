@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { WishService } from '../../services/wish.service';
 import { Product } from '../../models/product.model';
@@ -8,12 +14,13 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-wish-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   providers: [WishListComponent],
   templateUrl: './wish-list.component.html',
   styleUrl: './wish-list.component.css',
 })
-export class WishListComponent {
+export class WishListComponent implements OnInit, OnDestroy {
   hoveredId: string | null = null;
   wishlist?: Product[];
   private authSubscription!: Subscription;
@@ -26,8 +33,9 @@ export class WishListComponent {
   constructor(
     private router: Router,
     private wishListService: WishService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
   ngOnInit(): void {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
@@ -35,12 +43,17 @@ export class WishListComponent {
       if (loggedIn && this.user) {
         this.getWishList();
       } else {
+        this.wishlist = [];
+        this.cdr.markForCheck();
       }
     });
   }
   getWishList(): void {
+    this.isLoading = true;
     this.wishListService.getAll(this.user).subscribe((data) => {
       this.wishlist = data.data.wishlist.products;
+      this.isLoading = false;
+      this.cdr.markForCheck();
     });
   }
 
@@ -64,11 +77,7 @@ export class WishListComponent {
     });
   }
 
-
-
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
-
-
 }
