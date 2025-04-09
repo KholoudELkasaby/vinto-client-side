@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@coreui/angular": "^5.3.16",
     "country-state-city": "^3.2.1",
     "detect-passive-events": "^2.0.3",
     "jwt-decode": "^4.0.0",

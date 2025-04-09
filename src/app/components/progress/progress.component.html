@@ -1,23 +1,54 @@
-<div class="min-h-screen mt-6">
+<div class="min-h-screen pt-16 md:pt-0 mt-6">
   <div class="w-full max-w-lg mx-auto p-1 my-2">
-    <svg [attr.viewBox]="'0 0 ' + (((steps.length - 1) * 60) + 40) + ' 60'" class="w-full">
-      <path [attr.d]="'M 20 15 H ' + ((steps.length - 1) * 60)" class="stroke-current text-gray-200" stroke-width="1.5"
-        stroke-linecap="round" fill="none" />
+    <svg
+      [attr.viewBox]="'0 0 ' + ((steps.length - 1) * 60 + 40) + ' 60'"
+      class="w-full"
+    >
+      <path
+        [attr.d]="'M 20 15 H ' + (steps.length - 1) * 60"
+        class="stroke-current text-gray-200"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        fill="none"
+      />
       @for (step of steps; track step.id; let i = $index) {
-      <g [attr.transform]="'translate(' + ((i * 60) + 20) + ', 0)'">
+      <g [attr.transform]="'translate(' + (i * 60 + 20) + ', 0)'">
         @if (i > 0) {
-        <path d="M -53.4 15 H 0" class="stroke-current transition-colors duration-300"
-          [class.text-blue-600]="isActive(i-1)" [class.text-gray-200]="!isActive(i-1)" stroke-width="1.5"
-          stroke-linecap="round" fill="none" />
+        <path
+          d="M -53.4 15 H 0"
+          class="stroke-current transition-colors duration-300"
+          [class.text-blue-600]="isActive(i - 1)"
+          [class.text-gray-200]="!isActive(i - 1)"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          fill="none"
+        />
         }
-        <circle cx="0" cy="15" r="6" class="fill-current transition-colors duration-300"
-          [class.text-blue-600]="isCompleted(i)" [class.text-gray-200]="!isCompleted(i)" />
+        <circle
+          cx="0"
+          cy="15"
+          r="6"
+          class="fill-current transition-colors duration-300"
+          [class.text-blue-600]="isCompleted(i)"
+          [class.text-gray-200]="!isCompleted(i)"
+        />
         @if (isCompleted(i)) {
-        <path d="M -3 15 L 0 18 3 12" class="stroke-current text-white" stroke-width="1" stroke-linecap="round"
-          fill="none" />
+        <path
+          d="M -3 15 L 0 18 3 12"
+          class="stroke-current text-white"
+          stroke-width="1"
+          stroke-linecap="round"
+          fill="none"
+        />
         }
-        <text x="0" y="35" class="text-[7px] font-medium text-center uppercase tracking-tight"
-          [class.text-blue-600]="isActive(i)" [class.text-gray-400]="!isActive(i)" text-anchor="middle">
+        <text
+          x="0"
+          y="35"
+          class="text-[7px] font-medium text-center uppercase tracking-tight"
+          [class.text-blue-600]="isActive(i)"
+          [class.text-gray-400]="!isActive(i)"
+          text-anchor="middle"
+        >
           {{ step.label }}
         </text>
       </g>
@@ -26,29 +57,50 @@
   </div>
   <div class="flex flex-col items-center justify-center w-full mt-6">
     <div class="flex justify-center">
-      <img class="w-2/6" src="{{getCurrentStep()?.image}}">
+      <img class="w-2/6" src="{{ getCurrentStep()?.image }}" />
     </div>
     <div class="flex flex-col">
       <div class="flex flex-col justify-center items-center text-center mb-4">
-        <p class="ax-w-prose text-lg font-semibold mb-2">{{ getCurrentStep()?.message }}</p>
-        <p class="max-w-prose text-gray-600">{{ getCurrentStep()?.message2 }}</p>
+        <p class="ax-w-prose text-lg font-semibold mb-2">
+          {{ getCurrentStep()?.message }}
+        </p>
+        <p class="max-w-prose text-gray-600">
+          {{ getCurrentStep()?.message2 }}
+        </p>
       </div>
       <div class="flex flex-col items-center justify-center text-center">
-        <p class="max-w-xs md:max-w-sm">delivery Date: 3/5/2025</p>
-        <p class="max-w-xs md:max-w-sm">Payment Method: Cash on Delivere</p>
+        <p class="max-w-xs md:max-w-sm">
+          delivery Date: <span class="text-gray-500">3/5/2025</span>
+        </p>
+        <p class="max-w-xs md:max-w-sm">
+          Payment Method: <span class="text-gray-500">Stripe</span>
+        </p>
       </div>
     </div>
     <div class="mt-6">
-      <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+      <button
+        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+      >
         Submit Review
       </button>
     </div>
   </div>
   <button
     (click)="goBack.emit()"
-    class="m-6 flex items-center text-gray-600 hover:text-gray-900">
-    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+    class="m-6 flex items-center text-gray-600 hover:text-gray-900"
+  >
+    <svg
+      class="w-4 h-4 mr-2"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+      />
     </svg>
     Back to Orders
   </button>
