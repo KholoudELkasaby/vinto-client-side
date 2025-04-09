@@ -162,7 +162,7 @@ export class ChangePasswordComponent {
 
       this.http
         .patch<{ status: string; message: string }>(
-          `http://localhost:4000/api/auth/update-password/${userId}`,
+          `https://vinto-ecommerce-api-production.up.railway.app/api/auth/update-password/${userId}`,
           {
             oldPassword,
             newPassword,
