@@ -42,6 +42,7 @@ export class ProductsComponent implements OnInit {
   x: any[] = [];
   isSorted: string = '';
   lenn:number=0;
+  isusedbtn: number = 1;
 
   isFiltered: boolean = false; // Tracks if we're using filtered data
   productsPerPage: number = 10; // Number of items per page
@@ -55,32 +56,26 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.PoroductsService.getallproducts().subscribe({
-
       next: (data) => {
         console.log('Full API response:', data);
         const products: any = data;
-
+  
         // Check if totalPages exists and populate arr
         if (products.data.totalPages) {
           this.tot_pages = products.data.totalPages || 0; // Use totalPages if available, otherwise default to 0
-          // this.arr = [];
-          // for (let i = 1; i <= this.tot_pages; i++) {
-          //   this.arr.push(i);
-          // }
-        this.generatePagination(); 
-
-        
-
-          
+          this.generatePagination();
+  
+          // Apply style to button with innerText "1"
+          setTimeout(() => {
+            this.selectButtonWithText('1');
+          }, 0);  // Ensure the DOM is fully updated before applying the styles
+  
         }
+  
         console.log('Total Pages:', this.tot_pages); // Log totalPages to verify it
         console.log('Pagination array after population:', this.arr); // Log the populated pagination array
-
-        console.log('Pagination array:', this.arr); // Log here
         console.log('Updated products array:', products.data.products);
-
-        console.log('Pagination array:', this.arr); // Log here
-        console.log('Updated products array:', products.data.products);
+  
         this.x = products.data.products;
       },
       error: (err) => {
@@ -90,10 +85,18 @@ export class ProductsComponent implements OnInit {
         console.log('Products fetch complete');
       },
     });
-
-  
-    this.updateButtonState()
   }
+  
+  selectButtonWithText(buttonText: string): void {
+    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+  
+    const buttonToSelect = allButtons.find((btn) => btn.innerText === buttonText);
+  
+    if (buttonToSelect) {
+      buttonToSelect.classList.add('bg-gray-200', 'text-black');
+    }
+  }
+  
   
 
   reloadPage() {
@@ -142,6 +145,32 @@ export class ProductsComponent implements OnInit {
     this.arrr = total_page;
     // this.tot_pages= total_page 
     this.tot_pages= total_page.length
+
+    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+
+//     const buttonToSelect = allButtons.find((btn) => btn.innerText === '1');
+
+// if (buttonToSelect) {
+//   buttonToSelect.classList.add('bg-gray-200', 'text-black');
+// }
+
+console.log("isusedbtnkkkkkkkkkkk" , this.isusedbtn);
+
+setTimeout(() => {
+  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+  allButtons.forEach((btn) => {
+    btn.classList.remove('bg-gray-200', 'text-black');
+  });
+
+  const activeButton = allButtons.find((btn) => {
+    return btn.innerText === this.isusedbtn.toString();
+  });
+
+  if (activeButton) {
+    activeButton.classList.add('bg-gray-200', 'text-black');
+  }
+}, 0);
+
     console.log('ana hna in product component', this.arrr);
     console.log('ana hna in product component Haniiii', this.tot_pages);
 ////////////////////////////
@@ -494,8 +523,40 @@ generatePagination() {
   this.buttonValueclickedd = this.currentPage;
 
   console.log("Pagination buttons:", this.arrr);
+  console.log("im herrrrrrrrrrrrrrrrrrrrrrrr" , this.isusedbtn);
+
+
+  setTimeout(() => {
+    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+    allButtons.forEach((btn) => {
+      btn.classList.remove('bg-gray-200', 'text-black');
+    });
+  
+    const activeButton = allButtons.find((btn) => {
+      return btn.innerText === this.isusedbtn.toString();
+    });
+  
+    if (activeButton) {
+      activeButton.classList.add('bg-gray-200', 'text-black');
+    }
+  }, 0);
+  
+
+
 }
 
+updateActiveButton(): void {
+  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+
+  allButtons.forEach((btn) => {
+    btn.classList.remove('bg-gray-200', 'text-black'); // Remove styles from all buttons
+  });
+
+  const activeButton = allButtons.find((btn) => btn.innerText === this.currentPage.toString());
+  if (activeButton) {
+    activeButton.classList.add('bg-gray-200', 'text-black'); // Add styles to the selected button
+  }
+}
 
 press(event: Event) {
   const button = event.target as HTMLButtonElement;
@@ -504,7 +565,10 @@ press(event: Event) {
 
 
 /////////////////////////////
-  
+
+
+  //////////////////////////////
+
   const value = parseInt(button.innerText);
 
   if (!isNaN(value)) {
@@ -513,13 +577,21 @@ press(event: Event) {
         // نفذ الكول أو API هنا حسب الصفحة
         const button = event.target as HTMLButtonElement;
         const buttonValue: number = parseInt(button.innerText, 10);
-        /////////////////////////////////////////
-        const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+        console.log("bttttttttttttttttttttttttttttttttttttttttttm" ,this.currentPage);
+        this.isusedbtn= value
+        console.log("usebbbbbbttn Amtrrrrrrrrrrrrrrrrr" ,this.isusedbtn);
+        
+        
 
-        allButtons.forEach((btn) => {
-          btn.classList.remove('bg-black', 'text-white');
-        });
-        button.classList.add('bg-black', 'text-white');
+        this.updateActiveButton();
+        /////////////////////////////////////////
+        // const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+
+        // allButtons.forEach((btn) => {
+        //   btn.classList.remove('bg-gray-200', 'text-black');
+        // });
+        // button.classList.add('bg-gray-200', 'text-black');
+        // this.updateActiveButton(); 
         /////////////////////////////////////
     // this.buttonValueclickedd=1
     
@@ -899,8 +971,19 @@ pressclickedp() {
 
     
     this.generatePagination();
+ console.log("..000000000000000000000000" , this.isusedbtn)
+ ///////////////////////////
+//  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
 
- 
+//  allButtons.forEach((btn) => {
+//    btn.classList.remove('bg-gray-200', 'text-black'); // Remove styles from all buttons
+//  });
+
+//  const activeButton = allButtons.find((btn) => btn.innerText === this.isusedbtn.toString());
+//  if (activeButton) {
+//    activeButton.classList.add('bg-gray-200', 'text-black'); // Add styles to the selected button
+//  }
+ /////////////////////////////////
       // const button = document.getElementById('prev') as HTMLButtonElement;
       // if (button && this.currentPage==1 ) {
       //   button.style.pointerEvents = 'none';
@@ -1213,6 +1296,18 @@ pressclickedn() {
   if (this.currentPage < this.tot_pages) {
     this.currentPage++;
     this.generatePagination();
+    console.log("..000000000000000000000000" , this.isusedbtn)
+    ///////////////////////////
+    // const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+   
+    // allButtons.forEach((btn) => {
+    //   btn.classList.remove('bg-gray-200', 'text-black'); // Remove styles from all buttons
+    // });
+   
+    // const activeButton = allButtons.find((btn) => btn.innerText === this.isusedbtn.toString());
+    // if (activeButton) {
+    //   activeButton.classList.add('bg-gray-200', 'text-black'); // Add styles to the selected button
+    // }
     // نفذ API ه
     // نا كمان
   // this.buttonValueclickedd+=1
