@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ShipmentService, ShipmentOrder } from '../../services/shipment.service';
+import { ShipmentService} from '../../services/shipment-management.service';
+import { ShipmentOrder } from '../../models/shipmentOrder.model';
 import { NotificationService } from '../../services/notification.service';
 import { DatePipe } from '@angular/common';
 
@@ -16,16 +17,16 @@ import { DatePipe } from '@angular/common';
 export class ShipmentManagementComponent implements OnInit {
   shipments: ShipmentOrder[] = [];
   filteredShipments: ShipmentOrder[] = [];
-  
+
   // Status options
   statusOptions: string[] = ['In-Proccess', 'In-Delivery', 'Reached'];
-  
+
   // Filters
   startDate: string = '';
   endDate: string = '';
   searchTerm: string = '';
   selectedStatus: string = '';
-  
+
   // Loading states
   isLoading: boolean = true;
   updatingId: string | null = null;
@@ -62,9 +63,9 @@ export class ShipmentManagementComponent implements OnInit {
 
   updateStatus(shipment: ShipmentOrder, newStatus: string): void {
     if (shipment.status === newStatus) return;
-    
+
     this.updatingId = shipment._id;
-    
+
     this.shipmentService.updateShipmentStatus(shipment._id, newStatus).subscribe({
       next: () => {
         shipment.status = newStatus;
@@ -107,7 +108,7 @@ export class ShipmentManagementComponent implements OnInit {
     // Check if date is valid (not before original date)
     const originalDate = new Date(shipment.dateOfOrder);
     const newDeliveryDate = new Date(shipment.dateOfDelivery);
-    
+
     if (newDeliveryDate < originalDate) {
       this.notificationService.showNotification({
         message: 'Delivery date cannot be earlier than the order date',
@@ -119,7 +120,7 @@ export class ShipmentManagementComponent implements OnInit {
     }
 
     this.updatingDeliveryDateId = shipment._id;
-    
+
     this.shipmentService.updateShipmentDeliveryDate(shipment._id, shipment.dateOfDelivery).subscribe({
       next: () => {
         this.notificationService.showNotification({
@@ -142,36 +143,36 @@ export class ShipmentManagementComponent implements OnInit {
   applyFilters(): void {
     this.filteredShipments = this.shipments.filter(shipment => {
       const shipmentDate = new Date(shipment.dateOfOrder);
-      
+
       // Filter by date range
       if (this.startDate && new Date(this.startDate) > shipmentDate) {
         return false;
       }
-      
+
       if (this.endDate && new Date(this.endDate) < shipmentDate) {
         return false;
       }
-      
+
       // Filter by status
       if (this.selectedStatus && shipment.status !== this.selectedStatus) {
         return false;
       }
-      
+
       // Filter by search term (address or id)
       if (this.searchTerm) {
         const searchLower = this.searchTerm.toLowerCase();
-        const hasAddress = shipment.shipmentInfo && 
+        const hasAddress = shipment.shipmentInfo &&
           (shipment.shipmentInfo.city.toLowerCase().includes(searchLower) ||
            shipment.shipmentInfo.street.toLowerCase().includes(searchLower) ||
            shipment.shipmentInfo.state.toLowerCase().includes(searchLower));
-        
+
         const matchesId = shipment._id.toLowerCase().includes(searchLower);
-        
+
         if (!hasAddress && !matchesId) {
           return false;
         }
       }
-      
+
       return true;
     });
   }
@@ -215,7 +216,7 @@ export class ShipmentManagementComponent implements OnInit {
     const day = date.getDate().toString().padStart(2, '0');
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
-    
+
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 }

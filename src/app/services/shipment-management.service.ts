@@ -2,36 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface ShipmentInfo {
-  _id: string;
-  user: string;
-  city: string;
-  state: string;
-  street: string;
-  zipCode: string;
-  phones: string[];
-}
-
-export interface ShipmentOrder {
-  _id: string;
-  cart: any;
-  shipmentInfo: ShipmentInfo | null;
-  status: string;
-  dateOfOrder: string;
-  dateOfDelivery: string;
-}
-
-export interface ShipmentResponse {
-  status: string;
-  code: number;
-  data: {
-    shipmentOrder: ShipmentOrder[];
-  };
-  message: {
-    text: string;
-  };
-}
+import { ShipmentOrder } from '../models/shipmentOrder.model';
+import { ShipmentResponse } from '../models/ShipmentResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -61,8 +33,8 @@ export class ShipmentService {
     });
 
     return this.http.patch<any>(
-      `${this.apiUrl}/shipmentOrder/${shipmentId}`, 
-      { status }, 
+      `${this.apiUrl}/shipmentOrder/${shipmentId}`,
+      { status },
       { headers }
     );
   }
@@ -76,8 +48,8 @@ export class ShipmentService {
     });
 
     return this.http.patch<any>(
-      `${this.apiUrl}/shipmentOrder/${shipmentId}`, 
-      { dateOfDelivery }, 
+      `${this.apiUrl}/shipmentOrder/${shipmentId}`,
+      { dateOfDelivery },
       { headers }
     );
   }

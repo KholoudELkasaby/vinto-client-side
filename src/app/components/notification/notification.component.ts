@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService, NotificationType } from '../../services/notification.service';
+import { NotificationService} from '../../services/notification.service';
+import { NotificationType } from '../../models/notification.model';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
