@@ -18,8 +18,8 @@ export interface ShipmentOrder {
   cart: any;
   shipmentInfo: ShipmentInfo | null;
   status: string;
-  date: string;
-  deliveryDate?: string; // Added deliveryDate field
+  dateOfOrder: string;
+  dateOfDelivery: string;
 }
 
 export interface ShipmentResponse {
@@ -68,7 +68,7 @@ export class ShipmentService {
   }
 
   // New method to update delivery date
-  updateShipmentDeliveryDate(shipmentId: string, deliveryDate: string): Observable<any> {
+  updateShipmentDeliveryDate(shipmentId: string, dateOfDelivery: string): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -77,7 +77,7 @@ export class ShipmentService {
 
     return this.http.patch<any>(
       `${this.apiUrl}/shipmentOrder/${shipmentId}`, 
-      { deliveryDate }, 
+      { dateOfDelivery }, 
       { headers }
     );
   }

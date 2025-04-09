@@ -96,7 +96,7 @@ export class ShipmentManagementComponent implements OnInit {
     }
 
     // Check if deliveryDate exists before proceeding
-    if (!shipment.deliveryDate) {
+    if (!shipment.dateOfDelivery) {
       this.notificationService.showNotification({
         message: 'Please select a valid delivery date',
         type: 'warning'
@@ -105,8 +105,8 @@ export class ShipmentManagementComponent implements OnInit {
     }
 
     // Check if date is valid (not before original date)
-    const originalDate = new Date(shipment.date);
-    const newDeliveryDate = new Date(shipment.deliveryDate);
+    const originalDate = new Date(shipment.dateOfOrder);
+    const newDeliveryDate = new Date(shipment.dateOfDelivery);
     
     if (newDeliveryDate < originalDate) {
       this.notificationService.showNotification({
@@ -114,13 +114,13 @@ export class ShipmentManagementComponent implements OnInit {
         type: 'error'
       });
       // Reset to default value
-      shipment.deliveryDate = this.formatDateTimeForInput(originalDate);
+      shipment.dateOfDelivery = this.formatDateTimeForInput(originalDate);
       return;
     }
 
     this.updatingDeliveryDateId = shipment._id;
     
-    this.shipmentService.updateShipmentDeliveryDate(shipment._id, shipment.deliveryDate).subscribe({
+    this.shipmentService.updateShipmentDeliveryDate(shipment._id, shipment.dateOfDelivery).subscribe({
       next: () => {
         this.notificationService.showNotification({
           message: 'Delivery date updated successfully',
@@ -141,7 +141,7 @@ export class ShipmentManagementComponent implements OnInit {
 
   applyFilters(): void {
     this.filteredShipments = this.shipments.filter(shipment => {
-      const shipmentDate = new Date(shipment.date);
+      const shipmentDate = new Date(shipment.dateOfOrder);
       
       // Filter by date range
       if (this.startDate && new Date(this.startDate) > shipmentDate) {

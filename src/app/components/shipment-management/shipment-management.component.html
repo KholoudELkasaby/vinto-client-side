@@ -153,7 +153,7 @@
               {{ shipment._id }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ getFormattedDate(shipment.date) }}
+              {{ getFormattedDate(shipment.dateOfOrder) }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               <div class="relative">
@@ -163,10 +163,10 @@
                     shipment.status === 'Reached' ||
                     updatingDeliveryDateId === shipment._id
                   "
-                  [(ngModel)]="shipment.deliveryDate"
-                  [min]="getMinimumDateString(shipment.date)"
+                  [(ngModel)]="shipment.dateOfDelivery"
+                  [min]="getMinimumDateString(shipment.dateOfOrder)"
                   [value]="
-                    shipment.deliveryDate || getMinimumDateString(shipment.date)
+                    shipment.dateOfDelivery || getMinimumDateString(shipment.dateOfOrder)
                   "
                   class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   (change)="updateDeliveryDate(shipment)"
