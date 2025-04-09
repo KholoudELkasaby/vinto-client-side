@@ -152,7 +152,7 @@ export class CartComponent {
       this.toMuch = '';
     }
     if (newQuantity < 1) {
-      this.removeProduct(orderedItemId);
+      this.confirmDelete(orderedItemId, event);
       return;
     }
     this.pendingUpdates[orderedItemId] = newQuantity;
@@ -222,9 +222,7 @@ export class CartComponent {
 
       this.cartService.updateCart(this.user, this.pendingUpdates).subscribe({
         next: (updateCart) => {
-          console.log(this.user);
           this.cart = updateCart;
-          console.log("test", updateCart)
           this.pendingUpdates = {};
           this.originalQuantities = {};
           this.errorMessage = '';
