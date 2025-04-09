@@ -122,8 +122,8 @@ export class ProductService {
     return this.http.get(`${this.BD_Url}/filter?sort=newest`);
   }
 
-  getSrearched(pproduct: string) {
-    return this.http.get(`${this.BD_Url}/search?searched=${pproduct}`);
+  getSrearched(pproduct: string , page:number=1) {
+    return this.http.get(`${this.BD_Url}/search?searched=${pproduct}&page=${page}`);
   }
 
   getFilteredProducts(
