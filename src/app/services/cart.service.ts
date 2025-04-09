@@ -13,7 +13,7 @@ import { GenralService } from './genral.service';
 export class CartService {
 
 
-  private URL = "http://localhost:4000/api/cart";
+  private URL = "https://vinto-ecommerce-api-production.up.railway.app/api/cart";
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
   private historySubject = new BehaviorSubject<any[]>([]);

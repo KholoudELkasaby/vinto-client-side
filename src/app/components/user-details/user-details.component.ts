@@ -49,7 +49,7 @@ export class UserDetailsComponent implements OnInit {
   imagePreview: string | null = null;
   userId: string = '';
   UserProfile: UserProfile | null = null;
-  private apiUrl = 'http://localhost:4000';
+  private apiUrl = 'https://vinto-ecommerce-api-production.up.railway.app';
 
   countries = [
     'Egypt',
@@ -295,7 +295,7 @@ export class UserDetailsComponent implements OnInit {
     this.isLoading = true;
     this.http
       .get<{ status: string; data: UserProfile }>(
-        `http://localhost:4000/api/profile/${this.userId}`,
+        `https://vinto-ecommerce-api-production.up.railway.app/api/profile/${this.userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -533,7 +533,7 @@ export class UserDetailsComponent implements OnInit {
 
       this.http
         .patch<{ status: string; message: string }>(
-          `http://localhost:4000/api/auth/update-password/${userId}`,
+          `https://vinto-ecommerce-api-production.up.railway.app/api/auth/update-password/${userId}`,
           {
             oldPassword,
             newPassword,

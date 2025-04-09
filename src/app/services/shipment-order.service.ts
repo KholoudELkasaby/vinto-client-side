@@ -8,7 +8,7 @@ import { Observable, map } from 'rxjs';
 })
 export class ShipmentOrderService {
 
-  private URL = "http://localhost:4000/api/";
+  private URL = "https://vinto-ecommerce-api-production.up.railway.app/api/";
 
   constructor(public http: HttpClient) { }
 

@@ -159,7 +159,7 @@ export class ResetPasswordComponent implements OnInit {
 
       this.http
         .patch<{ status: string; message: string; token: string }>(
-          `http://localhost:4000/api/auth/reset-password/${this.token}`,
+          `https://vinto-ecommerce-api-production.up.railway.app/api/auth/reset-password/${this.token}`,
           {
             password: newPassword,
             confirmPassword: confirmPassword,

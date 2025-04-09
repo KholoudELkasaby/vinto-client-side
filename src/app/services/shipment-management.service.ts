@@ -9,7 +9,7 @@ import { ShipmentResponse } from '../models/ShipmentResponse.model';
   providedIn: 'root'
 })
 export class ShipmentService {
-  private apiUrl = 'http://localhost:4000/api';
+  private apiUrl = 'https://vinto-ecommerce-api-production.up.railway.app/api';
 
   constructor(private http: HttpClient) { }
 

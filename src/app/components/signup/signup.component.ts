@@ -135,7 +135,7 @@ export class SignupComponent {
 
       this.http
         .post<RegisterResponse>(
-          'http://localhost:4000/api/auth/register',
+          'https://vinto-ecommerce-api-production.up.railway.app/api/auth/register',
           signupData
         )
         .subscribe({
@@ -182,7 +182,7 @@ export class SignupComponent {
     const userId = localStorage.getItem('tempUserId');
     if (userId) {
       this.http
-        .post<AuthResponse>('http://localhost:4000/api/auth/resend-otp', {
+        .post<AuthResponse>('https://vinto-ecommerce-api-production.up.railway.app/api/auth/resend-otp', {
           userId,
         })
         .subscribe({

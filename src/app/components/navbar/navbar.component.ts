@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   profilePictureUrl: string = '';
   username: string = '';
   userId: string = '';
-  private apiUrl = 'http://localhost:4000';
+  private apiUrl = 'https://vinto-ecommerce-api-production.up.railway.app';
 
   notifications: Notification[] = [];
   notificationCount: number = 0;
@@ -66,6 +66,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
       (newValue) => (this.numOfItems = newValue)
     );
     this.genral.updateCartValue(this.userId);
+    this.notificationSub = this.notificationService.notificationsList$.subscribe(notifications => {
+      this.notifications = notifications;
+    });
+    this.notificationCountSub = this.notificationService.unreadCount$.subscribe(count => {
+      this.notificationCount = count;
+    });
 
   }
 

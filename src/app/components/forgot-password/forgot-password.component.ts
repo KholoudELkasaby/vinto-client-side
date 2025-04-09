@@ -124,7 +124,7 @@ export class ForgotPasswordComponent {
 
     this.http
       .post<{ status: string; message: string; resetToken: string }>(
-        'http://localhost:4000/api/auth/forgot-password',
+        'https://vinto-ecommerce-api-production.up.railway.app/api/auth/forgot-password',
         { email }
       )
       .subscribe({

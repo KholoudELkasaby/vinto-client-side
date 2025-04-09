@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { ItemOrdered } from '../models/itemOrdered.model';
-import { shipingInfo } from '../models/shipmentInfo.model';
+import { ShipmentInfo } from '../models/shipmentInfo.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShipingInfoService {
 
-  private URL = "http://localhost:4000/api/shipmentInfo";
+  private URL = "https://vinto-ecommerce-api-production.up.railway.app/api/shipmentInfo";
   constructor(public http: HttpClient) { }
 
 
@@ -21,10 +21,10 @@ export class ShipingInfoService {
     return this.http.post(`${this.URL}/67b87e4bee6c8c97157670ed`, info, { headers })
   }
 
-  getAllShipingInfo(): Observable<shipingInfo[]> {
+  getAllShipingInfo(): Observable<ShipmentInfo[]> {
     return this.http
-      .get<{ data: { shipmentInfo: shipingInfo[] } }>(`${this.URL}`)
-      .pipe(map((response): shipingInfo[] => response.data.shipmentInfo));
+      .get<{ data: { shipmentInfo: ShipmentInfo[] } }>(`${this.URL}`)
+      .pipe(map((response): ShipmentInfo[] => response.data.shipmentInfo));
   }
 
 }

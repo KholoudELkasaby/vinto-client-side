@@ -60,7 +60,7 @@ export class LoginComponent {
       this.isLoading = true;
       this.http
         .post<LoginResponse>(
-          'http://localhost:4000/api/auth/login',
+          'https://vinto-ecommerce-api-production.up.railway.app/api/auth/login',
           this.loginForm.value
         )
         .subscribe({
@@ -117,7 +117,7 @@ export class LoginComponent {
     this.isLoading = true;
     this.http
       .post<ForgotPasswordResponse>(
-        'http://localhost:4000/api/auth/forgot-password',
+        'https://vinto-ecommerce-api-production.up.railway.app/api/auth/forgot-password',
         { email }
       )
       .subscribe({

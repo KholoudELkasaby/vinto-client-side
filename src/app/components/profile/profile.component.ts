@@ -330,7 +330,7 @@ export class ProfileComponent implements OnInit {
     // Change to POST for creating new profile
     this.http
       .post<ProfileResponse>(
-        `http://localhost:4000/api/profile/${userId}`,
+        `https://vinto-ecommerce-api-production.up.railway.app/api/profile/${userId}`,
         profileData,
         { headers }
       )

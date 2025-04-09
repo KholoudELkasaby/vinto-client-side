@@ -9,7 +9,7 @@ import { ItemOrdered } from '../models/itemOrdered.model';
 
 export class OrderedItemsService {
 
-  private URL = "http://localhost:4000/api/itemOrdered";
+  private URL = "https://vinto-ecommerce-api-production.up.railway.app/api/itemOrdered";
 
   constructor(public http: HttpClient) { }
 

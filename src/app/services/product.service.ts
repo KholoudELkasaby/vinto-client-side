@@ -8,9 +8,9 @@ import { Product } from '../models/product.model';
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly baseUrl = 'http://localhost:4000/api/products';
+  private readonly baseUrl = 'https://vinto-ecommerce-api-production.up.railway.app/api/products';
 
-  private readonly BD_Url = 'http://localhost:4000/api/products';
+  private readonly BD_Url = 'https://vinto-ecommerce-api-production.up.railway.app/api/products';
   constructor(private http: HttpClient) { }
 
   // Fetching Different Product Categories

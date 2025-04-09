@@ -8,7 +8,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class StripeService {
-  private apiUrl = 'http://localhost:4000/api/stripe';
+  private apiUrl = 'https://vinto-ecommerce-api-production.up.railway.app/api/stripe';
 
   constructor(private http: HttpClient) { }
 

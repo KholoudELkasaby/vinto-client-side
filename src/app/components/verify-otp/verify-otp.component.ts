@@ -111,7 +111,7 @@ export class VerifyOTPComponent implements OnInit {
 
       this.http
         .post<{ status: string; message: string; token: string; data: any }>(
-          'http://localhost:4000/api/auth/verify-otp',
+          'https://vinto-ecommerce-api-production.up.railway.app/api/auth/verify-otp',
           {
             userId: signupData.userId,
             otp: otp,
@@ -158,7 +158,7 @@ export class VerifyOTPComponent implements OnInit {
 
     if (signupData.userId) {
       this.http
-        .post<RegisterResponse>('http://localhost:4000/api/auth/resend-otp', {
+        .post<RegisterResponse>('https://vinto-ecommerce-api-production.up.railway.app/api/auth/resend-otp', {
           userId: signupData.userId,
         })
         .subscribe({
