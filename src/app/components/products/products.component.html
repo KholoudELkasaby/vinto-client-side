@@ -2,31 +2,30 @@
   <div class="flex h-full">
     <div
       id="xx"
-      class="text-white w-fit absolute top-[1%] left-0 z-20 w-72 cursor-pointer"
+      class="text-white absolute top-[1%] left-0 z-20 w-72 cursor-pointer"
     >
       <app-sidebar
         id="slider"
         (total_page)="updatetotalpage($event)"
         (sortedProducts)="updateProducts($event)"
-
         (dataToParent)="updateDatapages($event)"
         (noProductsFoundChange)="onNoProductsFoundChange($event)"
-        
-          
         (searchTextChange)="receiveSearchText($event)"
-
       ></app-sidebar>
     </div>
 
-    <div class="flex-1 ml-[calc(85px)] ">
+    <div class="flex-1 ml-[calc(85px)]">
       <div class="block">
         <button
           (mouseenter)="onHover(true)"
           (mouseleave)="onHover(false)"
-          class="flex space-evenly  w-[100px] z-20 ml-8"
+          class="flex space-evenly w-[100px] z-20 ml-8"
         >
           <b
-            ><app-filtered-image class="pb-4 pl-4 pr-4" id="filterr"></app-filtered-image
+            ><app-filtered-image
+              class="pb-4 pl-4 pr-4"
+              id="filterr"
+            ></app-filtered-image
           ></b>
         </button>
 
@@ -39,52 +38,51 @@
         </app-productitem>
         }
 
-<!-- ///////////////////////////////////////// -->
-
+        <!-- ///////////////////////////////////////// -->
 
         <!-- //////////////////////////not found -->
 
-    @if(!x.length && flag){
-      <div >
-        <app-not-product-found  id="img" style="display: block;"></app-not-product-found>
-      </div>
-    }  
-    @else {
-      <div >
-        <app-not-product-found  id="img" style="display: none;"></app-not-product-found>
-      </div>
-    } 
+        @if(!x.length && flag){
+        <div>
+          <app-not-product-found
+            id="img"
+            style="display: block"
+          ></app-not-product-found>
+        </div>
+        } @else {
+        <div>
+          <app-not-product-found
+            id="img"
+            style="display: none"
+          ></app-not-product-found>
+        </div>
+        }
 
+        <!-- hany -->
 
+        <div class="mt-5 mb-5 flex justify-center flex-wrap items-center">
+          <button id="prev" (click)="pressclickedp()" class="...">
+            <i class="fa-solid fa-chevron-left text-l font-bold"></i>
+          </button>
 
+          <ng-container *ngIf="arrr.length > 0">
+            <button
+              *ngFor="let item of arrr"
+              type="button"
+              class="text-black font-medium rounded-lg text-lg px-4 py-2.5 mb-2 ml-2 bttngen"
+              (click)="item !== '...' ? press($event) : null"
+            >
+              {{ item }}
+            </button>
+          </ng-container>
 
-    <!-- hany -->
-
-    <div class="mt-5 mb-5 flex justify-center flex-wrap items-center">
-      <button id="prev" (click)="pressclickedp()" class="...">
-        <i class="fa-solid fa-chevron-left text-l font-bold"></i>
-      </button>
-    
-      <ng-container *ngIf="arrr.length > 0">
-        <button
-          *ngFor="let item of arrr"
-          type="button"
-          class="text-black font-medium rounded-lg text-lg px-4 py-2.5 mb-2 ml-2 bttngen"
-          (click)="item !== '...' ? press($event) : null"
-        
-        >
-          {{ item }}
-        </button>
-      </ng-container>
-    
-      <div id="next" (click)="pressclickedn()" class="...">
-        <i class="fa-solid fa-chevron-right text-l font-bold"></i>
-      </div>
-    </div>
-    
+          <div id="next" (click)="pressclickedn()" class="...">
+            <i class="fa-solid fa-chevron-right text-l font-bold"></i>
+          </div>
+        </div>
 
         <!-- ----------------------------Slider of page------------------------------>
-<!-- 
+        <!-- 
         <div class="mt-5 mb-5 flex justify-center flex-wrap items-center">
 
           <button  id="prev"  (click)="pressclickedp($event)"
@@ -134,12 +132,8 @@
 
 -->
 
-
-    
-<!-- ///////////////// -->
+        <!-- ///////////////// -->
       </div>
     </div>
   </div>
 </div>
-
-
