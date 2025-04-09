@@ -33,6 +33,12 @@ export class CardComponent implements OnInit, OnChanges {
   wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
+  imageLoading: { [productId: string]: boolean } = {}; // Track loading state of images
+
+  imageLoaded(productId: string): void {
+    this.imageLoading[productId] = false;
+    this.cdr.markForCheck();
+  }
 
   deleteMode: 'single' | 'all' = 'all';
   itemToDeleteId: string = '';
@@ -58,6 +64,7 @@ export class CardComponent implements OnInit, OnChanges {
       if (loggedIn && this.userId) {
         console.log(this.userId);
         this.fetchProducts();
+        this.cdr.markForCheck();
       } else {
       }
     });
@@ -67,7 +74,9 @@ export class CardComponent implements OnInit, OnChanges {
     if (changes['activeTab']) {
       this.fetchProducts();
       this.updateLikedState();
+      this.cdr.markForCheck();
     }
+
     // if (changes['product'] && this.products) {
     // }
   }
@@ -150,13 +159,17 @@ export class CardComponent implements OnInit, OnChanges {
   // }
   ////
 
+  trackByProductId(index: number, product: Product): string {
+    return product._id;
+  }
+
   startImageRotation(productId: string, images: string[]): void {
     if (this.imageIntervals[productId] || images.length <= 1) return;
 
     this.imageIntervals[productId] = setInterval(() => {
       const state = this.productStates[productId];
       state.currentIndex = (state.currentIndex + 1) % images.length;
-      this.cdr.markForCheck();
+      this.cdr.detectChanges();
     }, 1000);
   }
 

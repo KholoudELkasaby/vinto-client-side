@@ -3,7 +3,7 @@
 >
   <ng-container *ngIf="products.length > 0; else loadingProducts">
     <div
-      *ngFor="let product of products"
+      *ngFor="let product of products; trackBy: trackByProductId"
       class="card relative cursor-pointer rounded-lg shadow-sm flex flex-col gap-5 bg-background-color border border-background-color overflow-hidden h-96 w-72"
       [routerLink]="['/details', product._id]"
     >
@@ -24,6 +24,19 @@
           [alt]="product.title"
           class="product-img w-full h-full object-cover"
         />
+        <ngx-skeleton-loader
+          *ngIf="
+            imageLoading[product._id] ||
+            !product.img[productStates[product._id].currentIndex]
+          "
+          [theme]="{
+            height: '100%',
+            width: '100%',
+            'border-radius': '0',
+            'background-color': '#E2E0E0',
+            
+          }"
+        ></ngx-skeleton-loader>
       </figure>
       <div class="card-body flex justify-between px-3">
         <h2 class="card-title font-medium w-full truncate">
