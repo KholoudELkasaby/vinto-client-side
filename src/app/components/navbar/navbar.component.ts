@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
@@ -13,6 +20,7 @@ import { GenralService } from '../../services/genral.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, CommonModule, SidebarComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -43,36 +51,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private http: HttpClient,
-    //private cartService: CartService,
+    private cdr: ChangeDetectorRef,
     private genral: GenralService,
     private notificationService: NotificationService
-  ) {
-    // this.cartCountSub = this.cartService.cartCount$.subscribe(
-    //   count => {
-    //     this.numOfItems = count;
-    //     console.log('Cart count updated:', this.numOfItems);
-    //   }
-    // );
-    // this.cartService.getCart(this.user).subscribe();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.checkLoginStatus();
-    this.fetchUserProfile();
     this.profileSub = this.authService.profilePicture$.subscribe((pic) => {
       this.profilePictureUrl = pic || '';
+      this.cdr.markForCheck();
     });
-    this.genral.currentCartItemNumber$.subscribe(
-      (newValue) => (this.numOfItems = newValue)
-    );
+    this.genral.currentCartItemNumber$.subscribe((newValue) => {
+      this.numOfItems = newValue;
+      this.cdr.markForCheck();
+    });
     this.genral.updateCartValue(this.userId);
     this.notificationSub =
       this.notificationService.notificationsList$.subscribe((notifications) => {
         this.notifications = notifications;
+        this.cdr.markForCheck();
       });
     this.notificationCountSub = this.notificationService.unreadCount$.subscribe(
       (count) => {
         this.notificationCount = count;
+        this.cdr.markForCheck();
       }
     );
   }
@@ -80,6 +83,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   checkLoginStatus(): void {
     this.loginSub = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
+      if (status) {
+        this.fetchUserProfile();
+        this.genral.updateCartValue(this.userId);
+      }
+      this.cdr.markForCheck();
     });
   }
 
@@ -109,6 +117,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
               this.profilePictureUrl,
               this.username
             );
+            this.cdr.markForCheck();
           }
         },
         error: (error) => {
