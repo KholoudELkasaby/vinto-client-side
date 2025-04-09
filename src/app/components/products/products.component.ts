@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
   arr: number[] = [];
   flag: boolean = false;
 
-  constructor(private PoroductsService: ProductService) {}
+  constructor(private PoroductsService: ProductService) { }
 
   ngOnInit(): void {
     this.PoroductsService.getallproducts().subscribe({
@@ -620,7 +620,7 @@ export class ProductsComponent implements OnInit {
             console.log('buttonclickeddddd');
             console.log(this.x);
           },
-          error: (err) => {},
+          error: (err) => { },
           complete: () => {
             console.log('completeeee');
           },

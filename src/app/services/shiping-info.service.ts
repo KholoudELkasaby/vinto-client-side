@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { ItemOrdered } from '../models/itemOrdered.model';
-import { shipingInfo } from '../models/shipmentInfo.model';
+import { ShipmentInfo } from '../models/shipmentInfo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +13,18 @@ export class ShipingInfoService {
   constructor(public http: HttpClient) { }
 
 
-  createShipment(info: any) {
+  createShipment(info: any, id: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(`${this.URL}/67b87e4bee6c8c97157670ed`, info, { headers })
+    return this.http.post(`${this.URL}/${id}`, info, { headers })
   }
 
-  getAllShipingInfo(): Observable<shipingInfo[]> {
+  getAllShipingInfo(): Observable<ShipmentInfo[]> {
     return this.http
-      .get<{ data: { shipmentInfo: shipingInfo[] } }>(`${this.URL}`)
-      .pipe(map((response): shipingInfo[] => response.data.shipmentInfo));
+      .get<{ data: { shipmentInfo: ShipmentInfo[] } }>(`${this.URL}`)
+      .pipe(map((response): ShipmentInfo[] => response.data.shipmentInfo));
   }
 
 }
