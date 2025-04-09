@@ -72,7 +72,6 @@ export class CardComponent implements OnInit, OnChanges {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
         this.genral.increment();
-        this.router.navigate(['/cart']);
       },
     });
   }
