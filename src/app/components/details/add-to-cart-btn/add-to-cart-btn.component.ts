@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { NotificationService, Notification } from '../../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
+import { Notification } from '../../../models/notification.model';
 import { GenralService } from '../../../services/genral.service';
 
 
