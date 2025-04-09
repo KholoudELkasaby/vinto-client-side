@@ -217,9 +217,10 @@ export class CartComponent {
   }
 
   checkout(): void {
-    if (Object.keys(this.pendingUpdates).length > 0) {
+    if (Object.keys(this.pendingUpdates).length > 0 && this.cart?._id) {
       this.isLoading = true;
-      this.cartService.updateCart(this.user, this.pendingUpdates).subscribe({
+
+      this.cartService.updateCart(this.cart?._id, this.pendingUpdates).subscribe({
         next: (updateCart) => {
           this.cart = updateCart;
           this.pendingUpdates = {};
