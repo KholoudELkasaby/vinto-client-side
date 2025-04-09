@@ -76,9 +76,9 @@ export class LoginComponent {
               }
               this.authService.login(response.token || ''); // No need to pass userData
               this.notificationService.showNotification({
-                message: "Test from Login Successfully!",
+                message: 'you Logged in Successfully!',
                 type: 'success',
-              })
+              });
               this.router.navigate(['/']);
             }
           },
