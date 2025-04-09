@@ -32,6 +32,13 @@ export class SidebarComponent {
   @Output() noProductsFoundChange: EventEmitter<boolean> =
     new EventEmitter<boolean>(); // New EventEmitter
 
+///////////////////////////////////
+
+@Output() searchTextChange = new EventEmitter<string>();
+
+ 
+
+    ///////////////////////////////
   //////////////////pages updaye when filter/////
 
   updateDatapages() {
@@ -45,9 +52,10 @@ export class SidebarComponent {
 
       n_o: this.newtoold,
       o_n: this.oldtonew,
-
+     /////
       max_p: this.maxValueFromSlider,
       min_p: this.minValueFromSlider,
+    
     });
   }
   x: any[] = [];
@@ -77,7 +85,7 @@ export class SidebarComponent {
   constructor(private PoroductsService: ProductService) {}
 
   noProductsFound: boolean = false; // Initially false
-
+  issearched: boolean=false;
   onSearch() {
     console.log('Search value:', this.searchText);
 
@@ -94,11 +102,16 @@ export class SidebarComponent {
           this.x = products.data.paginatedResults;
           this.noProductsFound = false;
           this.arr = [];
+
+
+          /////////////////////////////////////////////////////
           this.tot_pages = products.data.totalPages;
+          console.log("totttttt" ,this.tot_pages ) 
           for (var i = 1; i <= this.tot_pages; i++) {
             this.arr.push(i);
           }
           this.total_page.emit(this.arr);
+          /////////////// ابعت issearched ,, valueeeeee////// eemmmitttt
         } else {
           this.noProductsFound = true;
           this.sortedProducts.emit([]); // Emit a message
@@ -134,6 +147,13 @@ export class SidebarComponent {
     this.searchText = '';
   }
 
+
+   // Call this function when the user types or clicks "Search"
+   onSearchChange() {
+    console.log("Search text in sidebar:", this.searchText); // ✅ هل دي بتظهر؟
+
+    this.searchTextChange.emit(this.searchText); // 👈 بنبعت القيمة
+  }
   // SG:any;
   press() {
     this.isDropdownVisible = !this.isDropdownVisible;
@@ -525,8 +545,8 @@ export class SidebarComponent {
 
   pressnum(event: Event) {
     const button = event.target as HTMLButtonElement;
-    const buttonValue: number = parseInt(button.innerText, 10); // Convert to integer (base 10)
-    console.log(buttonValue);
+    const buttonValue: number = parseInt(button.innerText, 10); 
+    console.log(buttonValue , "from side baryyyyyyy");
     this.PoroductsService.getallproductsbuttn(buttonValue).subscribe({
       next: (data) => {
         console.log(data);

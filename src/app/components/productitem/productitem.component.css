@@ -1,93 +1,104 @@
-#card{
-    display: inline-block;
-    width:20%;
-    justify-content: space-evenly;
-    text-align: center;
-    margin-left: 50px;
-    }
-    
-    
-    @media (max-width: 1024px) { 
-      #card {
-          width: 30%;  
-          margin-left: 15px;  
-      }
-  }
+/* Flex wrapper for centering */
+/* .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  margin-left: 2rem;
+} */
 
-  @media (max-width: 800px) { 
-    #card {
-        width: 45%;  
-        margin-left: 25px;  
-        margin-left: 25px;  
+/* Card styling */
+#card {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+  margin-left: 40px;
 
-    }
 }
-  
-  @media (max-width: 640px) {  
-      #card {
-          width: 99%; 
-          margin-left: 30px;
-          margin-left: 30px;
 
-      }
+/* Responsive behavior */
+@media (max-width: 1024px) {
+  #card {
+    width: 25%;
+    margin: 2rem auto;
+    margin-left: auto; 
+    margin-right: 3rem; 
   }
+}
 
+@media (max-width: 800px) {
+  #card {
+    width: 40%;
+    margin-left: auto; 
+    margin-right: 3rem; 
+  }
+}
 
-    .star-rating {
-        font-size: 32px; 
-        display: flex;
-      }
-      
-      .star-rating span {
-        position: relative;
-        display: inline-block;
-        color: lightgray; 
-      }
-      
-      .star-rating .full-star {
-        color: gold;
-      }
-      
-      .star-rating .half-star,
-      .star-rating .quarter-star,
-      .star-rating .three-quarter-star {
-        position: relative;
-        display: inline-block;
-      }
-      
-      .star-rating .half-star::before,
-      .star-rating .quarter-star::before,
-      .star-rating .three-quarter-star::before {
-        content: '★';
-        position: absolute;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-        color: gold;
-      }
-      
-      .star-rating .quarter-star::before {
-        width: 40%;
-      }
-      
-      .star-rating .half-star::before {
-        width: 50%;
-      }
-      
-      .star-rating .three-quarter-star::before {
-        content: '★';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 60%;
-        overflow: hidden;
-        color: gold;
-        display: inline-block;
-        white-space: nowrap;
-      }
-      
+@media (max-width: 600px) {
+  #card {
+    width: 80%;
+    margin-left: auto; 
+    margin-right: 3rem; 
 
-      html, body {
-        max-width: 100%;
-        overflow-x: hidden;
-    }
+  }
+}
+
+/* Optional for extra small screens */
+/* @media (max-width: 350px) {
+  #card {
+    width: 100%;
+  }
+} */
+
+/* Star rating styles */
+.star-rating {
+  font-size: 32px;
+  display: flex;
+}
+
+.star-rating span {
+  position: relative;
+  display: inline-block;
+  color: lightgray;
+}
+
+.star-rating .full-star {
+  color: gold;
+}
+
+.star-rating .half-star,
+.star-rating .quarter-star,
+.star-rating .three-quarter-star {
+  position: relative;
+  display: inline-block;
+}
+
+.star-rating .half-star::before,
+.star-rating .quarter-star::before,
+.star-rating .three-quarter-star::before {
+  content: '★';
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  color: gold;
+}
+
+.star-rating .quarter-star::before {
+  width: 40%;
+}
+
+.star-rating .half-star::before {
+  width: 50%;
+}
+
+.star-rating .three-quarter-star::before {
+  width: 60%;
+}
+
+/* Prevent horizontal scroll */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}

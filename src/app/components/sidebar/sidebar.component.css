@@ -12,7 +12,6 @@ body {
   height: 100% !important;
   margin: 0;
   padding: 0;
-  background-color: aqua;
 }
 /* #xx {
   height: 1100px;
@@ -28,6 +27,7 @@ body {
 @media (max-width: 1400px) { 
   #xx {
     height:1100px;
+
   }
 }
 
@@ -48,12 +48,15 @@ body {
 @media (max-width: 800px) { 
   #xx {
     height:2180px;
+    /* margin-top: 300px; */
   }
 }
 
 @media (max-width: 640px) { 
   #xx {
     height:4200px;
+    /* margin-top: 300px; */
+
   }
 }
 
