@@ -16,6 +16,8 @@ import { DatePipe } from '@angular/common';
 export class ShipmentManagementComponent implements OnInit {
   shipments: ShipmentOrder[] = [];
   filteredShipments: ShipmentOrder[] = [];
+  
+  // Status options
   statusOptions: string[] = ['In-Proccess', 'In-Delivery', 'Reached'];
   
   // Filters
@@ -27,6 +29,7 @@ export class ShipmentManagementComponent implements OnInit {
   // Loading states
   isLoading: boolean = true;
   updatingId: string | null = null;
+  updatingDeliveryDateId: string | null = null;
 
   constructor(
     private shipmentService: ShipmentService,
@@ -78,6 +81,60 @@ export class ShipmentManagementComponent implements OnInit {
           type: 'error'
         });
         this.updatingId = null;
+      }
+    });
+  }
+
+  updateDeliveryDate(shipment: ShipmentOrder): void {
+    // Don't allow updating if status is "Reached"
+    if (shipment.status === 'Reached') {
+      this.notificationService.showNotification({
+        message: 'Cannot update delivery date once shipment has reached destination',
+        type: 'warning'
+      });
+      return;
+    }
+
+    // Check if deliveryDate exists before proceeding
+    if (!shipment.deliveryDate) {
+      this.notificationService.showNotification({
+        message: 'Please select a valid delivery date',
+        type: 'warning'
+      });
+      return;
+    }
+
+    // Check if date is valid (not before original date)
+    const originalDate = new Date(shipment.date);
+    const newDeliveryDate = new Date(shipment.deliveryDate);
+    
+    if (newDeliveryDate < originalDate) {
+      this.notificationService.showNotification({
+        message: 'Delivery date cannot be earlier than the order date',
+        type: 'error'
+      });
+      // Reset to default value
+      shipment.deliveryDate = this.formatDateTimeForInput(originalDate);
+      return;
+    }
+
+    this.updatingDeliveryDateId = shipment._id;
+    
+    this.shipmentService.updateShipmentDeliveryDate(shipment._id, shipment.deliveryDate).subscribe({
+      next: () => {
+        this.notificationService.showNotification({
+          message: 'Delivery date updated successfully',
+          type: 'success'
+        });
+        this.updatingDeliveryDateId = null;
+      },
+      error: (error) => {
+        console.error('Error updating delivery date:', error);
+        this.notificationService.showNotification({
+          message: 'Failed to update delivery date',
+          type: 'error'
+        });
+        this.updatingDeliveryDateId = null;
       }
     });
   }
@@ -143,5 +200,22 @@ export class ShipmentManagementComponent implements OnInit {
       case 'Reached': return 'bg-green-100 text-green-800 border-green-300';
       default: return 'bg-gray-100 text-gray-800 border-gray-300';
     }
+  }
+
+  // Helper method to format the minimum date for datetime-local input
+  getMinimumDateString(dateString: string): string {
+    const date = new Date(dateString);
+    return this.formatDateTimeForInput(date);
+  }
+
+  // Format date to datetime-local input format (YYYY-MM-DDThh:mm)
+  formatDateTimeForInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 }
