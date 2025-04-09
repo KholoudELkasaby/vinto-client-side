@@ -137,6 +137,7 @@ export class ProductsComponent implements OnInit {
   // }
 
   updatetotalpage(total_page: any[]) {
+    this.isusedbtn=1
     this.arrr = total_page;
     // this.tot_pages= total_page 
     this.tot_pages= total_page.length
