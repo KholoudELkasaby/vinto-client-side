@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Notification } from '../models/notification.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,6 +14,32 @@ export class NotificationService {
 
   private unreadCountSource = new BehaviorSubject<number>(0);
   unreadCount$ = this.unreadCountSource.asObservable();
+
+  constructor() {
+    this.loadNotificationsFromStorage();
+  }
+
+  private loadNotificationsFromStorage() {
+    const savedNotifications = localStorage.getItem('notifications');
+    if (savedNotifications) {
+      try {
+        const parsedNotifications = JSON.parse(savedNotifications);
+        const notificationsWithDateObjects = parsedNotifications.map((n: any) => ({
+          ...n,
+          timestamp: new Date(n.timestamp)
+        }));
+        this.notificationsListSource.next(notificationsWithDateObjects);
+        this.updateUnreadCount();
+      } catch (error) {
+        console.error('Error parsing saved notifications:', error);
+        localStorage.removeItem('notifications');
+      }
+    }
+  }
+
+  private saveNotificationsToStorage() {
+    localStorage.setItem('notifications', JSON.stringify(this.notificationsListSource.value));
+  }
 
   showNotification(notification: Notification | string) {
     let notificationObj: Notification;
@@ -39,17 +66,16 @@ export class NotificationService {
 
     console.log(`NotificationService: ${notificationObj.message}`, notificationObj);
 
-    // Update the popup notification
+
     this.notificationSource.next(notificationObj);
 
-    // Add to notification list
     const currentList = this.notificationsListSource.value;
     this.notificationsListSource.next([notificationObj, ...currentList]);
 
-    // Update unread count
+    this.saveNotificationsToStorage();
+
     this.updateUnreadCount();
 
-    // Auto-clear popup after duration
     setTimeout(() => {
       this.clearPopupNotification();
     }, notificationObj.duration);
@@ -66,6 +92,7 @@ export class NotificationService {
     }));
 
     this.notificationsListSource.next(updatedList);
+    this.saveNotificationsToStorage();
     this.updateUnreadCount();
   }
 
@@ -75,11 +102,13 @@ export class NotificationService {
     );
 
     this.notificationsListSource.next(updatedList);
+    this.saveNotificationsToStorage();
     this.updateUnreadCount();
   }
 
   clearAllNotifications() {
     this.notificationsListSource.next([]);
+    localStorage.removeItem('notifications');
     this.updateUnreadCount();
   }
 
