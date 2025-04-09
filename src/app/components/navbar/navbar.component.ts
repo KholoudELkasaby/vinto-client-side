@@ -66,6 +66,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
       (newValue) => (this.numOfItems = newValue)
     );
     this.genral.updateCartValue(this.userId);
+    this.notificationSub =
+      this.notificationService.notificationsList$.subscribe((notifications) => {
+        this.notifications = notifications;
+      });
+    this.notificationCountSub = this.notificationService.unreadCount$.subscribe(
+      (count) => {
+        this.notificationCount = count;
+      }
+    );
   }
 
   checkLoginStatus(): void {
