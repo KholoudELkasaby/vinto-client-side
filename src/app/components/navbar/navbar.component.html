@@ -113,12 +113,6 @@
             <div
               *ngFor="let notification of notifications"
               class="flex gap-2 w-full border-b-[1px] border-b-light-color p-2"
-              [ngClass]="{
-                'bg-green-900/20': notification.type === 'success',
-                'bg-red-900/20': notification.type === 'error',
-                'bg-yellow-900/20': notification.type === 'warning',
-                'bg-blue-900/20': notification.type === 'info'
-              }"
             >
               <div class="flex-shrink-0">
                 <i
