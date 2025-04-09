@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { GenralService } from '../../services/genral.service';
 import { UserProfile } from '../../models/userProfile.model';
+import { NotificationService } from '../../services/notification.service';
+import { Notification } from '../../models/notification.model';
+import { GenralService } from '../../services/genral.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,30 +17,35 @@ import { UserProfile } from '../../models/userProfile.model';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent implements OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy {
   notificationDropDown = false;
   dropdownOpen = false;
   isSidebarOpen = false;
   isLoggedIn = true;
   user: string = '67b87e4bee6c8c97157670ed';
   numOfItems: number = 0;
-  // imagePreview: string | null = null;
+
   private loginSub!: Subscription;
   private profileSub!: Subscription;
+  private notificationSub!: Subscription;
+  private notificationCountSub!: Subscription;
+
   userProfile: UserProfile | null = null;
   profilePictureUrl: string = '';
   username: string = '';
   userId: string = '';
-  private apiUrl = 'http://localhost:4000'; // Your API base URL
-  // private userDataSub!: Subscription;
-  // private cartCountSub: Subscription;
+  private apiUrl = 'http://localhost:4000';
+
+  notifications: Notification[] = [];
+  notificationCount: number = 0;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private http: HttpClient,
     //private cartService: CartService,
-    private genral: GenralService
+    private genral: GenralService,
+    private notificationService: NotificationService
   ) {
     // this.cartCountSub = this.cartService.cartCount$.subscribe(
     //   count => {
@@ -52,8 +58,6 @@ export class NavbarComponent implements OnDestroy {
 
   ngOnInit(): void {
     this.checkLoginStatus();
-    // this.subscribeToUserData();
-    console.log('ngOnInit triggered');
     this.fetchUserProfile();
     this.profileSub = this.authService.profilePicture$.subscribe((pic) => {
       this.profilePictureUrl = pic || '';
@@ -93,9 +97,6 @@ export class NavbarComponent implements OnDestroy {
             this.userProfile = response.data;
             this.profilePictureUrl = this.getImageUrl(response.data.picture);
             this.username = response.data.firstName;
-
-            console.log('User First Name:', this.userProfile.firstName);
-            // Emit to AuthService
             this.authService.updateUserProfile(
               this.profilePictureUrl,
               this.username
@@ -113,17 +114,28 @@ export class NavbarComponent implements OnDestroy {
     if (picture.startsWith('http') || picture.startsWith('data:image')) {
       return picture;
     }
-    const fullUrl = `${this.apiUrl}${picture}`;
-    return fullUrl;
+    return `${this.apiUrl}${picture}`;
   }
 
   toggleNotifications() {
     this.notificationDropDown = !this.notificationDropDown;
+    if (this.notificationDropDown) {
+      this.markAllAsRead();
+    }
   }
+
   closeNotifications() {
     this.notificationDropDown = false;
   }
-  /////
+
+  markAllAsRead() {
+    this.notificationService.markAllAsRead();
+  }
+
+  clearAllNotifications() {
+    this.notificationService.clearAllNotifications();
+  }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -132,7 +144,6 @@ export class NavbarComponent implements OnDestroy {
     this.isSidebarOpen = false;
   }
 
-  ////
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
@@ -140,7 +151,6 @@ export class NavbarComponent implements OnDestroy {
   closeDropdown() {
     this.dropdownOpen = false;
   }
-  ////
 
   signOut() {
     this.authService.logout();
@@ -150,8 +160,8 @@ export class NavbarComponent implements OnDestroy {
   ngOnDestroy() {
     this.loginSub?.unsubscribe();
     this.profileSub?.unsubscribe();
-
-    // this.cartCountSub?.unsubscribe();
+    this.notificationSub?.unsubscribe();
+    this.notificationCountSub?.unsubscribe();
   }
 
   @HostListener('document:click', ['$event'])
@@ -191,10 +201,10 @@ export class NavbarComponent implements OnDestroy {
       !notIcon.contains(event.target as Node)
     ) {
       this.notificationDropDown = false;
+      this.markAllAsRead();
     }
   }
 
-  /////////////
   flagSrc: string = '/Images/usa.svg';
 
   toggleFlag() {

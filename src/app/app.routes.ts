@@ -19,6 +19,8 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { ProgressComponent } from './components/progress/progress.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { ShipmentManagementComponent } from './components/shipment-management/shipment-management.component';
+
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },

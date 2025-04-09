@@ -3,7 +3,12 @@ import { CartService } from '../../../services/cart.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../../services/notification.service';
+import { Notification } from '../../../models/notification.model';
 import { GenralService } from '../../../services/genral.service';
+
+
 
 
 @Component({
@@ -29,7 +34,8 @@ export class AddToCartBtnComponent {
     private cartService: CartService,
     private router: Router,
     private authService: AuthService,
-    private genral: GenralService
+    private toastr: ToastrService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -47,9 +53,19 @@ export class AddToCartBtnComponent {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
-        this.genral.increment();
+        console.log("Test From Cart Successfully!");
+        this.notificationService.showNotification({
+          message: "Test from Cart Successfully!",
+          type: 'info',
+        })
         this.router.navigate(['/cart']);
       },
+      error: (error) => {
+        this.notificationService.showNotification({
+          message: "Failed to add to cart.",
+          type: 'error',
+        });
+      }
     });
   }
 

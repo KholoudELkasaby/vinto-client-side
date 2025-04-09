@@ -1,8 +1,21 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,ts,css,scss}"],
+  content: [
+    "./src/**/*.{html,ts,css,scss}",
+    "node_modules/ngx-toastr/toastr.css"
+  ],
   theme: {
     extend: {
+      //--------------------
+      animation: {
+        'progress': 'progress 3s linear forwards',
+      },
+      keyframes: {
+        progress: {
+          '0%': { width: '100%' },
+          '100%': { width: '0%' },
+        }
+      },
+      //---------------------
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
       },
@@ -22,8 +35,9 @@ module.exports = {
         'min767': { 'min': '767px' },
       },
     },
+
   },
   plugins: [],
-  important: true,
+  important: false,
   darkMode: "class",
 };
