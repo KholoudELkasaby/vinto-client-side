@@ -11,11 +11,12 @@ import { WishService } from '../../services/wish.service';
 import { Product } from '../../models/product.model';
 import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-wish-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxSkeletonLoaderModule],
   providers: [WishListComponent],
   templateUrl: './wish-list.component.html',
   styleUrl: './wish-list.component.css',
