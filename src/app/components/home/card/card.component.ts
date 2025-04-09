@@ -74,7 +74,6 @@ export class CardComponent implements OnInit, OnChanges {
     if (changes['activeTab']) {
       this.fetchProducts();
       this.updateLikedState();
-      this.cdr.detectChanges();
     }
 
     // if (changes['product'] && this.products) {
