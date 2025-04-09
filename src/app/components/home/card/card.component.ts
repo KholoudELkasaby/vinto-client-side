@@ -13,11 +13,13 @@ import { CartService } from '../../../services/cart.service';
 import { WishService } from '../../../services/wish.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
+import { GenralService } from '../../../services/genral.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgxSkeletonLoaderModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css',
 })
@@ -35,23 +37,22 @@ export class CardComponent implements OnInit, OnChanges {
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
 
-
   constructor(
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
     private wishService: WishService,
-    private authService: AuthService
-  ) { }
-
+    private authService: AuthService,
+    private genral: GenralService
+  ) {}
 
   ngOnInit(): void {
-    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+    this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.userId = this.authService.getUserId();
 
       if (loggedIn && this.userId) {
-        console.log(this.userId)
+        console.log(this.userId);
         this.fetchProducts();
       } else {
       }
@@ -70,12 +71,11 @@ export class CardComponent implements OnInit, OnChanges {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
+        this.genral.increment();
         this.router.navigate(['/cart']);
       },
     });
   }
-
-
 
   productStates: {
     [productId: string]: {
@@ -168,17 +168,19 @@ export class CardComponent implements OnInit, OnChanges {
         this.wishlistItems = response.data.wishlist.products;
         this.updateLikedState();
       },
-      error: (err) => console.error('Error fetching wishlist:', err)
+      error: (err) => console.error('Error fetching wishlist:', err),
     });
   }
 
   updateLikedState() {
     if (this.userId && this.products) {
-      this.products.forEach(product => {
+      this.products.forEach((product) => {
         if (this.productStates[product._id]) {
-          this.productStates[product._id].isFavorite = this.isInWishlist(product._id);
+          this.productStates[product._id].isFavorite = this.isInWishlist(
+            product._id
+          );
         }
-      })
+      });
     }
   }
 
@@ -211,5 +213,4 @@ export class CardComponent implements OnInit, OnChanges {
   removefromWish(id: string, productId: string): void {
     this.wishService.removeOne(id, productId).subscribe({});
   }
-
 }

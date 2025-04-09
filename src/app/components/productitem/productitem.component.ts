@@ -6,6 +6,7 @@ import { CartService } from '../../services/cart.service';
 import { WishService } from '../../services/wish.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { GenralService } from '../../services/genral.service';
 
 @Component({
   selector: 'app-productitem',
@@ -35,7 +36,8 @@ export class ProductitemComponent {
     private cartService: CartService,
     private router: Router,
     private wishService: WishService,
-    private authService: AuthService
+    private authService: AuthService,
+    private genral: GenralService
   ) { }
 
   ngOnInit() {
@@ -136,6 +138,7 @@ export class ProductitemComponent {
   addToCart(id: string, productId: string, quantity: number): void {
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
+        this.genral.increment();
         this.router.navigate(['/cart']);
       },
     });

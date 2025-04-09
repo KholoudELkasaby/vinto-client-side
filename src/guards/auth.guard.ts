@@ -6,7 +6,7 @@ export const authGuard = () => {
   const token = localStorage.getItem('token');
 
   if (!token) {
-    router.navigate(['/login']);
+    router.navigate(['/not-auth']);
     return false;
   }
 

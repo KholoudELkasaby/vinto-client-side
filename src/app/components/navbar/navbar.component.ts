@@ -41,26 +41,29 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private http: HttpClient,
-    private notificationService: NotificationService,
-  ) {}
+    //private cartService: CartService,
+    private genral: GenralService
+  ) {
+    // this.cartCountSub = this.cartService.cartCount$.subscribe(
+    //   count => {
+    //     this.numOfItems = count;
+    //     console.log('Cart count updated:', this.numOfItems);
+    //   }
+    // );
+    // this.cartService.getCart(this.user).subscribe();
+  }
 
   ngOnInit(): void {
     this.checkLoginStatus();
     this.fetchUserProfile();
-
     this.profileSub = this.authService.profilePicture$.subscribe((pic) => {
       this.profilePictureUrl = pic || '';
     });
+    this.genral.currentCartItemNumber$.subscribe(
+      (newValue) => (this.numOfItems = newValue)
+    );
+    this.genral.updateCartValue(this.userId);
 
-    // Subscribe to notifications list
-    this.notificationSub = this.notificationService.notificationsList$.subscribe(notifications => {
-      this.notifications = notifications;
-    });
-
-    // Subscribe to unread count
-    this.notificationCountSub = this.notificationService.unreadCount$.subscribe(count => {
-      this.notificationCount = count;
-    });
   }
 
   checkLoginStatus(): void {

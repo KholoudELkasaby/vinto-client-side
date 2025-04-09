@@ -1,66 +1,131 @@
 <div
   class="container-fluid flex flex-wrap justify-evenly items-center py-16 px-4 gap-6"
 >
-  <div
-    *ngFor="let product of products"
-    class="card relative cursor-pointer rounded-lg shadow-sm flex flex-col gap-5 bg-background-color border border-background-color overflow-hidden h-96 w-72"
-    [routerLink]="['/details', product._id]"
-  >
-    <p
-      *ngIf="activeTab.trim().toLowerCase() === 'offers'"
-      class="offer absolute top-2 left-2 bg-red-500 text-white font-medium text-sm px-1 text-center z-10"
+  <ng-container *ngIf="products.length > 0; else loadingProducts">
+    <div
+      *ngFor="let product of products"
+      class="card relative cursor-pointer rounded-lg shadow-sm flex flex-col gap-5 bg-background-color border border-background-color overflow-hidden h-96 w-72"
+      [routerLink]="['/details', product._id]"
     >
-      {{ product.discount }}% OFF
-    </p>
-    <figure
-      (mouseenter)="startImageRotation(product._id, product.img)"
-      (mouseleave)="stopImageRotation(product._id)"
-      class="h-64 w-full relative flex justify-center items-center"
-    >
-      <img
-        [src]="product.img[productStates[product._id].currentIndex || 0]"
-        loading="lazy"
-        [alt]="product.title"
-        class="product-img w-full h-full object-cover"
-      />
-    </figure>
-    <div class="card-body flex justify-between px-3">
-      <h2 class="card-title font-medium w-full truncate">
-        {{ product.title }}
-      </h2>
-      <div class="flex gap-3">
-        <i
-          class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
-          (click)="addToCart(userId, product._id, quantity);$event.stopPropagation();"
-          [ngClass]="{
-            'text-green-500': productStates[product._id].isInCart,
-            'text-black': !productStates[product._id].isInCart
-          }"
-        ></i>
-        <i
-          [ngClass]="{
-            'fa-regular': !productStates[product._id].isFavorite,
-            'fa-solid': productStates[product._id].isFavorite
-          }"
-          class="wish-list fa-heart cursor-pointer hover:scale-125 scale-105 transition-all active:scale-95"
-          (click)="toggleFavorite(product._id); $event.stopPropagation()"
-        ></i>
-      </div>
-    </div>
-    <div class="card-Info p-3 flex justify-between">
-      <p class="price font-semibold text-base">
-        EGP <span> {{ product.price }}</span>
+      <p
+        *ngIf="activeTab.trim().toLowerCase() === 'offers'"
+        class="offer absolute top-2 left-2 bg-red-500 text-white font-medium text-sm px-1 text-center z-10"
+      >
+        {{ product.discount }}% OFF
       </p>
-      <div class="rate">
-        <i
-          *ngFor="let i of [1, 2, 3, 4, 5]; let index = index"
-          class="fa-solid fa-star"
-          [ngClass]="{
-            'text-yellow-color': index < product.rate,
-            ' text-gray-color': index >= product.rate
-          }"
-        ></i>
+      <figure
+        (mouseenter)="startImageRotation(product._id, product.img)"
+        (mouseleave)="stopImageRotation(product._id)"
+        class="h-64 w-full relative flex justify-center items-center"
+      >
+        <img
+          [src]="product.img[productStates[product._id].currentIndex || 0]"
+          loading="lazy"
+          [alt]="product.title"
+          class="product-img w-full h-full object-cover"
+        />
+      </figure>
+      <div class="card-body flex justify-between px-3">
+        <h2 class="card-title font-medium w-full truncate">
+          {{ product.title }}
+        </h2>
+        <div class="flex gap-3">
+          <i
+            class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
+            (click)="
+              addToCart(userId, product._id, quantity); $event.stopPropagation()
+            "
+            [ngClass]="{
+              'text-green-500': productStates[product._id].isInCart,
+              'text-black': !productStates[product._id].isInCart
+            }"
+          ></i>
+          <i
+            [ngClass]="{
+              'fa-regular': !productStates[product._id].isFavorite,
+              'fa-solid': productStates[product._id].isFavorite
+            }"
+            class="wish-list fa-heart cursor-pointer hover:scale-125 scale-105 transition-all active:scale-95"
+            (click)="toggleFavorite(product._id); $event.stopPropagation()"
+          ></i>
+        </div>
+      </div>
+      <div class="card-Info p-3 flex justify-between">
+        <p class="price font-semibold text-base">
+          EGP <span> {{ product.price }}</span>
+        </p>
+        <div class="rate">
+          <i
+            *ngFor="let i of [1, 2, 3, 4, 5]; let index = index"
+            class="fa-solid fa-star"
+            [ngClass]="{
+              'text-yellow-color': index < product.rate,
+              ' text-gray-color': index >= product.rate
+            }"
+          ></i>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
+
+  <ng-template #loadingProducts>
+    <div
+      *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"
+      class="skeleton-card relative rounded-lg shadow-sm flex flex-col gap-5 bg-background-color border border-background-color overflow-hidden h-96 w-72"
+    >
+      <!-- Image -->
+      <ngx-skeleton-loader
+        [theme]="{
+          height: '16rem',
+          width: '100%',
+          'border-radius': '0',
+          'background-color': '#E2E0E0'
+        }"
+      ></ngx-skeleton-loader>
+
+      <!-- Title and icons -->
+      <div class="flex justify-between items-center px-3">
+        <ngx-skeleton-loader
+          appearance="line"
+          [theme]="{
+            height: '0.8rem',
+            width: '7rem',
+            'border-radius': '0.25rem',
+            'background-color': '#E2E0E0'
+          }"
+        ></ngx-skeleton-loader>
+        <div class="flex gap-3">
+          <ngx-skeleton-loader
+            count="2"
+            [theme]="{
+              height: '1.25rem',
+              width: '1.25rem',
+              'border-radius': '9999px',
+              'background-color': '#E2E0E0'
+            }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+
+      <!-- Price and Stars -->
+      <div class="px-3 flex justify-between items-center">
+        <ngx-skeleton-loader
+          [theme]="{
+            height: '0.8rem',
+            width: '3rem',
+            'border-radius': '0.25rem',
+            'background-color': '#E2E0E0'
+          }"
+        ></ngx-skeleton-loader>
+
+        <div class="flex gap-1">
+          <i
+            *ngFor="let i of [1, 2, 3, 4, 5]"
+            class="fa-solid fa-star text-[#E2E0E0]"
+          ></i
+          >>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
