@@ -134,13 +134,25 @@ export class CheckoutComponent {
   }
 
 
-
   updateSelectedValue(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
-    this.selectedValue.set(selectElement.value);
-    const state: string = this.selectedValue();
-    this.citiesInEgypt = City.getCitiesOfState("EG", state);
+    const stateIso = selectElement.value;
+    this.selectedValue.set(stateIso);
+    console.log('Selected State ISO:', stateIso);
+
+    // CORRECTED: Remove the redundant filter
+    this.citiesInEgypt = City.getCitiesOfState('EG', stateIso);
+    console.log('Cities:', this.citiesInEgypt);
+
+    // Reset city control when state changes
+    this.checkoutForm.get('city')?.reset();
   }
+  // updateSelectedValue(event: Event) {
+  //   const selectElement = event.target as HTMLSelectElement;
+  //   this.selectedValue.set(selectElement.value);
+  //   const state: string = this.selectedValue();
+  //   this.citiesInEgypt = City.getCitiesOfState("EG", state);
+  // }
 
   onSubmit() {
     if (this.checkoutForm.valid) {

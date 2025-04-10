@@ -12,7 +12,6 @@ import { GenralService } from './genral.service';
 
 export class CartService {
 
-
   private URL = "http://localhost:4000/api/cart";
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();

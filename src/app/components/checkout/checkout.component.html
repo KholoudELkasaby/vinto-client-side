@@ -89,17 +89,17 @@
           </div>
           <div>
             <label for="state" class="block text-sm font-semibold mb-1"
-              >State</label
+              >City</label
             >
             <select
               formControlName="city"
-              id="state"
+              id="city"
               class="w-full p-2 border rounded-md"
               onkeydown=""
             >
               <option value="">Select a city</option>
               @for(city of citiesInEgypt; track city) {
-              <option [value]="city.isoCode">{{ city.name }}</option>
+              <option [value]="city.name">{{ city.name }}</option>
               }
             </select>
             @if (!cityValid && checkoutForm.controls['city'].touched) {

@@ -3,13 +3,20 @@
 >
   <ng-container *ngIf="products.length > 0; else loadingProducts">
     <div
-      *ngFor="let product of products"
+      *ngFor="let product of products; trackBy: trackByProductId"
       class="card relative cursor-pointer rounded-lg shadow-sm flex flex-col gap-5 bg-background-color border border-background-color overflow-hidden h-96 w-72"
       [routerLink]="['/details', product._id]"
     >
       <p
         *ngIf="activeTab.trim().toLowerCase() === 'offers'"
-        class="offer absolute top-2 left-2 bg-red-500 text-white font-medium text-sm px-1 text-center z-10"
+        class="offer absolute top-0 left-0 transform -rotate-45 bg-red-500 text-white font-medium text-sm px-4 py-1 z-10"
+        style="
+          transform-origin: top left;
+          width: 100px;
+          top: 50px;
+          left: -20px;
+          text-align: center;
+        "
       >
         {{ product.discount }}% OFF
       </p>
@@ -23,6 +30,7 @@
           loading="lazy"
           [alt]="product.title"
           class="product-img w-full h-full object-cover"
+          (load)="imageLoaded(product._id)"
         />
       </figure>
       <div class="card-body flex justify-between px-3">
@@ -43,7 +51,7 @@
           <i
             [ngClass]="{
               'fa-regular': !productStates[product._id].isFavorite,
-              'fa-solid': productStates[product._id].isFavorite
+              'fa-solid text-red-500': productStates[product._id].isFavorite
             }"
             class="wish-list fa-heart cursor-pointer hover:scale-125 scale-105 transition-all active:scale-95"
             (click)="toggleFavorite(product._id); $event.stopPropagation()"

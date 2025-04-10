@@ -20,7 +20,49 @@
       </button>
     </div>
     <div class="Products flex justify-center w-full flex-col gap-4 mt-7">
-      @if(wishlist && wishlist.length > 0){ @for(product of wishlist; track
+      @if(wishlist == null){
+      <ng-container *ngFor="let i of [1, 2, 3, 4, 5]; let index = index">
+        <!-- Skeleton Placeholder -->
+        <div
+          class="flex items-center scale-90 justify-center shadow-md hover:shadow hover:shadow-gray-500 rounded-lg w-full"
+        >
+          <div class="flex justify-center items-center gap-2 w-full">
+            <!-- Skeleton Image -->
+            <ngx-skeleton-loader
+              [theme]="{
+                height: '70px',
+                width: '70px',
+                'border-radius': '0.5rem',
+                'background-color': '#E2E0E0'
+              }"
+            ></ngx-skeleton-loader>
+
+            <!-- Skeleton Texts -->
+            <div class="flex w-11/12">
+              <div class="flex flex-col gap-2 w-full">
+                <ngx-skeleton-loader
+                  [theme]="{
+                    height: '1rem',
+                    width: '10%',
+                    'border-radius': '0.25rem',
+                    'background-color': '#E2E0E0'
+                  }"
+                ></ngx-skeleton-loader>
+
+                <ngx-skeleton-loader
+                  [theme]="{
+                    height: '0.7rem',
+                    width: '5%',
+                    'border-radius': '0.25rem',
+                    'background-color': '#E2E0E0'
+                  }"
+                ></ngx-skeleton-loader>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      } @else if(wishlist.length> 0){ @for(product of wishlist; track
       product._id){
       <div
         (click)="goToDetails(product)"

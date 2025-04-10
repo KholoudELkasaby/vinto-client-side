@@ -2,6 +2,7 @@
   @if(selectedStatus){
   <app-progress
     [status]="selectedStatus"
+    [cartId]="cartId"
     (goBack)="selectedStatus = null"
   ></app-progress>
   }@else{
@@ -99,7 +100,7 @@
       <app-oreder-item
         class="w-full"
         [cart]="cart"
-        (statusSelected)="onStatusSelected($event)"
+        (statusSelected)="onStatusSelected($event, cart.cartId)"
       >
       </app-oreder-item>
       <!-- use a "pill" style -->

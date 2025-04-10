@@ -1,7 +1,7 @@
 @for(pro of cart.items; track pro.product._id){
 <div
   (click)="onItemClick()"
-  class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 sm:p-6 p-4 bg-white border-b border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 transition-colors duration-150 ease-in-out"
+  class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 sm:p-6 p-4 bg-white border-b border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 transition-colors duration-150 ease-in-out hover:cursor-pointer"
 >
   <div class="w-24 flex-shrink-0 mb-4 sm:mb-0">
     <img
@@ -30,8 +30,8 @@
     </div>
 
     <div class="text-center sm:text-right flex-col flex items-center">
-      <p class="text-sm text-gray-600">Expected Delivery Date:</p>
-      <span class="text-sm text-gray-600 font-medium">10th March 2025</span>
+      <p class="text-sm text-gray-600">Ordered Date:</p>
+      <span class="text-sm text-gray-600 font-medium">{{cart.date.split("T")[0]}}</span>
     </div>
   </div>
 </div>

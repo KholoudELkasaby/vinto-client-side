@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ShipmentOrder } from '../models/shipmentOrder.model';
 import { ShipmentResponse } from '../models/ShipmentResponse.model';
@@ -10,6 +10,7 @@ import { ShipmentResponse } from '../models/ShipmentResponse.model';
 })
 export class ShipmentService {
   private apiUrl = 'http://localhost:4000/api';
+
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,18 @@ export class ShipmentService {
     return this.http.get<ShipmentResponse>(`${this.apiUrl}/shipmentOrder`, { headers })
       .pipe(
         map(response => response.data.shipmentOrder)
+      );
+  }
+
+  getShipmentOrderByCart(cartId: string): Observable<any> {
+
+    // const token = localStorage.getItem('token');
+    console.log("test")
+    return this.http.get<any>(`${this.apiUrl}/shipmentOrder/progress/${cartId}`)
+      .pipe(
+        map(response => ({
+          ...response.data.shipmentOrder,
+        }))
       );
   }
 

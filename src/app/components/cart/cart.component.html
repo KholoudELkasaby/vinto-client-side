@@ -32,9 +32,82 @@
         Remove All
       </button>
     </div>
+    <!-- loading -->
+    <ng-container *ngIf="isLoading">
+      <div class="flex flex-col gap-4 mt-7">
+        <ng-container *ngFor="let i of [1, 2]">
+          <div
+            class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 p-4 sm:p-6 shadow-md rounded-lg w-full"
+          >
+            <!-- Image Skeleton -->
+            <div
+              class="flex lg:block w-full sm:w-auto items-center justify-center"
+            >
+              <ngx-skeleton-loader
+                count="1"
+                [appearance]="'line'"
+                [theme]="{
+                  'border-radius': '0.5rem',
+                  width: '80px',
+                  height: '80px',
+                  'background-color': '#E2E0E0'
+                }"
+              ></ngx-skeleton-loader>
+            </div>
+
+            <!-- Content Skeleton -->
+            <div
+              class="flex flex-col sm:flex-row justify-between w-full gap-4 sm:gap-0"
+            >
+              <div class="flex flex-col gap-2 w-full">
+                <!-- Title -->
+                <ngx-skeleton-loader
+                  count="1"
+                  [appearance]="'line'"
+                  [theme]="{
+                    width: '18ch',
+                    height: '0.7rem',
+                    'background-color': '#E2E0E0'
+                  }"
+                ></ngx-skeleton-loader>
+
+                <!-- Price and Controls -->
+                <div
+                  class="flex justify-between items-center flex-wrap gap-3 min767:flex-nowrap"
+                >
+                  <!-- Price -->
+                  <ngx-skeleton-loader
+                    count="1"
+                    [appearance]="'line'"
+                    [theme]="{
+                      width: '5rem',
+                      height: '0.7rem',
+                      'background-color': '#E2E0E0'
+                    }"
+                  ></ngx-skeleton-loader>
+
+                  <!-- Quantity Controls -->
+                  <div class="flex items-center gap-3">
+                    <ngx-skeleton-loader
+                      count="3"
+                      [appearance]="'circle'"
+                      [theme]="{
+                        width: '2rem',
+                        height: '2rem',
+                        'background-color': '#E2E0E0'
+                      }"
+                    ></ngx-skeleton-loader>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
     <!-- Cart-Products with quantities -->
     <div class="Products flex flex-col gap-4 mt-7">
-      @if(cart && cart.items.length > 0){
+      @if(!isLoading && cart && cart.items.length > 0){
       <div
         [routerLink]="['/details', product.product._id]"
         *ngFor="let product of cart.items; let i = index"
@@ -140,7 +213,7 @@
           </div>
         </div>
       </div>
-      }@else{
+      }@else if(!isLoading && cart?.items?.length === 0){
       <div class="flex flex-col h-full w-full justify-center items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -232,6 +305,7 @@
       }
     </div>
   </div>
+
   <!-- checkout -->
   <div
     class="bg-background-color w-full lg:col-span-4 flex flex-col items-center rounded-lg shadow-md"
@@ -243,7 +317,7 @@
     <div class="flex justify-between w-[80%] mt-3">
       <div class="flex justify-center items-center gap-2">
         <p class="text-lg font-semibold">{{ cart.items.length }} Items</p>
-        <p class="text-xs text-gray-400 text-center">7 Quantity</p>
+        <p class="text-xs text-gray-400 text-center">{{ totalQuantity }} Quantity</p>
       </div>
       <p class="text-lg font-semibold">
         EGP {{ (total | number : "1.2-2") || 0 }}

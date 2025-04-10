@@ -6,7 +6,7 @@ import { CartService } from './cart.service';
   providedIn: 'root',
 })
 export class GenralService {
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService) { }
   modelCategories: string[] = ['Authentication and Authorization', 'Store'];
   authModels: string[] = ['User'];
   storeModels: string[] = [
@@ -17,7 +17,7 @@ export class GenralService {
     'Shipment',
   ];
   deliveryFees: number = 1000;
-
+  ordered: boolean = false;
   NumberOfItemInTheCart = new BehaviorSubject<number>(0);
   currentCartItemNumber$ = this.NumberOfItemInTheCart.asObservable();
 

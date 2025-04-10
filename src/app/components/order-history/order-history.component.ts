@@ -21,6 +21,8 @@ export class OrderHistoryComponent {
   history: any = { data: { carts: [] } };
   historyDisplayed: any[] = [];
   selectedStatus: string | null = null;
+  cartId: string = "";
+  date: string = "";
   user: any;
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
@@ -29,8 +31,8 @@ export class OrderHistoryComponent {
 
   constructor(
     private authService: AuthService
-  ) {
-  }
+  ) { }
+
   ngOnInit() {
     this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
@@ -45,6 +47,7 @@ export class OrderHistoryComponent {
   private loadData() {
     this.cartService.getHistory(this.user).subscribe({
       next: (data) => {
+        console.log('history', data)
         this.history = data;
         this.historyDisplayed = this.cartService.filterHistory(this.activeTab);
       },
@@ -54,8 +57,9 @@ export class OrderHistoryComponent {
     });
   }
 
-  onStatusSelected(status: string): void {
+  onStatusSelected(status: string, id: string): void {
     this.selectedStatus = status;
+    this.cartId = id;
   }
 
   filterData(tab: string) {

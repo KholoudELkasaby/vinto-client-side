@@ -20,7 +20,7 @@ import { GenralService } from '../../services/genral.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, CommonModule, SidebarComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
