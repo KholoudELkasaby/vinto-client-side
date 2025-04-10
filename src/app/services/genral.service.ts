@@ -12,7 +12,7 @@ export class GenralService {
   authModels: string[] = ["User"]
   storeModels: string[] = ["Product", "ItemOrdered", "Cart", "shipingInfo", "Shipment"];
   deliveryFees: number = 1000;
-
+  ordered: boolean = false;
   NumberOfItemInTheCart = new BehaviorSubject<number>(0);;
   currentCartItemNumber$ = this.NumberOfItemInTheCart.asObservable();
 

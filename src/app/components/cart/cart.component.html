@@ -243,7 +243,7 @@
     <div class="flex justify-between w-[80%] mt-3">
       <div class="flex justify-center items-center gap-2">
         <p class="text-lg font-semibold">{{ cart.items.length }} Items</p>
-        <p class="text-xs text-gray-400 text-center">7 Quantity</p>
+        <p class="text-xs text-gray-400 text-center">{{ totalQuantity }} Quantity</p>
       </div>
       <p class="text-lg font-semibold">
         EGP {{ (total | number : "1.2-2") || 0 }}

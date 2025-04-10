@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ShipmentService} from '../../services/shipment-management.service';
+import { ShipmentService } from '../../services/shipment-management.service';
 import { ShipmentOrder } from '../../models/shipmentOrder.model';
 import { NotificationService } from '../../services/notification.service';
 import { DatePipe } from '@angular/common';
@@ -36,7 +36,7 @@ export class ShipmentManagementComponent implements OnInit {
     private shipmentService: ShipmentService,
     private notificationService: NotificationService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadShipments();
@@ -163,8 +163,8 @@ export class ShipmentManagementComponent implements OnInit {
         const searchLower = this.searchTerm.toLowerCase();
         const hasAddress = shipment.shipmentInfo &&
           (shipment.shipmentInfo.city.toLowerCase().includes(searchLower) ||
-           shipment.shipmentInfo.street.toLowerCase().includes(searchLower) ||
-           shipment.shipmentInfo.state.toLowerCase().includes(searchLower));
+            shipment.shipmentInfo.street.toLowerCase().includes(searchLower) ||
+            shipment.shipmentInfo.state.toLowerCase().includes(searchLower));
 
         const matchesId = shipment._id.toLowerCase().includes(searchLower);
 
@@ -195,7 +195,7 @@ export class ShipmentManagementComponent implements OnInit {
   }
 
   getStatusColor(status: string): string {
-    switch(status) {
+    switch (status) {
       case 'In-Proccess': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
       case 'In-Delivery': return 'bg-blue-100 text-blue-800 border-blue-300';
       case 'Reached': return 'bg-green-100 text-green-800 border-green-300';

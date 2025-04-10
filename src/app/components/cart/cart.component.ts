@@ -36,6 +36,7 @@ export class CartComponent {
   pendingUpdates: { [key: string]: number } = {};
   originalQuantities: { [key: string]: number } = {};
   total: number = 0;
+  totalQuantity: number = 0;
 
   constructor(
     private router: Router,
@@ -53,11 +54,23 @@ export class CartComponent {
       this.user = this.authService.getUserId();
 
       if (loggedIn && this.user) {
-        // this.clearStorageUpdates();
         this.updateCart();
       } else {
       }
     });
+
+  }
+
+  calculateTotalQuantity(): void {
+    if (!this.cart || !this.cart.items) {
+      this.totalQuantity = 0;
+      return;
+    }
+
+    this.totalQuantity = this.cart.items.reduce((sum, item) => {
+      const quantity = this.pendingUpdates[item.orderedItemId] || item.quantity;
+      return sum + quantity;
+    }, 0);
   }
 
   updateCart() {
@@ -71,6 +84,7 @@ export class CartComponent {
         });
       }
       this.calculateTotal();
+      this.calculateTotalQuantity();
     });
   }
 
@@ -170,7 +184,7 @@ export class CartComponent {
     }
     this.savePendingUpdatesToStorage();
     this.calculateTotal();
-
+    this.calculateTotalQuantity();
   }
   calculateTotal(): void {
     if (!this.cart || !this.cart.items) {
