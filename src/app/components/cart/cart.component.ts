@@ -13,11 +13,17 @@ import { ConfirmationModalComponent } from '../admin/admin-selection/confirmatio
 import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { GenralService } from '../../services/genral.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-cart',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ConfirmationModalComponent, RouterModule],
+  imports: [
+    CommonModule,
+    ConfirmationModalComponent,
+    RouterModule,
+    NgxSkeletonLoaderModule,
+  ],
   providers: [CartService, OrderedItemsService],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
@@ -66,19 +72,27 @@ export class CartComponent {
       }
     });
   }
-
   updateCart() {
-    this.cartService.getCart(this.user).subscribe((data) => {
-      this.cart = data || [];
-      if (this.cart?.items) {
-        this.cart.items.forEach((item) => {
-          if (this.pendingUpdates[item.orderedItemId]) {
-            item.quantity = this.pendingUpdates[item.orderedItemId];
-          }
-        });
-      }
-      this.calculateTotal();
-      this.cdr.markForCheck();
+    this.isLoading = true;
+    this.cartService.getCart(this.user).subscribe({
+      next: (data) => {
+        this.cart = data || [];
+        if (this.cart?.items) {
+          this.cart.items.forEach((item) => {
+            if (this.pendingUpdates[item.orderedItemId]) {
+              item.quantity = this.pendingUpdates[item.orderedItemId];
+            }
+          });
+        }
+        this.calculateTotal();
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Error loading cart:', err);
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
     });
   }
 
