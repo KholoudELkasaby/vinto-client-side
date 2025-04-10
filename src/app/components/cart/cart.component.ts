@@ -70,21 +70,25 @@ export class CartComponent {
         this.updateCart();
       } else {
       }
+
     });
 
   }
 
   calculateTotalQuantity(): void {
-    if (!this.cart || !this.cart.items) {
+    if (!this.cart) {
       this.totalQuantity = 0;
       return;
     }
 
     this.totalQuantity = this.cart.items.reduce((sum, item) => {
-      const quantity = this.pendingUpdates[item.orderedItemId] || item.quantity;
+      const pendingQty = this.pendingUpdates[item.orderedItemId];
+      const quantity = pendingQty !== undefined ? pendingQty : item.quantity;
       return sum + quantity;
     }, 0);
+
   }
+
   updateCart() {
     this.isLoading = true;
     this.cartService.getCart(this.user).subscribe({
@@ -97,6 +101,7 @@ export class CartComponent {
             }
           });
         }
+        this.calculateTotalQuantity();
         this.calculateTotal();
         this.isLoading = false;
         this.cdr.markForCheck();
