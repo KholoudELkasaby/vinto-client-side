@@ -1,4 +1,12 @@
-import { Component, input, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  input,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -11,6 +19,7 @@ import { GenralService } from '../../services/genral.service';
 @Component({
   selector: 'app-productitem',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, CommonModule, RouterModule],
   providers: [CartService, WishService],
   templateUrl: './productitem.component.html',
@@ -37,11 +46,12 @@ export class ProductitemComponent {
     private router: Router,
     private wishService: WishService,
     private authService: AuthService,
-    private genral: GenralService
-  ) { }
+    private genral: GenralService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.authSub = this.authService.isLoggedIn$.subscribe(loggedIn => {
+    this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.userId = this.authService.getUserId();
 
@@ -51,12 +61,14 @@ export class ProductitemComponent {
         this.wishlistItems = [];
         this.liked = false;
       }
+      this.cdr.markForCheck();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['products'] && this.products) {
       this.updateLikedState();
+      this.cdr.markForCheck();
     }
   }
 
@@ -65,14 +77,16 @@ export class ProductitemComponent {
       next: (response) => {
         this.wishlistItems = response.data.wishlist.products;
         this.updateLikedState();
+        this.cdr.markForCheck();
       },
-      error: (err) => console.error('Error fetching wishlist:', err)
+      error: (err) => console.error('Error fetching wishlist:', err),
     });
   }
 
   updateLikedState() {
     if (this.userId && this.products) {
       this.liked = this.isInWishlist(this.products._id);
+      this.cdr.markForCheck();
     }
   }
 
@@ -113,6 +127,7 @@ export class ProductitemComponent {
         } else {
           this.addToWish(userId, productId);
         }
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error fetching wishlist:', err);

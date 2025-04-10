@@ -3,19 +3,23 @@ import { BehaviorSubject } from 'rxjs';
 import { CartService } from './cart.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GenralService {
-
   constructor(private cartService: CartService) { }
-  modelCategories: string[] = ["Authentication and Authorization", "Store"]
-  authModels: string[] = ["User"]
-  storeModels: string[] = ["Product", "ItemOrdered", "Cart", "shipingInfo", "Shipment"];
+  modelCategories: string[] = ['Authentication and Authorization', 'Store'];
+  authModels: string[] = ['User'];
+  storeModels: string[] = [
+    'Product',
+    'ItemOrdered',
+    'Cart',
+    'shipingInfo',
+    'Shipment',
+  ];
   deliveryFees: number = 1000;
   ordered: boolean = false;
-  NumberOfItemInTheCart = new BehaviorSubject<number>(0);;
+  NumberOfItemInTheCart = new BehaviorSubject<number>(0);
   currentCartItemNumber$ = this.NumberOfItemInTheCart.asObservable();
-
 
   updateCartValue(userId: string): void {
     this.cartService.getCart(userId).subscribe({
@@ -36,6 +40,4 @@ export class GenralService {
   decrement(): void {
     this.NumberOfItemInTheCart.next(this.NumberOfItemInTheCart.getValue() - 1);
   }
-
-
 }

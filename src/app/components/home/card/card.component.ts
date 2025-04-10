@@ -5,6 +5,8 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Product } from '../../../models/product.model';
@@ -19,6 +21,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 @Component({
   selector: 'app-card',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterModule, NgxSkeletonLoaderModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css',
@@ -30,6 +33,12 @@ export class CardComponent implements OnInit, OnChanges {
   wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
+  imageLoading: { [productId: string]: boolean } = {}; // Track loading state of images
+
+  imageLoaded(productId: string): void {
+    this.imageLoading[productId] = false;
+    this.cdr.markForCheck();
+  }
 
   deleteMode: 'single' | 'all' = 'all';
   itemToDeleteId: string = '';
@@ -43,7 +52,8 @@ export class CardComponent implements OnInit, OnChanges {
     private router: Router,
     private wishService: WishService,
     private authService: AuthService,
-    private genral: GenralService
+    private genral: GenralService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +64,7 @@ export class CardComponent implements OnInit, OnChanges {
       if (loggedIn && this.userId) {
         console.log(this.userId);
         this.fetchProducts();
+        this.cdr.detectChanges();
       } else {
       }
     });
@@ -64,6 +75,7 @@ export class CardComponent implements OnInit, OnChanges {
       this.fetchProducts();
       this.updateLikedState();
     }
+
     // if (changes['product'] && this.products) {
     // }
   }
@@ -108,6 +120,7 @@ export class CardComponent implements OnInit, OnChanges {
             };
           }
         });
+        this.cdr.detectChanges();
         if (this.userId) {
           this.fetchWishlist();
         }
@@ -145,12 +158,17 @@ export class CardComponent implements OnInit, OnChanges {
   // }
   ////
 
+  trackByProductId(index: number, product: Product): string {
+    return product._id;
+  }
+
   startImageRotation(productId: string, images: string[]): void {
     if (this.imageIntervals[productId] || images.length <= 1) return;
 
     this.imageIntervals[productId] = setInterval(() => {
       const state = this.productStates[productId];
       state.currentIndex = (state.currentIndex + 1) % images.length;
+      this.cdr.detectChanges();
     }, 1000);
   }
 

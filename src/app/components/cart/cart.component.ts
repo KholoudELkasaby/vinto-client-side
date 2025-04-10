@@ -1,4 +1,9 @@
-import { Component, EventEmitter } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
@@ -8,10 +13,17 @@ import { ConfirmationModalComponent } from '../admin/admin-selection/confirmatio
 import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { GenralService } from '../../services/genral.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule, ConfirmationModalComponent, RouterModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    ConfirmationModalComponent,
+    RouterModule,
+    NgxSkeletonLoaderModule,
+  ],
   providers: [CartService, OrderedItemsService],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
@@ -43,7 +55,8 @@ export class CartComponent {
     private cartService: CartService,
     private orderedItemService: OrderedItemsService,
     private genral: GenralService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -72,19 +85,27 @@ export class CartComponent {
       return sum + quantity;
     }, 0);
   }
-
   updateCart() {
-    this.cartService.getCart(this.user).subscribe((data) => {
-      this.cart = data || [];
-      if (this.cart?.items) {
-        this.cart.items.forEach(item => {
-          if (this.pendingUpdates[item.orderedItemId]) {
-            item.quantity = this.pendingUpdates[item.orderedItemId];
-          }
-        });
-      }
-      this.calculateTotal();
-      this.calculateTotalQuantity();
+    this.isLoading = true;
+    this.cartService.getCart(this.user).subscribe({
+      next: (data) => {
+        this.cart = data || [];
+        if (this.cart?.items) {
+          this.cart.items.forEach((item) => {
+            if (this.pendingUpdates[item.orderedItemId]) {
+              item.quantity = this.pendingUpdates[item.orderedItemId];
+            }
+          });
+        }
+        this.calculateTotal();
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Error loading cart:', err);
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
     });
   }
 
@@ -98,12 +119,13 @@ export class CartComponent {
       next: () => {
         this.genral.decrement();
         this.updateCart();
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Delete error:', err);
         this.isLoading = false;
       },
-      complete: () => (this.isLoading = false),
+      complete: () => ((this.isLoading = false), this.cdr.markForCheck()),
     });
   }
 
@@ -125,10 +147,12 @@ export class CartComponent {
       forkJoin(removalOperations).subscribe({
         next: () => {
           this.updateCart();
+          this.cdr.markForCheck();
         },
         error: (err) => {
           console.error('Error removing products:', err);
           this.updateCart();
+          this.cdr.markForCheck();
         },
       });
     }
@@ -170,11 +194,16 @@ export class CartComponent {
       return;
     }
     this.pendingUpdates[orderedItemId] = newQuantity;
-    this.updateLocalQuantity(orderedItemId, newQuantity)
+    this.updateLocalQuantity(orderedItemId, newQuantity);
   }
 
-  private updateLocalQuantity(orderedItemId: string, newQuantity: number): void {
-    const item = this.cart?.items.find(i => i.orderedItemId === orderedItemId);
+  private updateLocalQuantity(
+    orderedItemId: string,
+    newQuantity: number
+  ): void {
+    const item = this.cart?.items.find(
+      (i) => i.orderedItemId === orderedItemId
+    );
 
     if (item) {
       if (!(orderedItemId in this.originalQuantities)) {
@@ -197,8 +226,8 @@ export class CartComponent {
       const price = item.product.price;
       const discount = item.product.discount || 0;
       const discountedPrice = price * (1 - discount / 100);
-      return sum + (discountedPrice * quantity);
-    }, 0)
+      return sum + discountedPrice * quantity;
+    }, 0);
   }
   confirmDeleteAll() {
     this.deleteMode = 'all';
@@ -241,27 +270,32 @@ export class CartComponent {
           this.originalQuantities = {};
           this.errorMessage = '';
           this.clearStorageUpdates();
+          this.cdr.markForCheck();
           this.router.navigate(['/checkout']);
         },
         error: (err) => {
-          console.error("update failed", err);
-          this.errorMessage = err.error?.message || 'Failed to update cart. Please try again.';
+          console.error('update failed', err);
+          this.errorMessage =
+            err.error?.message || 'Failed to update cart. Please try again.';
           Object.entries(this.originalQuantities).forEach(([id, qty]) => {
-            const item = this.cart?.items.find(i => i.orderedItemId === id);
+            const item = this.cart?.items.find((i) => i.orderedItemId === id);
             if (item) item.quantity = qty;
           });
           this.pendingUpdates = {};
           this.originalQuantities = {};
           this.isLoggedIn = false;
-        }
-      })
+        },
+      });
     } else {
       this.router.navigate(['/checkout']);
     }
   }
 
   private savePendingUpdatesToStorage(): void {
-    localStorage.setItem('pendingCartUpdates', JSON.stringify(this.pendingUpdates));
+    localStorage.setItem(
+      'pendingCartUpdates',
+      JSON.stringify(this.pendingUpdates)
+    );
   }
 
   private loadPendingUpdatesFromStorage(): void {

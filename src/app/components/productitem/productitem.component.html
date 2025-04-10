@@ -1,33 +1,56 @@
-<div [routerLink]="['/details', products._id]" id="card"
-  class="h-[500px] w-60 sm:w-60 md:w-60 lg:w-60 xl:w-60 cursor-pointer   ">
+<div
+  [routerLink]="['/details', products._id]"
+  id="card"
+  class="h-[500px] w-60 sm:w-60 md:w-60 lg:w-60 xl:w-60 cursor-pointer"
+>
   <div class="h-100 bg-white border-2 border-gray-400 p-1">
     <a>
       <div class="flex justify-end pr-5 pt-3">
-        <svg (click)="toggleWish(userId, products._id); toggleLike(); $event.stopPropagation()"
-          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+        <svg
+          (click)="
+            toggleWish(userId, products._id);
+            toggleLike();
+            $event.stopPropagation()
+          "
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
           [ngClass]="liked ? 'text-red-500' : 'text-gray-400'"
-          class="w-6 h-6 cursor-pointer transition-colors duration-300">
-          <path fill-rule="evenodd"
+          class="w-6 h-6 cursor-pointer transition-colors duration-300"
+        >
+          <path
+            fill-rule="evenodd"
             d="M12.001 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54l-1.45 1.31z"
-            clip-rule="evenodd" />
+            clip-rule="evenodd"
+          />
         </svg>
       </div>
 
       <a>
-        <img class="p-4 rounded-t-lg w-full h-60 object-cover mx-auto" src="{{ products.img }}" loading="lazy"
-          alt="product image" />
+        <img
+          class="p-4 rounded-t-lg w-full h-60 object-cover mx-auto"
+          src="{{ products.img }}"
+          loading="lazy"
+          alt="product image"
+        />
       </a>
     </a>
 
     <div class="flex justify-center">
       @if(isLoggedIn){
-      <a (click)="addToCart(userId, products._id, quantity); $event.stopPropagation()"
-        class="block mb-5 text-white bg-gray-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+      <a
+        (click)="
+          addToCart(userId, products._id, quantity); $event.stopPropagation()
+        "
+        class="block mb-5 text-white bg-gray-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
         Add to cart
       </a>
       }@else{
-      <a (click)="$event.stopPropagation()"
-        class="block mb-5 text-white bg-gray-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+      <a
+        (click)="$event.stopPropagation()"
+        class="block mb-5 text-white bg-gray-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
         Add to cart
       </a>
       }
@@ -37,15 +60,19 @@
   <div class="h-[150px]flex">
     <div class="flex flex-col justify-center items-center space-x-1 mt-4">
       <div class="star-rating inline-block">
-        <span *ngFor="let star of [0, 1, 2, 3, 4]; let i = index" [ngClass]="getStarClass(i)">★</span>
+        <span
+          *ngFor="let star of [0, 1, 2, 3, 4]; let i = index"
+          [ngClass]="getStarClass(i)"
+          >★</span
+        >
       </div>
     </div>
 
-    <!-- <p>Selected Rating: {{ rate }}</p> -->
-
     <div class="text-center flex flex-col justify-center items-center">
       <a href="#">
-        <h5 class="text-base font-semibold tracking-tight text-gray-900 line-clamp-1">
+        <h5
+          class="text-base font-semibold tracking-tight text-gray-900 line-clamp-1"
+        >
           {{ products.title }}
         </h5>
       </a>
