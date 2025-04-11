@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,6 +15,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 interface RegisterResponse {
   status: string;
@@ -23,11 +31,18 @@ interface RegisterResponse {
 @Component({
   selector: 'app-verify-otp',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './verify-otp.component.html',
-  styleUrl: './verify-otp.component.css',
+  styleUrls: ['./verify-otp.component.css'],
 })
 export class VerifyOTPComponent implements OnInit {
+  @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>;
+
   otpForm: FormGroup;
   isLoading = false;
   isResending = false;
@@ -38,16 +53,17 @@ export class VerifyOTPComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService // Assuming AuthService is imported correctly
+    private authService: AuthService
   ) {
-    this.otpForm = this.fb.group({
-      digit1: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
-      digit2: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
-      digit3: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
-      digit4: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
-      digit5: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
-      digit6: ['', [Validators.required, Validators.pattern(/^[0-9]$/)]],
+    // Create form controls for each digit
+    const group: { [key: string]: any } = {};
+    this.otpControls.forEach((_, i) => {
+      group[`digit${i + 1}`] = [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]$/)],
+      ];
     });
+    this.otpForm = this.fb.group(group);
   }
 
   ngOnInit() {
@@ -61,46 +77,97 @@ export class VerifyOTPComponent implements OnInit {
     }
   }
 
+  onKeyDown(event: KeyboardEvent, index: number) {
+    const input = event.target as HTMLInputElement;
+    const previousInput = this.otpInputs.get(index - 1)?.nativeElement;
+    const nextInput = this.otpInputs.get(index + 1)?.nativeElement;
+
+    switch (event.key) {
+      case 'ArrowLeft':
+        event.preventDefault();
+        if (previousInput) {
+          previousInput.focus();
+        }
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        if (nextInput) {
+          nextInput.focus();
+        }
+        break;
+      case 'Backspace':
+        if (!input.value && previousInput) {
+          previousInput.focus();
+          previousInput.value = '';
+          this.otpForm.get(`digit${index}`)?.setValue('');
+        }
+        break;
+      default:
+        // Allow only numbers
+        if (
+          !/^[0-9]$/.test(event.key) &&
+          !['Tab', 'Delete', 'Backspace'].includes(event.key)
+        ) {
+          event.preventDefault();
+        }
+    }
+  }
+
   onOtpInput(event: Event, index: number) {
     const input = event.target as HTMLInputElement;
+    const nextInput = this.otpInputs.get(index + 1)?.nativeElement;
     const value = input.value;
 
-    if (value.length === 1) {
-      if (index < 5) {
-        const nextInput = document.querySelector(
-          `input[formControlName=digit${index + 2}]`
-        ) as HTMLInputElement;
-        if (nextInput) nextInput.focus();
-      }
+    // Ensure single digit
+    if (value.length > 1) {
+      input.value = value.slice(-1);
     }
+
+    // Move to next input if available
+    if (value && nextInput) {
+      nextInput.focus();
+    }
+
+    // Update form control
+    this.otpForm.get(`digit${index + 1}`)?.setValue(input.value);
   }
 
-  onKeyDown(event: KeyboardEvent, index: number) {
-    if (event.key === 'Backspace') {
-      const input = event.target as HTMLInputElement;
-      if (!input.value && index > 0) {
-        // Move to previous input
-        const prevInput = document.querySelector(
-          `input[formControlName=digit${index}]`
-        ) as HTMLInputElement;
-        if (prevInput) {
-          prevInput.focus();
-          prevInput.value = '';
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const pastedData = event.clipboardData
+      ?.getData('text')
+      ?.replace(/\D/g, '')
+      .slice(0, 6);
+
+    if (pastedData) {
+      [...pastedData].forEach((digit, i) => {
+        const control = this.otpForm.get(`digit${i + 1}`);
+        if (control) {
+          control.setValue(digit);
+          const input = this.otpInputs.get(i)?.nativeElement;
+          if (input) {
+            input.value = digit;
+          }
         }
+      });
+
+      // Focus last filled input or next empty one
+      const lastIndex = Math.min(pastedData.length, 6);
+      const nextEmptyIndex = this.otpInputs
+        .toArray()
+        .findIndex((el, i) => i >= lastIndex && !el.nativeElement.value);
+
+      if (nextEmptyIndex !== -1) {
+        this.otpInputs.get(nextEmptyIndex)?.nativeElement.focus();
+      } else {
+        this.otpInputs.get(lastIndex - 1)?.nativeElement.focus();
       }
     }
-  }
-
-  goBack() {
-    this.router.navigate(['/signup']);
   }
 
   verifyOTP() {
     if (this.otpForm.valid) {
       this.isLoading = true;
-      this.errorMessages = [];
-
-      // Construct OTP from all digits
       const otp = Object.values(this.otpForm.value).join('');
 
       const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
@@ -168,7 +235,6 @@ export class VerifyOTPComponent implements OnInit {
             }
           },
           error: (error) => {
-            this.isResending = false;
             this.errorMessages = [
               error.error?.message || 'Failed to resend code',
             ];
@@ -178,5 +244,9 @@ export class VerifyOTPComponent implements OnInit {
           },
         });
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/signup']);
   }
 }
