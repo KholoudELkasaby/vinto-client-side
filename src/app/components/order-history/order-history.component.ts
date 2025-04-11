@@ -1,21 +1,31 @@
-import { Component, HostListener, inject } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnInit,
+  OnDestroy,
+  inject,
+} from '@angular/core';
+
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { OrederItemComponent } from './oreder-item/oreder-item.component';
 import { ProgressComponent } from '../progress/progress.component';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { StripeService } from '../../services/stripe.service';
 
 @Component({
   selector: 'app-order-history',
   imports: [CommonModule, OrederItemComponent, ProgressComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CartService],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css'
 })
 export class OrderHistoryComponent {
   cartService: CartService = inject(CartService);
-  tabs: string[] = ['All orders', 'Summary', 'Completed', 'Cancelled', 'inprogress'];
+  tabs: string[] = ['all orders', 'summary', 'completed', 'canceled', 'inprogress'];
   activeTab: string = 'All orders';
   isMenuOpen = false;
   history: any = { data: { carts: [] } };
@@ -30,7 +40,9 @@ export class OrderHistoryComponent {
 
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private stripeService: StripeService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -72,8 +84,14 @@ export class OrderHistoryComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+
   setActiveTab(tab: string): void {
     this.activeTab = tab;
     this.filterData(tab);
+  }
+
+  cancelOrder(cart: any) {
+    this.stripeService.cancel(this.user, cart.cartId)
+    this.cdr.markForCheck();
   }
 }
