@@ -9,6 +9,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { PaginationModule } from '@coreui/angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { ProductitemSkeletonComponent } from '../productitem-skeleton/productitem-skeleton.component';
 
 @Component({
   selector: 'app-products',
@@ -21,6 +22,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
     PaginatorModule,
     // PaginationModule,
     MatPaginatorModule,
+    ProductitemSkeletonComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -38,7 +40,7 @@ export class ProductsComponent implements OnInit {
   // //////////////////////////
   x: any[] = [];
   isSorted: string = '';
-  lenn:number=0;
+  lenn: number = 0;
   isusedbtn: number = 1;
 
   isFiltered: boolean = false; // Tracks if we're using filtered data
@@ -48,53 +50,60 @@ export class ProductsComponent implements OnInit {
   //  products:any;
   arr: number[] = [];
   flag: boolean = false;
+  loading: boolean = false;
 
-  constructor(private PoroductsService: ProductService) { }
+  constructor(private PoroductsService: ProductService) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.PoroductsService.getallproducts().subscribe({
       next: (data) => {
         console.log('Full API response:', data);
         const products: any = data;
-  
+
         // Check if totalPages exists and populate arr
         if (products.data.totalPages) {
           this.tot_pages = products.data.totalPages || 0; // Use totalPages if available, otherwise default to 0
           this.generatePagination();
-  
+
           // Apply style to button with innerText "1"
           setTimeout(() => {
             this.selectButtonWithText('1');
-          }, 0);  // Ensure the DOM is fully updated before applying the styles
-  
+          }, 0); // Ensure the DOM is fully updated before applying the styles
         }
-  
+
         console.log('Total Pages:', this.tot_pages); // Log totalPages to verify it
         console.log('Pagination array after population:', this.arr); // Log the populated pagination array
         console.log('Updated products array:', products.data.products);
-  
+
         this.x = products.data.products;
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error fetching products:', err);
+        this.loading = false;
       },
       complete: () => {
         console.log('Products fetch complete');
       },
     });
   }
-  
+
   selectButtonWithText(buttonText: string): void {
-    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
-  
-    const buttonToSelect = allButtons.find((btn) => btn.innerText === buttonText);
-  
+    const allButtons = Array.from(
+      document.getElementsByClassName(
+        'bttngen'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+
+    const buttonToSelect = allButtons.find(
+      (btn) => btn.innerText === buttonText
+    );
+
     if (buttonToSelect) {
       buttonToSelect.classList.add('bg-gray-200', 'text-black');
     }
   }
-  
-  
 
   reloadPage() {
     window.location.reload();
@@ -107,34 +116,38 @@ export class ProductsComponent implements OnInit {
     console.log('No products found:', this.noProductsFound);
   }
 
-
-
   updatetotalpage(total_page: any[]) {
-    this.isusedbtn=1
+    this.isusedbtn = 1;
     this.arrr = total_page;
-    // this.tot_pages= total_page 
-    this.tot_pages= total_page.length
+    // this.tot_pages= total_page
+    this.tot_pages = total_page.length;
 
-    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+    const allButtons = Array.from(
+      document.getElementsByClassName(
+        'bttngen'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
 
+    console.log('isusedbtnkkkkkkkkkkk', this.isusedbtn);
 
+    setTimeout(() => {
+      const allButtons = Array.from(
+        document.getElementsByClassName(
+          'bttngen'
+        ) as HTMLCollectionOf<HTMLElement>
+      );
+      allButtons.forEach((btn) => {
+        btn.classList.remove('bg-gray-200', 'text-black');
+      });
 
-console.log("isusedbtnkkkkkkkkkkk" , this.isusedbtn);
+      const activeButton = allButtons.find((btn) => {
+        return btn.innerText === this.isusedbtn.toString();
+      });
 
-setTimeout(() => {
-  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
-  allButtons.forEach((btn) => {
-    btn.classList.remove('bg-gray-200', 'text-black');
-  });
-
-  const activeButton = allButtons.find((btn) => {
-    return btn.innerText === this.isusedbtn.toString();
-  });
-
-  if (activeButton) {
-    activeButton.classList.add('bg-gray-200', 'text-black');
-  }
-}, 0);
+      if (activeButton) {
+        activeButton.classList.add('bg-gray-200', 'text-black');
+      }
+    }, 0);
 
     console.log('ana hna in product component', this.arrr);
     console.log('ana hna in product component Haniiii', this.tot_pages);
@@ -220,7 +233,6 @@ setTimeout(() => {
     this.newtoold = data.n_o;
     this.oldtonew = data.o_n;
 
- 
     console.log(
       'Updated Data in Product Component:',
       this.receivedCategories,
@@ -233,7 +245,6 @@ setTimeout(() => {
   buttonValueclickedd: number = 1;
   //////////////////////////////////////////
   searchFromSidebar: string = '';
-
 
   receiveSearchText(value: string) {
     this.searchFromSidebar = value;
@@ -248,13 +259,9 @@ setTimeout(() => {
   currentPage = 1;
   arrr: (number | string)[] = [];
 
-
-
   generatePagination() {
     const buttonprev = document.getElementById('prev');
     const buttonnext = document.getElementById('next');
-
-    
 
     const pages: (number | string)[] = [];
 
@@ -306,63 +313,66 @@ setTimeout(() => {
     this.arrr = pages;
     this.buttonValueclickedd = this.currentPage;
 
-  console.log("Pagination buttons:", this.arrr);
-  console.log("im herrrrrrrrrrrrrrrrrrrrrrrr" , this.isusedbtn);
+    console.log('Pagination buttons:', this.arrr);
+    console.log('im herrrrrrrrrrrrrrrrrrrrrrrr', this.isusedbtn);
 
+    setTimeout(() => {
+      const allButtons = Array.from(
+        document.getElementsByClassName(
+          'bttngen'
+        ) as HTMLCollectionOf<HTMLElement>
+      );
+      allButtons.forEach((btn) => {
+        btn.classList.remove('bg-gray-200', 'text-black');
+      });
 
-  setTimeout(() => {
-    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+      const activeButton = allButtons.find((btn) => {
+        return btn.innerText === this.isusedbtn.toString();
+      });
+
+      if (activeButton) {
+        activeButton.classList.add('bg-gray-200', 'text-black');
+      }
+    }, 0);
+  }
+
+  updateActiveButton(): void {
+    const allButtons = Array.from(
+      document.getElementsByClassName(
+        'bttngen'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+
     allButtons.forEach((btn) => {
       btn.classList.remove('bg-gray-200', 'text-black');
     });
-  
-    const activeButton = allButtons.find((btn) => {
-      return btn.innerText === this.isusedbtn.toString();
-    });
-  
+
+    const activeButton = allButtons.find(
+      (btn) => btn.innerText === this.currentPage.toString()
+    );
     if (activeButton) {
       activeButton.classList.add('bg-gray-200', 'text-black');
     }
-  }, 0);
-  
-
-
-}
-
-updateActiveButton(): void {
-  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
-
-  allButtons.forEach((btn) => {
-    btn.classList.remove('bg-gray-200', 'text-black'); 
-  });
-
-  const activeButton = allButtons.find((btn) => btn.innerText === this.currentPage.toString());
-  if (activeButton) {
-    activeButton.classList.add('bg-gray-200', 'text-black'); 
   }
-}
 
   press(event: Event) {
     const button = event.target as HTMLButtonElement;
 
-  const value = parseInt(button.innerText);
+    const value = parseInt(button.innerText);
 
-  if (!isNaN(value)) {
-    this.currentPage = value;
-        const button = event.target as HTMLButtonElement;
-        const buttonValue: number = parseInt(button.innerText, 10);
-        console.log("bttttttttttttttttttttttttttttttttttttttttttm" ,this.currentPage);
-        this.isusedbtn= value
-        console.log("usebbbbbbttn Amtrrrrrrrrrrrrrrrrr" ,this.isusedbtn);
-        
-        
+    if (!isNaN(value)) {
+      this.currentPage = value;
+      const button = event.target as HTMLButtonElement;
+      const buttonValue: number = parseInt(button.innerText, 10);
+      console.log(
+        'bttttttttttttttttttttttttttttttttttttttttttm',
+        this.currentPage
+      );
+      this.isusedbtn = value;
+      console.log('usebbbbbbttn Amtrrrrrrrrrrrrrrrrr', this.isusedbtn);
 
-        this.updateActiveButton();
-        /////////////////////////////////////////
-       
-   
-   
-
+      this.updateActiveButton();
+      /////////////////////////////////////////
 
       console.log('ana hna in product component Haniiii', this.tot_pages);
       const buttonnext = document.getElementById('next');
@@ -382,7 +392,7 @@ updateActiveButton(): void {
 
       if (this.searchFromSidebar.length !== 0) {
         /////////////////
-
+        this.loading = true;
         this.PoroductsService.getSrearched(
           this.searchFromSidebar,
           buttonValue
@@ -392,6 +402,7 @@ updateActiveButton(): void {
             var products: any = data;
 
             this.x = products.data.paginatedResults;
+            this.loading = false;
             console.log('Search results:', this.x);
 
             if (this.x.length > 0) {
@@ -402,12 +413,13 @@ updateActiveButton(): void {
           },
           error: (err) => {
             console.log('Error during search:', err);
+            this.loading = false;
           },
           complete: () => {
             console.log('Search request complete');
           },
         });
-        return; 
+        return;
       }
 
       if (
@@ -417,22 +429,27 @@ updateActiveButton(): void {
         this.minprice == 200 &&
         this.maxprice == 20000
       ) {
+        this.loading = true;
         this.PoroductsService.getallproductsbuttn(buttonValue).subscribe({
           next: (data) => {
             console.log(data);
             var products: any = data;
 
             this.x = products.data.products;
+            this.loading = false;
             console.log('buttonclickeddddd');
             console.log(this.x);
           },
-          error: (err) => { },
+          error: (err) => {
+            this.loading = false;
+          },
           complete: () => {
             console.log('completeeee');
           },
         });
       }
       if (this.receivedCategories.length && this.newtoold) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           this.receivedCategories,
           this.minprice,
@@ -445,15 +462,16 @@ updateActiveButton(): void {
             console.log(data);
             var products: any = data;
 
-
             this.tot_pages = products.data.totalPages;
             console.log('totalllll', this.tot_pages);
-           
+
             console.log(products.data.products);
             this.x = products.data.products;
+            this.loading = false;
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -464,6 +482,7 @@ updateActiveButton(): void {
       ////////////////////////////////////////////////////
 
       if (this.receivedCategories.length && this.oldtonew) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           this.receivedCategories,
           this.minprice,
@@ -483,9 +502,11 @@ updateActiveButton(): void {
             console.log('old to newww', this.tot_pages);
             console.log(products.data.products);
             this.x = products.data.products;
+            this.loading = false;
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -494,6 +515,7 @@ updateActiveButton(): void {
       }
 
       if (this.receivedCategories.length && !this.oldtonew && !this.oldtonew) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           this.receivedCategories,
           this.minprice,
@@ -505,15 +527,15 @@ updateActiveButton(): void {
             console.log(data);
             var products: any = data;
             this.tot_pages = products.data.totalPages;
-   
 
             console.log(products.data.products);
             this.x = products.data.products;
 
-            this.x = products.data.products;
+            this.loading = false;
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -522,6 +544,7 @@ updateActiveButton(): void {
       }
 
       if (this.receivedCategories.length == 0 && this.oldtonew) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           [],
           this.minprice,
@@ -538,6 +561,7 @@ updateActiveButton(): void {
             );
             // this.arr = [];
             this.tot_pages = products.data.totalPages;
+
             // for (var i = 1; i <= this.tot_pages; i++) {
             //   this.arr.push(i);
             // }
@@ -548,10 +572,11 @@ updateActiveButton(): void {
             console.log(products.data.products);
             this.x = products.data.products;
 
-            this.x = products.data.products;
+            this.loading = false;
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -560,6 +585,7 @@ updateActiveButton(): void {
       }
 
       if (this.receivedCategories.length == 0 && this.newtoold) {
+        this.loading = true;
         console.log(buttonValue);
         this.PoroductsService.getFilteredProducts(
           [],
@@ -587,10 +613,11 @@ updateActiveButton(): void {
             console.log(products.data.products);
             this.x = products.data.products;
 
-            this.x = products.data.products;
+            this.loading = false;
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -600,27 +627,26 @@ updateActiveButton(): void {
     }
   }
 
-pressclickedp() {
-  if (this.currentPage > 1) {
-    this.currentPage--;
-this.generatePagination();
- console.log("..000000000000000000000000" , this.isusedbtn)
- ///////////////////////////
- console.log(',,', this.buttonValueclickedd);
+  pressclickedp() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.generatePagination();
+      console.log('..000000000000000000000000', this.isusedbtn);
+      ///////////////////////////
+      console.log(',,', this.buttonValueclickedd);
     }
   }
 
-pressclickedn() {
-  if (this.currentPage < this.tot_pages) {
-    this.currentPage++;
-    this.generatePagination();
-    console.log("..000000000000000000000000" , this.isusedbtn)
-   
-   console.log(",,," ,this.buttonValueclickedd);
+  pressclickedn() {
+    if (this.currentPage < this.tot_pages) {
+      this.currentPage++;
+      this.generatePagination();
+      console.log('..000000000000000000000000', this.isusedbtn);
+
+      console.log(',,,', this.buttonValueclickedd);
     }
   }
 
- 
   //   press(event: Event) {
 
   //     // this.buttonValueclickedd=1
