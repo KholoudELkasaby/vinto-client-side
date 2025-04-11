@@ -132,6 +132,8 @@ export class CardComponent implements OnInit, OnChanges {
   toggleFavorite(productId: string): void {
     this.productStates[productId].isFavorite =
       !this.productStates[productId].isFavorite;
+    console.log('Toggle favorite:', productId);
+
     this.toggleWish(this.userId, productId);
   }
   //   loadCartState(): void {
@@ -202,6 +204,8 @@ export class CardComponent implements OnInit, OnChanges {
   }
 
   toggleWish(userId: string, productId: string): void {
+    console.log('Toggle wishlist:', productId);
+    console.log('userId:', userId);
     this.wishService.getAll(userId).subscribe({
       next: (response) => {
         const wishlist = response.data.wishlist;
@@ -209,10 +213,14 @@ export class CardComponent implements OnInit, OnChanges {
         const exists = this.wishlistItems.some(
           (item) => item._id === productId
         );
-
+        console.log('Exists:', exists);
+        console.log('uswe:', userId);
         if (exists) {
+          console.log('from f');
           this.removefromWish(userId, productId);
         } else {
+          console.log('from e');
+
           this.addToWish(userId, productId);
         }
       },
