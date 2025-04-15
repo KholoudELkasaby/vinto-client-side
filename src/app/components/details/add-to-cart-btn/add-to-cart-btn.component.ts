@@ -31,8 +31,9 @@ export class AddToCartBtnComponent {
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private genral: GenralService
+  ) { }
 
   ngOnInit() {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -54,7 +55,9 @@ export class AddToCartBtnComponent {
       return;
     }
     this.cartService.addToCart(id, productId, quantity).subscribe({
-      next: (response) => {
+      next: (response: any) => {
+        this.genral.setQuantity(response.ItemsOrdered.lingth);
+        this.genral.updateCartValue(this.userId);
         this.notificationService.showNotification({
           message: 'added to Cart Successfully!',
           type: 'success',
