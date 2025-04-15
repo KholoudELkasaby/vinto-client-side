@@ -22,6 +22,7 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
 import { ShipmentManagementComponent } from './components/shipment-management/shipment-management.component';
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
 import { AdminSelectionComponent } from './components/admin/admin-selection/admin-selection.component';
+import { ServerFailComponent } from './components/server-fail/server-fail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -90,6 +91,10 @@ export const routes: Routes = [
     path: 'admin/:model',
     component: AdminSelectionComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'fail',
+    component: ServerFailComponent,
   },
   { path: 'not-auth', component: NotAuthorizedComponent },
   { path: '**', component: NotFoundComponent }, //
