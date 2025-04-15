@@ -310,21 +310,26 @@
   <div
     class="bg-background-color w-full lg:col-span-4 flex flex-col items-center rounded-lg shadow-md"
   >
-    <h1 class="text-2xl font-semibold mt-6">Order Summary</h1>
+    <h1 class="text-2xl font-semibold mt-6">Cart Summary</h1>
     <hr class="bg-gray-color text-gray-color h-[2px] w-[80%] mt-3" />
     <!-- Items Count -->
     @if(cart && cart.items){
     <div class="flex justify-between w-[80%] mt-3">
       <div class="flex justify-center items-center gap-2">
         <p class="text-lg font-semibold">{{ cart.items.length }} Items</p>
-        <p class="text-xs text-gray-400 text-center">{{ totalQuantity }} Quantity</p>
+        <p class="text-xs text-gray-400 text-center">
+          {{ totalQuantity }} Quantity
+        </p>
       </div>
       <p class="text-lg font-semibold">
         EGP {{ (total | number : "1.2-2") || 0 }}
       </p>
     </div>
 
-    <div class="flex justify-between w-[80%] mt-6">
+    <div
+      class="flex justify-between w-[80%] mt-6"
+      *ngIf="cart.items.length > 0"
+    >
       <p class="text-lg font-semibold">Shipping Fees</p>
       <p class="text-xl font-semibold text-primary">EGP {{ deliveryFees }}</p>
     </div>
@@ -343,9 +348,14 @@
 
     <!-- Checkout Button -->
     <button
-      (click)="checkout()"
+      (click)="checkout(); onCheckout()"
       [disabled]="!cart?.items?.length"
-      class="w-[85%] bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
+      [ngClass]="
+        !cart?.items?.length
+          ? 'bg-gray-300 cursor-not-allowed'
+          : 'bg-black text-white transition-all hover:scale-105 active:scale-95'
+      "
+      class="w-[85%] px-10 mt-7 mb-8 py-2 rounded-xl"
       [title]="
         !cart?.items?.length ? 'Your cart is empty' : 'Proceed to checkout'
       "

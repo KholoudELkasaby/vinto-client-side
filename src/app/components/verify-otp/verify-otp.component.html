@@ -44,16 +44,23 @@
         (ngSubmit)="verifyOTP()"
         class="w-full max-w-xs flex flex-col items-center"
       >
-        <div class="flex gap-2 lg:gap-3 mb-6">
-          <input
-            *ngFor="let control of otpControls; let i = index"
-            type="text"
-            maxlength="1"
-            [formControlName]="'digit' + (i + 1)"
-            (input)="onOtpInput($event, i)"
-            (keydown)="onKeyDown($event, i)"
-            class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-100 border border-gray-300 rounded-md text-center font-poppins text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 text-black"
-          />
+        <div class="otp-inputs flex gap-2">
+          <mat-form-field
+            appearance="outline"
+            *ngFor="let control of otpForm.controls | keyvalue; let i = index"
+          >
+            <input
+              matInput
+              #otpInput
+              [formControlName]="control.key"
+              maxlength="1"
+              (keyup)="onOtpInput($event, i)"
+              (keydown)="onKeyDown($event, i)"
+              class="otp-input"
+              type="text"
+              autocomplete="off"
+            />
+          </mat-form-field>
         </div>
 
         <div *ngIf="errorMessages.length > 0" class="w-full text-center mb-4">

@@ -50,6 +50,7 @@ export class UserDetailsComponent implements OnInit {
   userId: string = '';
   UserProfile: UserProfile | null = null;
   private apiUrl = 'http://localhost:4000';
+  successMessage: string = '';
 
   countries = [
     'Egypt',
@@ -410,35 +411,7 @@ export class UserDetailsComponent implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          if (response.status === 'success') {
-            this.saveProfileToLocalStorage(response.data);
-
-            if (response.data.country) {
-              this.availableCities = this.cities[response.data.country] || [];
-            }
-
-            this.userForm.patchValue({
-              firstName: response.data.firstName,
-              lastName: response.data.lastName,
-              phoneNumber: response.data.phoneNumber,
-              address: response.data.address,
-              country: response.data.country,
-              city: response.data.city,
-            });
-
-            if (response.data.picture) {
-              this.imagePreview = this.getImageUrl(response.data.picture);
-            }
-
-            this.isEditing = false;
-            Object.keys(this.userForm.controls).forEach((key) => {
-              this.userForm.get(key)?.disable();
-            });
-
-            this.errorMessages = ['Profile updated successfully'];
-            this.selectedFile = null;
-          }
-          this.isLoading = false;
+          this.handleApiResponse(response);
         },
         error: (error) => {
           this.isLoading = false;
@@ -544,13 +517,15 @@ export class UserDetailsComponent implements OnInit {
         .subscribe({
           next: (response) => {
             if (response.status === 'success') {
-              this.errorMessages = ['Password updated successfully'];
+              this.successMessage = 'Password updated successfully';
+              this.errorMessages = [];
               this.isChangingPassword = false;
               this.passwordForm.reset();
             }
           },
           error: (error) => {
             this.isLoading = false;
+            this.successMessage = '';
             if (error.status === 401) {
               this.errorMessages = ['Current password is incorrect'];
             } else {
@@ -565,6 +540,37 @@ export class UserDetailsComponent implements OnInit {
         });
     } else {
       this.errorMessages = ['Please fill all required fields'];
+    }
+  }
+
+  private handleApiResponse(response: any) {
+    if (response.status === 'success') {
+      this.successMessage = 'Profile updated successfully';
+      this.errorMessages = [];
+      this.saveProfileToLocalStorage(response.data);
+
+      this.userForm.patchValue({
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        phoneNumber: response.data.phoneNumber,
+        address: response.data.address,
+        country: response.data.country,
+        city: response.data.city,
+      });
+
+      if (response.data.picture) {
+        this.imagePreview = this.getImageUrl(response.data.picture);
+      }
+
+      this.isEditing = false;
+      Object.keys(this.userForm.controls).forEach((key) => {
+        this.userForm.get(key)?.disable();
+      });
+
+      this.selectedFile = null;
+    } else {
+      this.successMessage = '';
+      this.errorMessages = [response.message || 'An error occurred'];
     }
   }
 }

@@ -37,16 +37,13 @@
         <h2 class="card-title font-medium w-full truncate">
           {{ product.title }}
         </h2>
-        <div class="flex gap-3">
+        <div class="flex gap-3" *ngIf="isLoggedIn">
           <i
             class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
             (click)="
-              addToCart(userId, product._id, quantity); $event.stopPropagation()
+              addToCart(userId, product._id, product.quantity);
+              $event.stopPropagation()
             "
-            [ngClass]="{
-              'text-green-500': productStates[product._id].isInCart,
-              'text-black': !productStates[product._id].isInCart
-            }"
           ></i>
           <i
             [ngClass]="{
@@ -130,8 +127,7 @@
           <i
             *ngFor="let i of [1, 2, 3, 4, 5]"
             class="fa-solid fa-star text-[#E2E0E0]"
-          ></i
-          >>
+          ></i>
         </div>
       </div>
     </div>

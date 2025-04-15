@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { GenralService } from '../../../services/genral.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-card',
@@ -29,7 +30,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
   userId: any;
-  quantity: number = 1;
   wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
@@ -46,6 +46,10 @@ export class CardComponent implements OnInit, OnChanges {
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
 
+  isOutOfStock(quantity: number): boolean {
+    return quantity === 0;
+  }
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -53,7 +57,8 @@ export class CardComponent implements OnInit, OnChanges {
     private wishService: WishService,
     private authService: AuthService,
     private genral: GenralService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -81,9 +86,20 @@ export class CardComponent implements OnInit, OnChanges {
   }
 
   addToCart(id: string, productId: string, quantity: number): void {
+    if (this.isOutOfStock(quantity)) {
+      this.notificationService.showNotification({
+        message: 'This item is out of Stock for now!',
+        type: 'error', // You can use 'error' to indicate it's an issue
+      });
+      return; // Don't proceed if out of stock
+    }
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
         this.genral.increment();
+        this.notificationService.showNotification({
+          message: 'added to Cart Successfully!',
+          type: 'success', // or 'info', 'error', based on your style
+        });
       },
     });
   }
@@ -218,10 +234,18 @@ export class CardComponent implements OnInit, OnChanges {
         if (exists) {
           console.log('from f');
           this.removefromWish(userId, productId);
+          this.notificationService.showNotification({
+            message: 'Removed from Wishlist Successfully!',
+            type: 'success', // or 'info', 'error', based on your style
+          });
         } else {
           console.log('from e');
 
           this.addToWish(userId, productId);
+          this.notificationService.showNotification({
+            message: 'Added to Wishlist Successfully!',
+            type: 'success', // or 'info', 'error', based on your style
+          });
         }
       },
       error: (err) => {
