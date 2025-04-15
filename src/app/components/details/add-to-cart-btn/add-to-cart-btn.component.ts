@@ -45,14 +45,19 @@ export class AddToCartBtnComponent {
   }
 
   addToCart(id: string, productId: string, quantity: number): void {
+    if (!this.isLoggedIn) {
+      this.notificationService.showNotification({
+        message: 'You need to log in to add items to the cart.',
+        type: 'warning', // or 'info', 'error', based on your style
+      });
+      return;
+    }
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
-        console.log('Test From Cart Successfully!');
         this.notificationService.showNotification({
           message: 'added to Cart Successfully!',
           type: 'info',
         });
-        this.router.navigate(['/cart']);
       },
       error: (error) => {
         this.notificationService.showNotification({

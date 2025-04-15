@@ -8,6 +8,7 @@ import { WishService } from '../../services/wish.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-details',
@@ -36,8 +37,9 @@ export class DetailsComponent {
     private productService: ProductService,
     private wishService: WishService,
     private authService: AuthService,
-    private location: Location
-  ) { }
+    private location: Location,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -81,6 +83,21 @@ export class DetailsComponent {
     });
   }
 
+  handleWishToggle(event: Event): void {
+    event.stopPropagation();
+
+    if (!this.isLoggedIn) {
+      this.notificationService.showNotification({
+        message: 'You need to log in to add to your wishlist.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    this.toggleWish(this.userId, this.product._id);
+    this.toggleLike(); // toggle only if logged in
+  }
+
   updateLikedState() {
     if (this.userId && this.product) {
       this.liked = this.isInWishlist(this.product._id);
@@ -88,6 +105,13 @@ export class DetailsComponent {
   }
 
   toggleWish(userId: string, productId: string): void {
+    if (!this.isLoggedIn) {
+      this.notificationService.showNotification({
+        message: 'You need to log in to add to your wishlist.',
+        type: 'warning',
+      });
+      return;
+    }
     this.wishService.getAll(userId).subscribe({
       next: (response) => {
         const wishlist = response.data.wishlist;
@@ -111,10 +135,38 @@ export class DetailsComponent {
     return this.wishlistItems.some((item) => item._id === productId); // Use item._id
   }
   addToWish(id: string, productId: string): void {
-    this.wishService.addWish(id, productId).subscribe({});
+    this.wishService.addWish(id, productId).subscribe({
+      next: () => {
+        this.notificationService.showNotification({
+          message: 'added to Wishlist Successfully!',
+          type: 'info',
+        });
+        this.liked = true;
+      },
+      error: () => {
+        this.notificationService.showNotification({
+          message: 'Failed adding to Wishlist.',
+          type: 'error',
+        });
+      },
+    });
   }
   removefromWish(id: string, productId: string): void {
-    this.wishService.removeOne(id, productId).subscribe({});
+    this.wishService.removeOne(id, productId).subscribe({
+      next: () => {
+        this.notificationService.showNotification({
+          message: 'removed from Wishlist Successfully!',
+          type: 'info',
+        });
+        this.liked = false;
+      },
+      error: () => {
+        this.notificationService.showNotification({
+          message: 'Failed to remove item from Wishlist.',
+          type: 'error',
+        });
+      },
+    });
   }
 
   selectImage(image: string): void {
