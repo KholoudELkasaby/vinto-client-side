@@ -29,26 +29,24 @@ export class CartService {
       return of(this.historySubject.value);
     }
   }
-
   filterHistory(status: string): any[] {
+    // Make sure the data structure is properly typed.
     if (!this.historyData || this.historyData.length === 0) {
       return [];
     }
 
     if (status === 'all orders') return this.historyData;
+    if (status === 'summary') {
+      return this.historyData.filter((item: any) => item.summaryExists); // Ensure summaryExists exists
+    }
 
     const statusMap: { [key: string]: string } = {
       Completed: 'completed',
-      Cancelled: 'cancelled',
+      Cancelled: 'canceled',
       inprogress: 'inprogress',
-      Summary: 'summary',
     };
 
-    return this.historyData.filter((item) => {
-      if (status === 'summary') {
-        return item.summaryExists;
-      }
-
+    return this.historyData.filter((item: any) => {
       const mappedStatus = statusMap[status];
       return item.status && item.status === mappedStatus;
     });

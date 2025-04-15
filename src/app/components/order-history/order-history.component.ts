@@ -56,7 +56,6 @@ export class OrderHistoryComponent {
       this.user = this.authService.getUserId();
       if (loggedIn && this.user) {
         this.loadData();
-      } else {
       }
     });
   }
@@ -67,6 +66,7 @@ export class OrderHistoryComponent {
         console.log('history', data);
         this.history = data;
         this.historyDisplayed = this.cartService.filterHistory(this.activeTab);
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error fetching the history:', err);
@@ -83,6 +83,7 @@ export class OrderHistoryComponent {
     this.activeTab = tab;
     this.historyDisplayed = this.cartService.filterHistory(tab);
     console.log('Filtered data for tab', tab, ':', this.historyDisplayed);
+    this.cdr.markForCheck();
   }
 
   toggleMenu() {
