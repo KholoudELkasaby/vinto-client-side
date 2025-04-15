@@ -9,7 +9,9 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { PaginationModule } from '@coreui/angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+
 import { ProductItemSkeletonComponent } from '../product-item-skeleton/product-item-skeleton.component';
+
 
 @Component({
   selector: 'app-products',
@@ -22,6 +24,7 @@ import { ProductItemSkeletonComponent } from '../product-item-skeleton/product-i
     PaginatorModule,
     // PaginationModule,
     MatPaginatorModule,
+
     ProductItemSkeletonComponent,
   ],
   templateUrl: './products.component.html',
@@ -50,7 +53,9 @@ export class ProductsComponent implements OnInit {
   //  products:any;
   arr: number[] = [];
   flag: boolean = false;
-  loading: boolean = true; // Loading state for the component
+
+  loading: boolean = false; // Loading state for the component
+
 
   constructor(private PoroductsService: ProductService) {}
 
@@ -81,6 +86,7 @@ export class ProductsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching products:', err);
+        this.loading = false;
       },
       complete: () => {
         console.log('Products fetch complete');
@@ -329,11 +335,13 @@ export class ProductsComponent implements OnInit {
         return btn.innerText === this.isusedbtn.toString();
       });
 
+
       if (activeButton) {
         activeButton.classList.add('bg-gray-200', 'text-black');
       }
     }, 0);
   }
+
 
   updateActiveButton(): void {
     const allButtons = Array.from(
@@ -401,6 +409,7 @@ export class ProductsComponent implements OnInit {
             var products: any = data;
 
             this.x = products.data.paginatedResults;
+            this.loading = false;
             console.log('Search results:', this.x);
             this.loading = false;
 
@@ -412,6 +421,7 @@ export class ProductsComponent implements OnInit {
           },
           error: (err) => {
             console.log('Error during search:', err);
+            this.loading = false;
           },
           complete: () => {
             console.log('Search request complete');
@@ -434,11 +444,15 @@ export class ProductsComponent implements OnInit {
             var products: any = data;
 
             this.x = products.data.products;
-            this.loading = false; // Set loading to false after data is fetched
+
+            this.loading = false;
             console.log('buttonclickeddddd');
             console.log(this.x);
           },
-          error: (err) => {},
+          error: (err) => {
+            this.loading = false;
+          },
+
           complete: () => {
             console.log('completeeee');
           },
@@ -463,10 +477,13 @@ export class ProductsComponent implements OnInit {
 
             console.log(products.data.products);
             this.x = products.data.products;
+
             this.loading = false; // Set loading to false after data is fetched
+
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -497,10 +514,13 @@ export class ProductsComponent implements OnInit {
             console.log('old to newww', this.tot_pages);
             console.log(products.data.products);
             this.x = products.data.products;
+
             this.loading = false; // Set loading to false after data is fetched
+
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -525,10 +545,13 @@ export class ProductsComponent implements OnInit {
             console.log(products.data.products);
             this.x = products.data.products;
 
+
             this.loading = false; // Set loading to false after data is fetched
+
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -554,6 +577,7 @@ export class ProductsComponent implements OnInit {
             );
             // this.arr = [];
             this.tot_pages = products.data.totalPages;
+
             // for (var i = 1; i <= this.tot_pages; i++) {
             //   this.arr.push(i);
             // }
@@ -564,9 +588,11 @@ export class ProductsComponent implements OnInit {
             console.log(products.data.products);
             this.x = products.data.products;
             this.loading = false; // Set loading to false after data is fetched
+
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
@@ -603,10 +629,13 @@ export class ProductsComponent implements OnInit {
             console.log(products.data.products);
             this.x = products.data.products;
 
+
             this.loading = false; // Set loading to false after data is fetched
+
           },
           error: (err) => {
             console.log(err);
+            this.loading = false;
           },
           complete: () => {
             console.log('completeeee');
