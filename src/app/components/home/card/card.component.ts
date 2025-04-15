@@ -94,8 +94,9 @@ export class CardComponent implements OnInit, OnChanges {
       return; // Don't proceed if out of stock
     }
     this.cartService.addToCart(id, productId, quantity).subscribe({
-      next: (response) => {
-        this.genral.increment();
+      next: (response: any) => {
+        this.genral.setQuantity(response.ItemsOrdered.lingth);
+        this.genral.updateCartValue(this.userId);
         this.notificationService.showNotification({
           message: 'added to Cart Successfully!',
           type: 'success', // or 'info', 'error', based on your style
@@ -135,6 +136,7 @@ export class CardComponent implements OnInit, OnChanges {
               isInCart: false,
             };
           }
+          this.imageLoading[product._id] = true;
         });
         this.cdr.detectChanges();
         if (this.userId) {
@@ -186,7 +188,7 @@ export class CardComponent implements OnInit, OnChanges {
     this.imageIntervals[productId] = setInterval(() => {
       const state = this.productStates[productId];
       state.currentIndex = (state.currentIndex + 1) % images.length;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }, 1000);
   }
 

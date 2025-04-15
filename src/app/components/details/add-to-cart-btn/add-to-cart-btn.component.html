@@ -1,12 +1,7 @@
-<button
-  (click)="addToCart(userId, productId, quantity)"
-  [ngClass]="{
+<button (click)="addToCart(userId, productId, 1)" [ngClass]="{
     'bg-gray-300  cursor-not-allowed': quantity === 0,
     'bg-black text-white transition-all hover:scale-105 active:scale-95 cursor-pointer':
       quantity > 0
-  }"
-  [disabled]="quantity === 0"
-  class="px-10 py-2 rounded-xl"
->
+  }" [disabled]="quantity === 0" class="px-10 py-2 rounded-xl">
   {{ quantity === 0 ? "Out of Stock" : "Add To Cart" }}
 </button>
