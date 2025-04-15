@@ -149,6 +149,7 @@
       <a
         class="cursor-pointer hover:scale-105 active:scale-95"
         routerLink="/wishlist"
+        *ngIf="isLoggedIn"
         ><i
           class="fa-solid fa-heart text-white hover:scale-105 active:scale-95"
         ></i
@@ -167,7 +168,7 @@
           </span>
         </a>
       </div>
-      <a class="relative cursor-pointer" routerLink="/cart"
+      <a class="relative cursor-pointer" routerLink="/cart" *ngIf="isLoggedIn"
         ><i class="fa-solid fa-cart-shopping text-white"></i>
         <span
           *ngIf="numOfItems > 0"
@@ -227,12 +228,6 @@
             (click)="closeDropdown()"
             >Profile</a
           >
-          <a
-            routerLink="/admin/"
-            class="block px-4 py-2 rounded-t-lg hover:bg-black cursor-pointer"
-            (click)="closeDropdown()"
-            >Admin</a
-          >
 
           <a
             class="px-4 py-2 rounded-b-lg cursor-pointer flex gap-2 hover:bg-black hover:gap-3 justify-center items-center transition-all duration-300"
@@ -255,12 +250,6 @@
             class="block px-4 py-2 hover:bg-black"
             (click)="closeDropdown()"
             >Log In</a
-          >
-          <a
-            routerLink="/admin/"
-            class="block px-4 py-2 rounded-b-lg hover:bg-black cursor-pointer"
-            (click)="closeDropdown()"
-            >Admin</a
           >
         </ng-template>
       </div>

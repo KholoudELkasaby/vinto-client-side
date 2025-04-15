@@ -61,8 +61,8 @@ export const routes: Routes = [
     component: ChangePasswordComponent,
     canActivate: [authGuard],
   },
-  { path: 'cart', component: CartComponent },
-  { path: 'wishlist', component: WishListComponent },
+  { path: 'cart', component: CartComponent, canActivate: [authGuard] },
+  { path: 'wishlist', component: WishListComponent, canActivate: [authGuard] },
   { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard] }, //
   {
     path: 'history',
