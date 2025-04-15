@@ -106,53 +106,90 @@
 
         } @else if (history.data.carts) { @for (cart of historyDisplayed; track
         cart.cartId) {
-        <app-oreder-item
-          class="w-full"
-          [cart]="cart"
-          (statusSelected)="onStatusSelected($event, cart.cartId)"
-        ></app-oreder-item>
+        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow w-full mt-4 mb-8 px-4">
+          <div class="w-full mt-4 mb-8 px-4">
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+            >
+              @if(cart.status == "inprogress"){
+              <button
+                (click)="cancelOrder(cart)"
+                class="w-full md:w-auto px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
+              >
+                Cancel Order
+              </button>
 
+              <!-- Status Pill -->
+              <div class="w-full md:w-auto flex items-center">
+                <span
+                  class="px-3 py-1 rounded-full text-sm font-medium"
+                  [ngClass]="{
+                    'bg-yellow-100 text-yellow-800': cart.status === 'Pending',
+                    'bg-blue-100 text-blue-800': cart.status === 'Processing',
+                    'bg-green-100 text-green-800': cart.status === 'Delivered',
+                    'bg-red-100 text-red-800': cart.status === 'Cancelled'
+                  }"
+                >
+                  Status: <span class="text-purple-600 text-sm font-medium">{{ cart.status }}</span>
+                </span>
+              </div>
+
+              <!-- Delivery Time -->
+              <div class="w-full md:w-auto text-gray-600 text-sm">
+                Estimated Delivery: {{ cart.date.split("T")[0] }}
+              </div>
+              }@else{
+
+                <span
+                  class="px-3 py-1 rounded-full text-sm font-medium"
+                  [ngClass]="{
+                    'bg-yellow-100 text-yellow-800': cart.status === 'Pending',
+                    'bg-blue-100 text-blue-800': cart.status === 'Processing',
+                    'bg-green-100 text-green-800': cart.status === 'Delivered',
+                    'bg-red-100 text-red-800': cart.status === 'Cancelled'
+                  }"
+                >
+                  Status: <span class="text-purple-600 text-sm font-medium">{{ cart.status }}</span>
+                </span>
+              <!-- <p>Cancelled</p> -->
+              }
+
+            <button
+              (click)="toggleCartCollapse(cart.cartId)"
+              class="flex items-center justify-center w-8 h-8 hover:bg-gray-100 rounded-full transition-colors"
+            >
+                              <svg
+                class="w-4 h-4 transition-transform"
+                [class.rotate-180]="!isCartCollapsed(cart.cartId)"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            </div>
+            <hr class="mt-4 border-t border-gray-200" />
+          </div>
+
+          <div *ngIf="!isCartCollapsed(cart.cartId)" class="w-full">
+            <app-oreder-item
+              class="w-full"
+              [cart]="cart"
+
+              (statusSelected)="onStatusSelected($event, cart.cartId)"
+            ></app-oreder-item>
+          </div>
+        </div>
         <!-- use a "pill" style -->
         <!-- <span class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-sm font-medium"> -->
         <!-- {{cart.status}} -->
         <!-- </span> -->
-        <div class="w-full mt-4 mb-6 px-4">
-          <div
-            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
-          >
-            @if(cart.status == "inprogress"){
-            <button
-              (click)="cancelOrder(cart)"
-              class="w-full md:w-auto px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
-            >
-              Cancel Order
-            </button>
-
-            <!-- Status Pill -->
-            <div class="w-full md:w-auto flex items-center">
-              <span
-                class="px-3 py-1 rounded-full text-sm font-medium"
-                [ngClass]="{
-                  'bg-yellow-100 text-yellow-800': cart.status === 'Pending',
-                  'bg-blue-100 text-blue-800': cart.status === 'Processing',
-                  'bg-green-100 text-green-800': cart.status === 'Delivered',
-                  'bg-red-100 text-red-800': cart.status === 'Cancelled'
-                }"
-              >
-                Status: {{ cart.status }}
-              </span>
-            </div>
-
-            <!-- Delivery Time -->
-            <div class="w-full md:w-auto text-gray-600 text-sm">
-              Estimated Delivery: {{ cart.date.split("T")[0] }}
-            </div>
-            }@else{
-            <p>Cancelled</p>
-            }
-          </div>
-          <hr class="mt-4 border-t border-gray-200" />
-        </div>
         <!-- <div class="w-[100%]"> -->
         <!--   <hr class="mt-5"/> -->
         <!--   <div class="flex justify-between "> -->

@@ -15,7 +15,7 @@ export class CartService {
   private historySubject = new BehaviorSubject<any[]>([]);
   private historyData: any[] = [];
 
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) { }
 
   getHistory(userId: string): Observable<any> {
     if (this.historyData.length === 0) {
@@ -41,8 +41,8 @@ export class CartService {
     }
 
     const statusMap: { [key: string]: string } = {
-      Completed: 'completed',
-      Cancelled: 'canceled',
+      completed: 'completed',
+      canceled: 'canceled',
       inprogress: 'inprogress',
     };
 

@@ -34,6 +34,9 @@ export class GenralService {
     });
   }
 
+  setQuantity(quantity: number): void {
+    this.NumberOfItemInTheCart.next(quantity);
+  }
   increment(): void {
     this.NumberOfItemInTheCart.next(this.NumberOfItemInTheCart.getValue() + 1);
   }

@@ -16,6 +16,7 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { GenralService } from '../../services/genral.service';
 import { NotificationService } from '../../services/notification.service';
+import { Cart } from '../../models/cart.model';
 
 @Component({
   selector: 'app-productitem',
@@ -33,7 +34,7 @@ export class ProductitemComponent {
   @Input() id: any;
   userId: any;
   quantity: number = 1;
-  inWishlist: boolean = false;
+  inWishlist: boolean | null = false;
   wishlistItems: any[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
   deleteMode: 'single' | 'all' = 'all';
@@ -50,7 +51,7 @@ export class ProductitemComponent {
     private genral: GenralService,
     private cdr: ChangeDetectorRef,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -195,8 +196,9 @@ export class ProductitemComponent {
       return;
     }
     this.cartService.addToCart(id, productId, quantity).subscribe({
-      next: (response) => {
-        this.genral.increment();
+      next: (response: any) => {
+        this.genral.setQuantity(response.ItemsOrdered.lingth);
+        this.genral.updateCartValue(this.userId);
         this.notificationService.showNotification({
           message: 'Product added to cart successfully!',
           type: 'info', // or 'info', 'error', based on your style

@@ -28,9 +28,13 @@ export class ShipmentService {
 
   getShipmentOrderByCart(cartId: string): Observable<any> {
 
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
     console.log("test")
-    return this.http.get<any>(`${this.apiUrl}/shipmentOrder/progress/${cartId}`)
+    return this.http.get<any>(`${this.apiUrl}/shipmentOrder/progress/${cartId}`, { headers })
       .pipe(
         map(response => ({
           ...response.data.shipmentOrder,

@@ -50,12 +50,14 @@ export class OrderHistoryComponent {
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
   loadingHistory: boolean = true;
+  collapsedCarts: { [cartId: string]: boolean } = {};
+
 
   constructor(
     private authService: AuthService,
     private stripeService: StripeService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -109,4 +111,13 @@ export class OrderHistoryComponent {
     this.stripeService.cancel(this.user, cart.cartId);
     this.cdr.markForCheck();
   }
+
+  toggleCartCollapse(cartId: string): void {
+    this.collapsedCarts[cartId] = !this.collapsedCarts[cartId];
+  }
+
+  isCartCollapsed(cartId: string): boolean {
+    return !!this.collapsedCarts[cartId];
+  }
+
 }

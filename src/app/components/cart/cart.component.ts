@@ -58,7 +58,7 @@ export class CartComponent {
     private genral: GenralService,
     private authService: AuthService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.deliveryFees = this.genral.deliveryFees;
@@ -221,6 +221,7 @@ export class CartComponent {
     this.calculateTotal();
     this.calculateTotalQuantity();
   }
+
   calculateTotal(): void {
     if (!this.cart || !this.cart.items) {
       this.total = 0;
@@ -235,6 +236,7 @@ export class CartComponent {
       return sum + discountedPrice * quantity;
     }, 0);
   }
+
   confirmDeleteAll() {
     this.deleteMode = 'all';
     this.showDeleteModal = true;

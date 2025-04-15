@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ShipmentService } from '../../services/shipment-management.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class ProgressComponent {
   @Input() cartId!: any;
   @Input() cart!: any;
   @Output() goBack = new EventEmitter<void>();
-
+  isLoaded = false;
   currentStatus: string = 'ordered';
   deliveryDate: string = '';
 
@@ -47,16 +47,17 @@ export class ProgressComponent {
     }
   ]
 
-  constructor(private getShipment: ShipmentService) { }
+  constructor(private getShipment: ShipmentService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
     if (this.cartId) {
       this.getShipment.getShipmentOrderByCart(this.cartId).subscribe({
         next: (data) => {
-          this.currentStatus = data.status
-          console.log(data)
-          this.deliveryDate = data.dateOfDelivery
+          this.currentStatus = data.status;
+          this.deliveryDate = data.dateOfDelivery;
+          this.isLoaded = true;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error fetching shipment:', err);
