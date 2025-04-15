@@ -1,7 +1,7 @@
 ---
 # Vinto E-commerce Client-Side
 
-The **Vinto E-commerce Frontend** is a powerful, feature-rich Angular application designed to deliver a seamless and modern shopping experience. It integrates tightly with the Vinto E-commerce API and provides interfaces for customers, administrators, and shipment companies.
+The **Vinto E-commerce** is a powerful, feature-rich Angular application designed to deliver a seamless and modern shopping experience. It integrates tightly with the Vinto E-commerce API and provides interfaces for customers, administrators, and shipment companies.
 
 
 ---
