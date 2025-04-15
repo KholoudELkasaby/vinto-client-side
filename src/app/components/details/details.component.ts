@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { DetailsInfoComponent } from './details-info/details-info.component';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
@@ -12,6 +17,7 @@ import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-details',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, DetailsInfoComponent, RouterModule],
   providers: [WishService],
   templateUrl: './details.component.html',
@@ -38,7 +44,8 @@ export class DetailsComponent {
     private wishService: WishService,
     private authService: AuthService,
     private location: Location,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -49,10 +56,12 @@ export class DetailsComponent {
       if (loggedIn && this.userId) {
         this.fetchProduct();
         this.fetchWishlist();
+        this.cdr.markForCheck();
       } else {
         this.fetchProduct();
         this.wishlistItems = [];
         this.liked = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -60,6 +69,7 @@ export class DetailsComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['product'] && this.products) {
       this.updateLikedState();
+      this.cdr.markForCheck();
     }
   }
 
@@ -78,6 +88,7 @@ export class DetailsComponent {
       next: (response) => {
         this.wishlistItems = response.data.wishlist.products;
         this.updateLikedState();
+        this.cdr.markForCheck();
       },
       error: (err) => console.error('Error fetching wishlist:', err),
     });
@@ -174,6 +185,7 @@ export class DetailsComponent {
     setTimeout(() => {
       this.selectedImage = image;
       this.isFading = false;
+      this.cdr.markForCheck(); // Mark for check after the image change
     }, 300);
   }
 

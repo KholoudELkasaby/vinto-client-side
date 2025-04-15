@@ -59,7 +59,7 @@ export class CardComponent implements OnInit, OnChanges {
     private genral: GenralService,
     private cdr: ChangeDetectorRef,
     private notificationService: NotificationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -136,6 +136,7 @@ export class CardComponent implements OnInit, OnChanges {
               isInCart: false,
             };
           }
+          this.imageLoading[product._id] = true;
         });
         this.cdr.detectChanges();
         if (this.userId) {
@@ -187,7 +188,7 @@ export class CardComponent implements OnInit, OnChanges {
     this.imageIntervals[productId] = setInterval(() => {
       const state = this.productStates[productId];
       state.currentIndex = (state.currentIndex + 1) % images.length;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }, 1000);
   }
 
