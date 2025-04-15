@@ -1,4 +1,4 @@
-<div class="min-h-screen pt-16 md:pt-0 mt-6 ">
+<div class="min-h-screen pt-16 md:pt-0 mt-6">
   <div class="w-full max-w-lg mx-auto p-1 my-2">
     <svg
       [attr.viewBox]="'0 0 ' + ((steps.length - 1) * 60 + 40) + ' 60'"
@@ -55,7 +55,7 @@
       }
     </svg>
   </div>
-  <div class="flex flex-col items-center justify-center w-full ">
+  <div class="flex flex-col items-center justify-center w-full">
     <div class="flex justify-center">
       <img class="w-2/6" src="{{ getCurrentStep()?.image }}" />
     </div>
@@ -70,7 +70,8 @@
       </div>
       <div class="flex flex-col items-center justify-center text-center">
         <p class="max-w-xs md:max-w-sm">
-          delivery Date: <span class="text-gray-500">{{ deliveryDate.split("T")[0] }}</span>
+          delivery Date:
+          <span class="text-gray-500">{{ deliveryDate.split("T")[0] }}</span>
         </p>
         <p class="max-w-xs md:max-w-sm">
           Payment Method: <span class="text-gray-500">Stripe</span>
@@ -87,7 +88,7 @@
   </div>
   <button
     (click)="goBack.emit()"
-    class="m-6 flex items-center text-gray-600 hover:text-gray-900"
+    class="m-6 mb-5 pb-5 flex items-center text-gray-600 hover:text-gray-900"
   >
     <svg
       class="w-4 h-4 mr-2"
