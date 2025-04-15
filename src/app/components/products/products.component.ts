@@ -9,6 +9,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { PaginationModule } from '@coreui/angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { ProductItemSkeletonComponent } from '../product-item-skeleton/product-item-skeleton.component';
 
 @Component({
   selector: 'app-products',
@@ -21,6 +22,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
     PaginatorModule,
     // PaginationModule,
     MatPaginatorModule,
+    ProductItemSkeletonComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -38,7 +40,7 @@ export class ProductsComponent implements OnInit {
   // //////////////////////////
   x: any[] = [];
   isSorted: string = '';
-  lenn:number=0;
+  lenn: number = 0;
   isusedbtn: number = 1;
 
   isFiltered: boolean = false; // Tracks if we're using filtered data
@@ -48,32 +50,34 @@ export class ProductsComponent implements OnInit {
   //  products:any;
   arr: number[] = [];
   flag: boolean = false;
+  loading: boolean = true; // Loading state for the component
 
-  constructor(private PoroductsService: ProductService) { }
+  constructor(private PoroductsService: ProductService) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.PoroductsService.getallproducts().subscribe({
       next: (data) => {
         console.log('Full API response:', data);
         const products: any = data;
-  
+
         // Check if totalPages exists and populate arr
         if (products.data.totalPages) {
           this.tot_pages = products.data.totalPages || 0; // Use totalPages if available, otherwise default to 0
           this.generatePagination();
-  
+
           // Apply style to button with innerText "1"
           setTimeout(() => {
             this.selectButtonWithText('1');
-          }, 0);  // Ensure the DOM is fully updated before applying the styles
-  
+          }, 0); // Ensure the DOM is fully updated before applying the styles
         }
-  
+
         console.log('Total Pages:', this.tot_pages); // Log totalPages to verify it
         console.log('Pagination array after population:', this.arr); // Log the populated pagination array
         console.log('Updated products array:', products.data.products);
-  
+
         this.x = products.data.products;
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error fetching products:', err);
@@ -83,18 +87,22 @@ export class ProductsComponent implements OnInit {
       },
     });
   }
-  
+
   selectButtonWithText(buttonText: string): void {
-    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
-  
-    const buttonToSelect = allButtons.find((btn) => btn.innerText === buttonText);
-  
+    const allButtons = Array.from(
+      document.getElementsByClassName(
+        'bttngen'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+
+    const buttonToSelect = allButtons.find(
+      (btn) => btn.innerText === buttonText
+    );
+
     if (buttonToSelect) {
       buttonToSelect.classList.add('bg-gray-200', 'text-black');
     }
   }
-  
-  
 
   reloadPage() {
     window.location.reload();
@@ -107,34 +115,38 @@ export class ProductsComponent implements OnInit {
     console.log('No products found:', this.noProductsFound);
   }
 
-
-
   updatetotalpage(total_page: any[]) {
-    this.isusedbtn=1
+    this.isusedbtn = 1;
     this.arrr = total_page;
-    // this.tot_pages= total_page 
-    this.tot_pages= total_page.length
+    // this.tot_pages= total_page
+    this.tot_pages = total_page.length;
 
-    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+    const allButtons = Array.from(
+      document.getElementsByClassName(
+        'bttngen'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
 
+    console.log('isusedbtnkkkkkkkkkkk', this.isusedbtn);
 
+    setTimeout(() => {
+      const allButtons = Array.from(
+        document.getElementsByClassName(
+          'bttngen'
+        ) as HTMLCollectionOf<HTMLElement>
+      );
+      allButtons.forEach((btn) => {
+        btn.classList.remove('bg-gray-200', 'text-black');
+      });
 
-console.log("isusedbtnkkkkkkkkkkk" , this.isusedbtn);
+      const activeButton = allButtons.find((btn) => {
+        return btn.innerText === this.isusedbtn.toString();
+      });
 
-setTimeout(() => {
-  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
-  allButtons.forEach((btn) => {
-    btn.classList.remove('bg-gray-200', 'text-black');
-  });
-
-  const activeButton = allButtons.find((btn) => {
-    return btn.innerText === this.isusedbtn.toString();
-  });
-
-  if (activeButton) {
-    activeButton.classList.add('bg-gray-200', 'text-black');
-  }
-}, 0);
+      if (activeButton) {
+        activeButton.classList.add('bg-gray-200', 'text-black');
+      }
+    }, 0);
 
     console.log('ana hna in product component', this.arrr);
     console.log('ana hna in product component Haniiii', this.tot_pages);
@@ -220,7 +232,6 @@ setTimeout(() => {
     this.newtoold = data.n_o;
     this.oldtonew = data.o_n;
 
- 
     console.log(
       'Updated Data in Product Component:',
       this.receivedCategories,
@@ -233,7 +244,6 @@ setTimeout(() => {
   buttonValueclickedd: number = 1;
   //////////////////////////////////////////
   searchFromSidebar: string = '';
-
 
   receiveSearchText(value: string) {
     this.searchFromSidebar = value;
@@ -248,13 +258,9 @@ setTimeout(() => {
   currentPage = 1;
   arrr: (number | string)[] = [];
 
-
-
   generatePagination() {
     const buttonprev = document.getElementById('prev');
     const buttonnext = document.getElementById('next');
-
-    
 
     const pages: (number | string)[] = [];
 
@@ -306,63 +312,66 @@ setTimeout(() => {
     this.arrr = pages;
     this.buttonValueclickedd = this.currentPage;
 
-  console.log("Pagination buttons:", this.arrr);
-  console.log("im herrrrrrrrrrrrrrrrrrrrrrrr" , this.isusedbtn);
+    console.log('Pagination buttons:', this.arrr);
+    console.log('im herrrrrrrrrrrrrrrrrrrrrrrr', this.isusedbtn);
 
+    setTimeout(() => {
+      const allButtons = Array.from(
+        document.getElementsByClassName(
+          'bttngen'
+        ) as HTMLCollectionOf<HTMLElement>
+      );
+      allButtons.forEach((btn) => {
+        btn.classList.remove('bg-gray-200', 'text-black');
+      });
 
-  setTimeout(() => {
-    const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
+      const activeButton = allButtons.find((btn) => {
+        return btn.innerText === this.isusedbtn.toString();
+      });
+
+      if (activeButton) {
+        activeButton.classList.add('bg-gray-200', 'text-black');
+      }
+    }, 0);
+  }
+
+  updateActiveButton(): void {
+    const allButtons = Array.from(
+      document.getElementsByClassName(
+        'bttngen'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+
     allButtons.forEach((btn) => {
       btn.classList.remove('bg-gray-200', 'text-black');
     });
-  
-    const activeButton = allButtons.find((btn) => {
-      return btn.innerText === this.isusedbtn.toString();
-    });
-  
+
+    const activeButton = allButtons.find(
+      (btn) => btn.innerText === this.currentPage.toString()
+    );
     if (activeButton) {
       activeButton.classList.add('bg-gray-200', 'text-black');
     }
-  }, 0);
-  
-
-
-}
-
-updateActiveButton(): void {
-  const allButtons = Array.from(document.getElementsByClassName('bttngen') as HTMLCollectionOf<HTMLElement>);
-
-  allButtons.forEach((btn) => {
-    btn.classList.remove('bg-gray-200', 'text-black'); 
-  });
-
-  const activeButton = allButtons.find((btn) => btn.innerText === this.currentPage.toString());
-  if (activeButton) {
-    activeButton.classList.add('bg-gray-200', 'text-black'); 
   }
-}
 
   press(event: Event) {
     const button = event.target as HTMLButtonElement;
 
-  const value = parseInt(button.innerText);
+    const value = parseInt(button.innerText);
 
-  if (!isNaN(value)) {
-    this.currentPage = value;
-        const button = event.target as HTMLButtonElement;
-        const buttonValue: number = parseInt(button.innerText, 10);
-        console.log("bttttttttttttttttttttttttttttttttttttttttttm" ,this.currentPage);
-        this.isusedbtn= value
-        console.log("usebbbbbbttn Amtrrrrrrrrrrrrrrrrr" ,this.isusedbtn);
-        
-        
+    if (!isNaN(value)) {
+      this.currentPage = value;
+      const button = event.target as HTMLButtonElement;
+      const buttonValue: number = parseInt(button.innerText, 10);
+      console.log(
+        'bttttttttttttttttttttttttttttttttttttttttttm',
+        this.currentPage
+      );
+      this.isusedbtn = value;
+      console.log('usebbbbbbttn Amtrrrrrrrrrrrrrrrrr', this.isusedbtn);
 
-        this.updateActiveButton();
-        /////////////////////////////////////////
-       
-   
-   
-
+      this.updateActiveButton();
+      /////////////////////////////////////////
 
       console.log('ana hna in product component Haniiii', this.tot_pages);
       const buttonnext = document.getElementById('next');
@@ -382,7 +391,7 @@ updateActiveButton(): void {
 
       if (this.searchFromSidebar.length !== 0) {
         /////////////////
-
+        this.loading = true;
         this.PoroductsService.getSrearched(
           this.searchFromSidebar,
           buttonValue
@@ -393,6 +402,7 @@ updateActiveButton(): void {
 
             this.x = products.data.paginatedResults;
             console.log('Search results:', this.x);
+            this.loading = false;
 
             if (this.x.length > 0) {
               console.log('Products found after search');
@@ -407,7 +417,7 @@ updateActiveButton(): void {
             console.log('Search request complete');
           },
         });
-        return; 
+        return;
       }
 
       if (
@@ -417,22 +427,25 @@ updateActiveButton(): void {
         this.minprice == 200 &&
         this.maxprice == 20000
       ) {
+        this.loading = true;
         this.PoroductsService.getallproductsbuttn(buttonValue).subscribe({
           next: (data) => {
             console.log(data);
             var products: any = data;
 
             this.x = products.data.products;
+            this.loading = false; // Set loading to false after data is fetched
             console.log('buttonclickeddddd');
             console.log(this.x);
           },
-          error: (err) => { },
+          error: (err) => {},
           complete: () => {
             console.log('completeeee');
           },
         });
       }
       if (this.receivedCategories.length && this.newtoold) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           this.receivedCategories,
           this.minprice,
@@ -445,12 +458,12 @@ updateActiveButton(): void {
             console.log(data);
             var products: any = data;
 
-
             this.tot_pages = products.data.totalPages;
             console.log('totalllll', this.tot_pages);
-           
+
             console.log(products.data.products);
             this.x = products.data.products;
+            this.loading = false; // Set loading to false after data is fetched
           },
           error: (err) => {
             console.log(err);
@@ -464,6 +477,7 @@ updateActiveButton(): void {
       ////////////////////////////////////////////////////
 
       if (this.receivedCategories.length && this.oldtonew) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           this.receivedCategories,
           this.minprice,
@@ -483,6 +497,7 @@ updateActiveButton(): void {
             console.log('old to newww', this.tot_pages);
             console.log(products.data.products);
             this.x = products.data.products;
+            this.loading = false; // Set loading to false after data is fetched
           },
           error: (err) => {
             console.log(err);
@@ -494,6 +509,7 @@ updateActiveButton(): void {
       }
 
       if (this.receivedCategories.length && !this.oldtonew && !this.oldtonew) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           this.receivedCategories,
           this.minprice,
@@ -505,12 +521,11 @@ updateActiveButton(): void {
             console.log(data);
             var products: any = data;
             this.tot_pages = products.data.totalPages;
-   
 
             console.log(products.data.products);
             this.x = products.data.products;
 
-            this.x = products.data.products;
+            this.loading = false; // Set loading to false after data is fetched
           },
           error: (err) => {
             console.log(err);
@@ -522,6 +537,7 @@ updateActiveButton(): void {
       }
 
       if (this.receivedCategories.length == 0 && this.oldtonew) {
+        this.loading = true;
         this.PoroductsService.getFilteredProducts(
           [],
           this.minprice,
@@ -547,8 +563,7 @@ updateActiveButton(): void {
             console.log(data);
             console.log(products.data.products);
             this.x = products.data.products;
-
-            this.x = products.data.products;
+            this.loading = false; // Set loading to false after data is fetched
           },
           error: (err) => {
             console.log(err);
@@ -560,6 +575,7 @@ updateActiveButton(): void {
       }
 
       if (this.receivedCategories.length == 0 && this.newtoold) {
+        this.loading = true;
         console.log(buttonValue);
         this.PoroductsService.getFilteredProducts(
           [],
@@ -587,7 +603,7 @@ updateActiveButton(): void {
             console.log(products.data.products);
             this.x = products.data.products;
 
-            this.x = products.data.products;
+            this.loading = false; // Set loading to false after data is fetched
           },
           error: (err) => {
             console.log(err);
@@ -600,978 +616,23 @@ updateActiveButton(): void {
     }
   }
 
-pressclickedp() {
-  if (this.currentPage > 1) {
-    this.currentPage--;
-this.generatePagination();
- console.log("..000000000000000000000000" , this.isusedbtn)
- ///////////////////////////
- console.log(',,', this.buttonValueclickedd);
+  pressclickedp() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.generatePagination();
+      console.log('..000000000000000000000000', this.isusedbtn);
+      ///////////////////////////
+      console.log(',,', this.buttonValueclickedd);
     }
   }
 
-pressclickedn() {
-  if (this.currentPage < this.tot_pages) {
-    this.currentPage++;
-    this.generatePagination();
-    console.log("..000000000000000000000000" , this.isusedbtn)
-   
-   console.log(",,," ,this.buttonValueclickedd);
+  pressclickedn() {
+    if (this.currentPage < this.tot_pages) {
+      this.currentPage++;
+      this.generatePagination();
+      console.log('..000000000000000000000000', this.isusedbtn);
+
+      console.log(',,,', this.buttonValueclickedd);
     }
   }
-
- 
-  //   press(event: Event) {
-
-  //     // this.buttonValueclickedd=1
-  //     const button = event.target as HTMLButtonElement;
-  //     const buttonValue: number = parseInt(button.innerText, 10);
-
-  //     if(buttonValue>1){
-
-  //     const button = document.getElementById('prev');
-  //     if (button) {
-
-  //       button.style.pointerEvents = 'auto';
-  //       button.style.cursor = 'pointer';
-  //       button.style.opacity = '1';
-  //     }
-  //     }
-  //     if(buttonValue<this.arr.length){
-
-  //       const buttonn = document.getElementById('next');
-  //     if (buttonn) {
-
-  //       buttonn.style.pointerEvents = 'auto';
-  //       buttonn.style.cursor = 'pointer';
-  //       buttonn.style.opacity = '1';
-  //     }}
-  //     this.buttonValueclickedd= buttonValue;
-  //     console.log("movinggg to", this.buttonValueclickedd);
-
-  //     console.log('yuuuuuuuuu', buttonValue);
-  //     console.log('Pagination array:', this.arr);
-  //     console.log(
-  //       'Updated Data in Product Component  xxxxxx:',
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       this.newtoold,
-  //       this.oldtonew
-  //     );
-
-  //     if (this.searchFromSidebar.length !== 0) {
-  //       /////////////////
-
-  // this.PoroductsService.getSrearched(this.searchFromSidebar , buttonValue).subscribe({
-  //   next: (data) => {
-  //     console.log(data);
-  //     var products: any = data;
-
-  //     this.x = products.data.paginatedResults;  // Assuming the search results are in `paginatedResults`
-  //     console.log('Search results:', this.x);
-
-  //     // Handle pagination or other logic if necessary
-  //     if (this.x.length > 0) {
-  //       console.log('Products found after search');
-  //       // Emit search results or handle pagination here if needed
-  //     } else {
-  //       console.log('No products found for search');
-  //     }
-  //   },
-  //   error: (err) => {
-  //     console.log('Error during search:', err);
-  //   },
-  //   complete: () => {
-  //     console.log('Search request complete');
-  //   },
-  // });
-
-  // /////////////////
-  // return; // This will exit the function early
-
-  //     }
-
-  //     if (
-  //       this.receivedCategories.length == 0 &&
-  //       this.newtoold == false &&
-  //       this.oldtonew == false &&
-  //       this.minprice == 200 &&
-  //       this.maxprice == 20000
-  //     ) {
-  //       this.PoroductsService.getallproductsbuttn(buttonValue).subscribe({
-  //         next: (data) => {
-  //           console.log(data);
-  //           var products: any = data;
-
-  //           this.x = products.data.products;
-  //           console.log('buttonclickeddddd');
-  //           console.log(this.x);
-  //         },
-  //         error: (err) => { },
-  //         complete: () => {
-  //           console.log('completeeee');
-  //         },
-  //       });
-  //     }
-  //     if (this.receivedCategories.length && this.newtoold) {
-  //       this.PoroductsService.getFilteredProducts(
-  //         this.receivedCategories,
-  //         this.minprice,
-  //         this.maxprice,
-  //         8,
-  //         buttonValue,
-  //         'newest'
-  //       ).subscribe({
-  //         next: (data) => {
-  //           console.log(data);
-  //           var products: any = data;
-  //           console.log(
-  //             '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //           );
-
-  //           this.arr = [];
-  //           this.tot_pages = products.data.totalPages;
-  //           console.log('totalllll', this.tot_pages);
-  //           console.log(this.arr);
-
-  //           for (var i = 1; i <= this.tot_pages; i++) {
-  //             this.arr.push(i);
-  //           }
-  //           console.log(this.arr);
-
-  //           console.log(products.data.products);
-  //           this.x = products.data.products;
-
-  //           this.x = products.data.products;
-  //           // console.log(this.x);
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //         complete: () => {
-  //           console.log('completeeee');
-  //         },
-  //       });
-  //     }
-
-  //     ////////////////////////////////////////////////////
-
-  //     if (this.receivedCategories.length && this.oldtonew) {
-  //       this.PoroductsService.getFilteredProducts(
-  //         this.receivedCategories,
-  //         this.minprice,
-  //         this.maxprice,
-  //         8,
-  //         buttonValue,
-  //         'oldest'
-  //       ).subscribe({
-  //         next: (data) => {
-  //           console.log(data);
-  //           var products: any = data;
-  //           console.log(
-  //             '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //           );
-  //           this.arr = [];
-  //           this.tot_pages = products.data.totalPages;
-  //           for (var i = 1; i <= this.tot_pages; i++) {
-  //             this.arr.push(i);
-  //           }
-
-  //           console.log(products.data.products);
-  //           this.x = products.data.products;
-
-  //           this.x = products.data.products;
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //         complete: () => {
-  //           console.log('completeeee');
-  //         },
-  //       });
-  //     }
-
-  //     if (this.receivedCategories.length && !this.oldtonew && !this.oldtonew) {
-  //       this.PoroductsService.getFilteredProducts(
-  //         this.receivedCategories,
-  //         this.minprice,
-  //         this.maxprice,
-  //         8,
-  //         buttonValue
-  //       ).subscribe({
-  //         next: (data) => {
-  //           console.log(data);
-  //           var products: any = data;
-  //           console.log(
-  //             '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //           );
-  //           this.arr = [];
-  //           console.log('arr before', this.arr);
-
-  //           this.tot_pages = products.data.totalPages;
-  //           for (var i = 1; i <= this.tot_pages; i++) {
-  //             this.arr.push(i);
-  //           }
-  //           console.log('arr after', this.arr);
-
-  //           console.log(products.data.products);
-  //           this.x = products.data.products;
-
-  //           this.x = products.data.products;
-  //           // console.log(this.x);
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //         complete: () => {
-  //           console.log('completeeee');
-  //         },
-  //       });
-  //     }
-
-  //     if (this.receivedCategories.length == 0 && this.oldtonew) {
-  //       // this.PoroductsService.getnewest().subscribe({
-  //       //   next: (data) => {
-  //       //     console.log(data);
-  //       //     var products: any = data;
-  //       //     console.log(
-  //       //       '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //       //     );
-  //       //     console.log(products.data.products);
-  //       //     this.x = products.data.products;
-
-  //       //     this.x = products.data.products;
-  //       //   },
-  //       //   error: (err) => {
-  //       //     console.log(err);
-  //       //   },
-  //       //   complete: () => {
-  //       //     console.log('completeeee');
-  //       //   },
-  //       // });
-  //       this.PoroductsService.getFilteredProducts(
-  //         [],
-  //         this.minprice,
-  //         this.maxprice,
-  //         8,
-  //         buttonValue,
-  //         'newest'
-  //       ).subscribe({
-  //         next: (data) => {
-  //           console.log(data);
-  //           var products: any = data;
-  //           console.log(
-  //             '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //           );
-  //           this.arr = [];
-  //           this.tot_pages = products.data.totalPages;
-  //           for (var i = 1; i <= this.tot_pages; i++) {
-  //             this.arr.push(i);
-  //           }
-
-  //           console.log("newwwwwwwwwww");
-  //           console.log(this.arr)
-  //           console.log(data)
-  //           console.log(products.data.products);
-  //           this.x = products.data.products;
-
-  //           this.x = products.data.products;
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //         complete: () => {
-  //           console.log('completeeee');
-  //         },
-  //       });
-
-  //     }
-
-  //     if (this.receivedCategories.length == 0 && this.newtoold) {
-  //       // this.PoroductsService.getoldest().subscribe({
-  //       //   next: (data) => {
-  //       //     console.log(data);
-  //       //     var products: any = data;
-  //       //     console.log(
-  //       //       '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //       //     );
-  //       //     console.log(products.data.products);
-  //       //     this.x = products.data.products;
-
-  //       //     this.x = products.data.products;
-  //       //   },
-  //       //   error: (err) => {
-  //       //     console.log(err);
-  //       //   },
-  //       //   complete: () => {
-  //       //     console.log('completeeee');
-  //       //   },
-  //       // });
-  //       console.log(buttonValue)
-  //       this.PoroductsService.getFilteredProducts(
-  //         [],
-  //         this.minprice,
-  //         this.maxprice,
-  //         8,
-  //         buttonValue,
-  //         'oldest'
-  //       ).subscribe({
-  //         next: (data) => {
-  //           console.log(data);
-  //           var products: any = data;
-  //           console.log(
-  //             '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //           );
-  //           this.arr = [];
-  //           this.tot_pages = products.data.totalPages;
-  //           for (var i = 1; i <= this.tot_pages; i++) {
-  //             this.arr.push(i);
-  //           }
-
-  //           console.log("newwwwwwwwwww");
-  //           console.log(this.arr)
-  //           console.log(data)
-  //           console.log(products.data.products);
-  //           this.x = products.data.products;
-
-  //           this.x = products.data.products;
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //         complete: () => {
-  //           console.log('completeeee');
-  //         },
-  //       });
-
-  //     }
-
-  //   }
-  ///////////////////trv//////////////////////////
-  // pressclickedp(event: Event) {
-  //   this.buttonValueclickedd-=1
-  //    console.log("amr" ,this.buttonValueclickedd)
-  //   if(this.buttonValueclickedd>=1){
-
-  //     if(this.buttonValueclickedd==1){
-
-  //     const button = document.getElementById('prev');
-  //     if (button) {
-  //       button.style.pointerEvents = 'none'; // Disable click events
-  //       button.style.cursor = 'not-allowed'; // Change cursor to "not allowed"
-  //       button.style.opacity = '0.5'; // Optional: you can dim the button to indicate it's disabled
-
-  //     }
-  //   }
-  //   else{
-  //     const button = document.getElementById('prev');
-  //     if (button) {
-
-  //       button.style.pointerEvents = 'auto';
-  //       button.style.cursor = 'pointer';
-  //       button.style.opacity = '1';
-  //     }
-
-  //   }
-
-  //     if(this.buttonValueclickedd<=this.arr.length){
-
-  //     const button = document.getElementById('next');
-  //     if (button) {
-
-  //       button.style.pointerEvents = 'auto';
-  //       button.style.cursor = 'pointer';
-  //       button.style.opacity = '1';
-  //     }
-  //     }
-  //   console.log(
-  //     'Updated Data in Product Component  xxxxxx:',
-  //     this.receivedCategories,
-  //     this.minprice,
-  //     this.maxprice,
-  //     this.newtoold,
-  //     this.oldtonew
-  //   );
-  //   if (
-  //     this.receivedCategories.length == 0 &&
-  //     this.newtoold == false &&
-  //     this.oldtonew == false &&
-  //     this.minprice == 200 &&
-  //     this.maxprice == 20000
-  //   ) {
-  //     this.PoroductsService.getallproductsbuttn(this.buttonValueclickedd).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-
-  //         this.x = products.data.products;
-  //         console.log('buttonclickeddddd');
-  //         console.log(this.x);
-  //       },
-  //       error: (err) => { },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-  //   if (this.receivedCategories.length && this.newtoold) {
-  //     this.PoroductsService.getFilteredProducts(
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'newest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         console.log('totalllll', this.tot_pages);
-  //         console.log(this.arr);
-
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-  //         console.log(this.arr);
-
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //         // console.log(this.x);
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-
-  //   ////////////////////////////////////////////////////
-
-  //   if (this.receivedCategories.length && this.oldtonew) {
-  //     this.PoroductsService.getFilteredProducts(
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'oldest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-
-  //   if (this.receivedCategories.length && !this.oldtonew && !this.oldtonew) {
-  //     this.PoroductsService.getFilteredProducts(
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         console.log('arr before', this.arr);
-
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-  //         console.log('arr after', this.arr);
-
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //         // console.log(this.x);
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-
-  //   if (this.receivedCategories.length == 0 && this.oldtonew) {
-  //     // this.PoroductsService.getnewest().subscribe({
-  //     //   next: (data) => {
-  //     //     console.log(data);
-  //     //     var products: any = data;
-  //     //     console.log(
-  //     //       '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //     //     );
-  //     //     console.log(products.data.products);
-  //     //     this.x = products.data.products;
-
-  //     //     this.x = products.data.products;
-  //     //   },
-  //     //   error: (err) => {
-  //     //     console.log(err);
-  //     //   },
-  //     //   complete: () => {
-  //     //     console.log('completeeee');
-  //     //   },
-  //     // });
-  //     this.PoroductsService.getFilteredProducts(
-  //       [],
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'newest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-
-  //         console.log("newwwwwwwwwww");
-  //         console.log(this.arr)
-  //         console.log(data)
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-
-  //   }
-
-  //   if (this.receivedCategories.length == 0 && this.newtoold) {
-  //     // this.PoroductsService.getoldest().subscribe({
-  //     //   next: (data) => {
-  //     //     console.log(data);
-  //     //     var products: any = data;
-  //     //     console.log(
-  //     //       '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //     //     );
-  //     //     console.log(products.data.products);
-  //     //     this.x = products.data.products;
-
-  //     //     this.x = products.data.products;
-  //     //   },
-  //     //   error: (err) => {
-  //     //     console.log(err);
-  //     //   },
-  //     //   complete: () => {
-  //     //     console.log('completeeee');
-  //     //   },
-  //     // });
-  //     console.log(this.buttonValueclickedd)
-  //     this.PoroductsService.getFilteredProducts(
-  //       [],
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'oldest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-
-  //         console.log("newwwwwwwwwww");
-  //         console.log(this.arr)
-  //         console.log(data)
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-
-  //   }
-  // }
-
-  // else{
-  // console.log("stopppppppp");
-  // const button = document.getElementById('prev');
-
-  // if (button) {
-  //   button.style.pointerEvents = 'none'; // Disable click events
-  //   button.style.cursor = 'not-allowed'; // Change cursor to "not allowed"
-  //   button.style.opacity = '0.5'; // Optional: you can dim the button to indicate it's disabled
-
-  // }
-  // this.buttonValueclickedd=1;
-  // console.log(this.buttonValueclickedd)
-
-  // }
-  // }
-  ////////////////next//////////////////////////////////
-
-  // pressclickedn(event: Event) {
-  //   this.buttonValueclickedd+=1
-  //    console.log("amr" ,this.buttonValueclickedd)
-  //   if(this.buttonValueclickedd<=this.arr.length){
-
-  //     if(this.buttonValueclickedd==this.arr.length)
-  //       {
-  //         const button = document.getElementById('next');
-
-  //      if (button) {
-  //   button.style.pointerEvents = 'none'; // Disable click events
-  //   button.style.cursor = 'not-allowed'; // Change cursor to "not allowed"
-  //   button.style.opacity = '0.5'; // Optional: you can dim the button to indicate it's disabled
-
-  //         }
-  //        }
-  //     // const button = document.getElementById('next');
-  //     // if (button) {
-
-  //     //   button.style.pointerEvents = 'auto';
-  //     //   button.style.cursor = 'pointer';
-  //     //   button.style.opacity = '1';
-  //     // }
-  //      if(this.buttonValueclickedd>1)
-  //     {
-  //     const buttonn = document.getElementById('prev');
-  //     if (buttonn) {
-
-  //       buttonn.style.pointerEvents = 'auto';
-  //       buttonn.style.cursor = 'pointer';
-  //       buttonn.style.opacity = '1';
-  //     }
-  //   }
-  //   console.log(
-  //     'Updated Data in Product Component  xxxxxx:',
-  //     this.receivedCategories,
-  //     this.minprice,
-  //     this.maxprice,
-  //     this.newtoold,
-  //     this.oldtonew
-  //   );
-  //   if (
-  //     this.receivedCategories.length == 0 &&
-  //     this.newtoold == false &&
-  //     this.oldtonew == false &&
-  //     this.minprice == 200 &&
-  //     this.maxprice == 20000
-  //   ) {
-  //     this.PoroductsService.getallproductsbuttn(this.buttonValueclickedd).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-
-  //         this.x = products.data.products;
-  //         console.log('buttonclickeddddd');
-  //         console.log(this.x);
-  //       },
-  //       error: (err) => { },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-  //   if (this.receivedCategories.length && this.newtoold) {
-  //     this.PoroductsService.getFilteredProducts(
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'newest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         console.log('totalllll', this.tot_pages);
-  //         console.log(this.arr);
-
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-  //         console.log(this.arr);
-
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //         // console.log(this.x);
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-
-  //   ////////////////////////////////////////////////////
-
-  //   if (this.receivedCategories.length && this.oldtonew) {
-  //     this.PoroductsService.getFilteredProducts(
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'oldest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-
-  //   if (this.receivedCategories.length && !this.oldtonew && !this.oldtonew) {
-  //     this.PoroductsService.getFilteredProducts(
-  //       this.receivedCategories,
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         console.log('arr before', this.arr);
-
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-  //         console.log('arr after', this.arr);
-
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //         // console.log(this.x);
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-  //   }
-
-  //   if (this.receivedCategories.length == 0 && this.oldtonew) {
-  //     // this.PoroductsService.getnewest().subscribe({
-  //     //   next: (data) => {
-  //     //     console.log(data);
-  //     //     var products: any = data;
-  //     //     console.log(
-  //     //       '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //     //     );
-  //     //     console.log(products.data.products);
-  //     //     this.x = products.data.products;
-
-  //     //     this.x = products.data.products;
-  //     //   },
-  //     //   error: (err) => {
-  //     //     console.log(err);
-  //     //   },
-  //     //   complete: () => {
-  //     //     console.log('completeeee');
-  //     //   },
-  //     // });
-  //     this.PoroductsService.getFilteredProducts(
-  //       [],
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'newest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-
-  //         console.log("newwwwwwwwwww");
-  //         console.log(this.arr)
-  //         console.log(data)
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-
-  //   }
-
-  //   if (this.receivedCategories.length == 0 && this.newtoold) {
-  //     // this.PoroductsService.getoldest().subscribe({
-  //     //   next: (data) => {
-  //     //     console.log(data);
-  //     //     var products: any = data;
-  //     //     console.log(
-  //     //       '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //     //     );
-  //     //     console.log(products.data.products);
-  //     //     this.x = products.data.products;
-
-  //     //     this.x = products.data.products;
-  //     //   },
-  //     //   error: (err) => {
-  //     //     console.log(err);
-  //     //   },
-  //     //   complete: () => {
-  //     //     console.log('completeeee');
-  //     //   },
-  //     // });
-  //     console.log(this.buttonValueclickedd)
-  //     this.PoroductsService.getFilteredProducts(
-  //       [],
-  //       this.minprice,
-  //       this.maxprice,
-  //       8,
-  //       this.buttonValueclickedd,
-  //       'oldest'
-  //     ).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         var products: any = data;
-  //         console.log(
-  //           '1111111111112222222222222222222222222222333333333333333333333333333333'
-  //         );
-  //         this.arr = [];
-  //         this.tot_pages = products.data.totalPages;
-  //         for (var i = 1; i <= this.tot_pages; i++) {
-  //           this.arr.push(i);
-  //         }
-
-  //         console.log("newwwwwwwwwww");
-  //         console.log(this.arr)
-  //         console.log(data)
-  //         console.log(products.data.products);
-  //         this.x = products.data.products;
-
-  //         this.x = products.data.products;
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       },
-  //       complete: () => {
-  //         console.log('completeeee');
-  //       },
-  //     });
-
-  //   }
-  // }
-
-  // else{
-  // console.log("stopppppppp");
-  // const button = document.getElementById('next');
-
-  // if (button) {
-  //   button.style.pointerEvents = 'none'; // Disable click events
-  //   button.style.cursor = 'not-allowed'; // Change cursor to "not allowed"
-  //   button.style.opacity = '0.5'; // Optional: you can dim the button to indicate it's disabled
-  // }
-  // }
-  // }
 }
