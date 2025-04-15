@@ -1,4 +1,4 @@
-<div class="min-h-screen pt-16 md:pt-0 mt-6">
+<div class="min-h-screen pt-16 md:pt-0 mt-6 ">
   <div class="w-full max-w-lg mx-auto p-1 my-2">
     <svg
       [attr.viewBox]="'0 0 ' + ((steps.length - 1) * 60 + 40) + ' 60'"
@@ -17,7 +17,7 @@
         <path
           d="M -53.4 15 H 0"
           class="stroke-current transition-colors duration-300"
-          [class.text-blue-600]="isActive(i - 1)"
+          [class.light-brown]="isActive(i - 1)"
           [class.text-gray-200]="!isActive(i - 1)"
           stroke-width="1.5"
           stroke-linecap="round"
@@ -29,7 +29,7 @@
           cy="15"
           r="6"
           class="fill-current transition-colors duration-300"
-          [class.text-blue-600]="isCompleted(i)"
+          [class.light-brown]="isCompleted(i)"
           [class.text-gray-200]="!isCompleted(i)"
         />
         @if (isCompleted(i)) {
@@ -45,7 +45,7 @@
           x="0"
           y="35"
           class="text-[7px] font-medium text-center uppercase tracking-tight"
-          [class.text-blue-600]="isActive(i)"
+          [class.light-brown]="isActive(i)"
           [class.text-gray-400]="!isActive(i)"
           text-anchor="middle"
         >
@@ -55,7 +55,7 @@
       }
     </svg>
   </div>
-  <div class="flex flex-col items-center justify-center w-full mt-6">
+  <div class="flex flex-col items-center justify-center w-full ">
     <div class="flex justify-center">
       <img class="w-2/6" src="{{ getCurrentStep()?.image }}" />
     </div>
@@ -77,13 +77,13 @@
         </p>
       </div>
     </div>
-    <div class="mt-6">
-      <button
-        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-      >
-        Submit Review
-      </button>
-    </div>
+    <!-- <div class="mt-6"> -->
+    <!--   <button -->
+    <!--     class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors" -->
+    <!--   > -->
+    <!--     Submit Review -->
+    <!--   </button> -->
+    <!-- </div> -->
   </div>
   <button
     (click)="goBack.emit()"

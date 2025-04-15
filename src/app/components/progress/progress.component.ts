@@ -27,21 +27,21 @@ export class ProgressComponent {
     {
       id: 'In-Proccess',
       label: 'Processing',
-      image: "delivery-car.png",
+      image: "progress/re.jpeg",
       message: "Your order is being processed.",
       message2: "We're preparing your items for shipment."
     },
     {
-      id: 'out-for-delivery',
+      id: 'In-Delivery',
       label: 'Out for Delivery',
-      image: "delivery-car.png",
+      image: "progress/In-Delivery.png",
       message: "Your order is on its way!",
       message2: "Our delivery team is en route to your address."
     },
     {
-      id: 'delivered',
+      id: 'Reached',
       label: 'Delivered',
-      image: "delivery-done.png",
+      image: "progress/Reached.png",
       message: "Your order number Has Been Delivered successfully!",
       message2: "We hope you love your order! Let us know your feedback."
     }

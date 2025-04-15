@@ -34,9 +34,9 @@ export class OrderHistoryComponent {
   tabs: string[] = [
     'all orders',
     'summary',
-    'completed',
+    "Reached",
     'canceled',
-    'inprogress',
+    'In-Proccess',
   ];
   activeTab: string = 'all orders';
   isMenuOpen = false;

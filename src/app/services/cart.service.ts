@@ -41,9 +41,9 @@ export class CartService {
     }
 
     const statusMap: { [key: string]: string } = {
-      completed: 'completed',
+      Reached: 'Reached',
       canceled: 'canceled',
-      inprogress: 'inprogress',
+      'In-Proccess': 'In-Proccess',
     };
 
     return this.historyData.filter((item: any) => {
