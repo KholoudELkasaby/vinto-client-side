@@ -44,6 +44,7 @@ export class CartService {
       Reached: 'Reached',
       canceled: 'canceled',
       'In-Proccess': 'In-Proccess',
+      'In-Delivery': 'In-Delivery',
     };
 
     return this.historyData.filter((item: any) => {

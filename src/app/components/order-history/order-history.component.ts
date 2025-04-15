@@ -33,10 +33,10 @@ export class OrderHistoryComponent {
   cartService: CartService = inject(CartService);
   tabs: string[] = [
     'all orders',
-    'summary',
     "Reached",
-    'canceled',
+    'In-Delivery',
     'In-Proccess',
+    'canceled',
   ];
   activeTab: string = 'all orders';
   isMenuOpen = false;
