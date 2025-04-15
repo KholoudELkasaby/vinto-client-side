@@ -317,7 +317,9 @@
     <div class="flex justify-between w-[80%] mt-3">
       <div class="flex justify-center items-center gap-2">
         <p class="text-lg font-semibold">{{ cart.items.length }} Items</p>
-        <p class="text-xs text-gray-400 text-center">{{ totalQuantity }} Quantity</p>
+        <p class="text-xs text-gray-400 text-center">
+          {{ totalQuantity }} Quantity
+        </p>
       </div>
       <p class="text-lg font-semibold">
         EGP {{ (total | number : "1.2-2") || 0 }}
@@ -343,7 +345,11 @@
 
     <!-- Checkout Button -->
     <button
-      (click)="checkout()"
+      (click)="checkout(); onCheckout()"
+      [disabled]="isDisabled"
+      [ngClass]="
+        isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-black text-white'
+      "
       [disabled]="!cart?.items?.length"
       class="w-[85%] bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
       [title]="

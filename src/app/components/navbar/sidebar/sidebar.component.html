@@ -6,7 +6,7 @@
     <li *ngIf="isLoggedIn" class="flex flex-col w-full">
       <a
         routerLink="/profile/data"
-        class="flex gap-2 items-center justify-center py-2 w-[90%] rounded-xl bg-neutral-900 cursor-pointer"
+        class="flex gap-5 items-center justify-center py-1 w-[70%] rounded-xl bg-neutral-900 cursor-pointer"
       >
         <img
           class="w-9 h-9 object-cover rounded-full"
@@ -14,7 +14,8 @@
           alt="logged"
         />
         <div>
-          <p class="text-sm">
+          <p class="text-base">Hello ,</p>
+          <p class="text-base">
             {{ username }}
           </p>
           <p class="text-gray-color text-xs">{{ userEmail }}</p>

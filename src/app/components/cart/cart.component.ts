@@ -49,6 +49,7 @@ export class CartComponent {
   originalQuantities: { [key: string]: number } = {};
   total: number = 0;
   totalQuantity: number = 0;
+  isDisabled = false;
 
   constructor(
     private router: Router,
@@ -57,7 +58,7 @@ export class CartComponent {
     private genral: GenralService,
     private authService: AuthService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.deliveryFees = this.genral.deliveryFees;
@@ -70,9 +71,7 @@ export class CartComponent {
         this.updateCart();
       } else {
       }
-
     });
-
   }
 
   calculateTotalQuantity(): void {
@@ -86,7 +85,9 @@ export class CartComponent {
       const quantity = pendingQty !== undefined ? pendingQty : item.quantity;
       return sum + quantity;
     }, 0);
-
+  }
+  onCheckout() {
+    this.isDisabled = true;
   }
 
   updateCart() {

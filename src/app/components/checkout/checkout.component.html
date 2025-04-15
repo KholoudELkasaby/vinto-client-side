@@ -1,7 +1,7 @@
 <div class="pt-16 md:pt-0 bg-white min-h-screen">
   <form
     [formGroup]="checkoutForm"
-    (ngSubmit)="checkout()"
+    (ngSubmit)="checkout(); onCheckout()"
     class="min-h-screen flex flex-col md:flex-row mx-auto"
   >
     <div class="min-h-screen p-6 bg-white md:w-[65%] w-full">
@@ -248,6 +248,12 @@
 
         <button
           type="submit"
+          [disabled]="isDisabled"
+          [ngClass]="
+            isDisabled
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-black text-white'
+          "
           class="w-full bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
         >
           Checkout
