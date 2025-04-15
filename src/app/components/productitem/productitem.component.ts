@@ -15,6 +15,7 @@ import { WishService } from '../../services/wish.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { GenralService } from '../../services/genral.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-productitem',
@@ -47,7 +48,8 @@ export class ProductitemComponent {
     private wishService: WishService,
     private authService: AuthService,
     private genral: GenralService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -113,7 +115,29 @@ export class ProductitemComponent {
   }
   liked: boolean = false; // Track like state
 
+  handleWishToggle(event: Event): void {
+    event.stopPropagation();
+
+    if (!this.isLoggedIn) {
+      this.notificationService.showNotification({
+        message: 'Please log in to add items to your wishlist.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    this.toggleWish(this.userId, this.products._id);
+    this.toggleLike(); // toggle only if logged in
+  }
+
   toggleWish(userId: string, productId: string): void {
+    if (!this.isLoggedIn) {
+      this.notificationService.showNotification({
+        message: 'Please log in to add items to your cart.',
+        type: 'warning', // or 'info', 'error', based on your style
+      });
+      return;
+    }
     this.wishService.getAll(userId).subscribe({
       next: (response) => {
         const wishlist = response.data.wishlist;
@@ -124,13 +148,25 @@ export class ProductitemComponent {
 
         if (exists) {
           this.removefromWish(userId, productId);
+          this.notificationService.showNotification({
+            message: 'Product removed from wishlist Successfully!',
+            type: 'success', // or 'info', 'error', based on your style
+          });
         } else {
           this.addToWish(userId, productId);
+          this.notificationService.showNotification({
+            message: 'Product added to wishlist Successfully!',
+            type: 'success', // or 'info', 'error', based on your style
+          });
         }
         this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error fetching wishlist:', err);
+        this.notificationService.showNotification({
+          message: 'Could not update wishlist. Please try again.',
+          type: 'error', // or 'info', 'error', based on your style
+        });
       },
     });
   }
@@ -151,10 +187,20 @@ export class ProductitemComponent {
   }
 
   addToCart(id: string, productId: string, quantity: number): void {
+    if (!this.isLoggedIn) {
+      this.notificationService.showNotification({
+        message: 'Please log in to add items to your cart.',
+        type: 'warning', // or 'info', 'error', based on your style
+      });
+      return;
+    }
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
         this.genral.increment();
-        this.router.navigate(['/cart']);
+        this.notificationService.showNotification({
+          message: 'Product added to cart successfully!',
+          type: 'info', // or 'info', 'error', based on your style
+        });
       },
     });
   }

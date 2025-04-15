@@ -23,7 +23,7 @@ export class DetailsComponent {
   selectedImage: string = '';
   isFading = false;
   userId: any;
-  quantity: number = 1;
+
   inWishlist: boolean = false;
   wishlistItems: any[] = [];
   products: Product[] = [];
@@ -88,7 +88,7 @@ export class DetailsComponent {
 
     if (!this.isLoggedIn) {
       this.notificationService.showNotification({
-        message: 'You need to log in to add to your wishlist.',
+        message: 'Please log in to add items to your wishlist.',
         type: 'warning',
       });
       return;
@@ -107,7 +107,7 @@ export class DetailsComponent {
   toggleWish(userId: string, productId: string): void {
     if (!this.isLoggedIn) {
       this.notificationService.showNotification({
-        message: 'You need to log in to add to your wishlist.',
+        message: 'Please log in to add items to your Wishlist.',
         type: 'warning',
       });
       return;
@@ -139,7 +139,7 @@ export class DetailsComponent {
       next: () => {
         this.notificationService.showNotification({
           message: 'added to Wishlist Successfully!',
-          type: 'info',
+          type: 'success',
         });
         this.liked = true;
       },
@@ -156,7 +156,7 @@ export class DetailsComponent {
       next: () => {
         this.notificationService.showNotification({
           message: 'removed from Wishlist Successfully!',
-          type: 'info',
+          type: 'success',
         });
         this.liked = false;
       },

@@ -7,11 +7,7 @@
     <a>
       <div class="flex justify-end pr-5 pt-3">
         <svg
-          (click)="
-            toggleWish(userId, products._id);
-            toggleLike();
-            $event.stopPropagation()
-          "
+          (click)="handleWishToggle($event)"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -37,23 +33,19 @@
     </a>
 
     <div class="flex justify-center">
-      @if(isLoggedIn){
       <a
         (click)="
-          addToCart(userId, products._id, quantity); $event.stopPropagation()
+          addToCart(userId, products._id, products.quantity);
+          $event.stopPropagation()
         "
-        class="block mb-5 text-white bg-gray-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        [ngClass]="{
+          'bg-white text-red-500 cursor-not-allowed': products.quantity === 0,
+          'bg-gray-900 text-white cursor-pointer': products.quantity > 0
+        }"
+        class="block mb-5 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
-        Add to cart
+        {{ products.quantity === 0 ? "Out of Stock" : "Add to Cart" }}
       </a>
-      }@else{
-      <a
-        (click)="$event.stopPropagation()"
-        class="block mb-5 text-white bg-gray-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      >
-        Add to cart
-      </a>
-      }
     </div>
   </div>
 

@@ -7,10 +7,11 @@ import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../../services/notification.service';
 import { Notification } from '../../../models/notification.model';
 import { GenralService } from '../../../services/genral.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-to-cart-btn',
-  imports: [],
+  imports: [CommonModule],
   providers: [CartService],
   templateUrl: './add-to-cart-btn.component.html',
   styleUrl: './add-to-cart-btn.component.css',
@@ -47,7 +48,7 @@ export class AddToCartBtnComponent {
   addToCart(id: string, productId: string, quantity: number): void {
     if (!this.isLoggedIn) {
       this.notificationService.showNotification({
-        message: 'You need to log in to add items to the cart.',
+        message: 'Please log in to add items to your cart.',
         type: 'warning', // or 'info', 'error', based on your style
       });
       return;
@@ -56,7 +57,7 @@ export class AddToCartBtnComponent {
       next: (response) => {
         this.notificationService.showNotification({
           message: 'added to Cart Successfully!',
-          type: 'info',
+          type: 'success',
         });
       },
       error: (error) => {
