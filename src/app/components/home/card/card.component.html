@@ -28,9 +28,10 @@
         <img
           [src]="product.img[productStates[product._id].currentIndex || 0]"
           loading="lazy"
-          [alt]="product.title"
           class="product-img w-full h-full object-cover"
           (load)="imageLoaded(product._id)"
+          [class.loading]="imageLoading[product._id]"
+          [alt]="product.title"
         />
       </figure>
       <div class="card-body flex justify-between px-3">
@@ -41,8 +42,7 @@
           <i
             class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
             (click)="
-              addToCart(userId, product._id, 1);
-              $event.stopPropagation()
+              addToCart(userId, product._id, 1); $event.stopPropagation()
             "
           ></i>
           <i
