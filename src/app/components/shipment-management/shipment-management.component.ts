@@ -63,6 +63,13 @@ export class ShipmentManagementComponent implements OnInit {
 
   updateStatus(shipment: ShipmentOrder, newStatus: string): void {
     if (shipment.status === newStatus) return;
+    if (shipment.status === 'Reached') {
+      this.notificationService.showNotification({
+        message: 'Cannot change status once shipment has reached its destination',
+        type: 'warning'
+      });
+      return;
+    }
 
     this.updatingId = shipment._id;
 

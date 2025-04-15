@@ -79,8 +79,7 @@ export const routes: Routes = [
   }, //
   {
     path: 'shipments',
-    component: ShipmentManagementComponent,
-    canActivate: [authGuard],
+    component: ShipmentManagementComponent
   },
   {
     path: 'admin',
