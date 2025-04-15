@@ -59,7 +59,7 @@ export class CardComponent implements OnInit, OnChanges {
     private genral: GenralService,
     private cdr: ChangeDetectorRef,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authSub = this.authService.isLoggedIn$.subscribe((loggedIn) => {
@@ -94,8 +94,9 @@ export class CardComponent implements OnInit, OnChanges {
       return; // Don't proceed if out of stock
     }
     this.cartService.addToCart(id, productId, quantity).subscribe({
-      next: (response) => {
-        this.genral.increment();
+      next: (response: any) => {
+        this.genral.setQuantity(response.ItemsOrdered.lingth);
+        this.genral.updateCartValue(this.userId);
         this.notificationService.showNotification({
           message: 'added to Cart Successfully!',
           type: 'success', // or 'info', 'error', based on your style
