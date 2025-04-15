@@ -211,7 +211,7 @@
       class="min-h-screen pt-5 p-4 bg-background-color w-full md:w-[35%] order-none"
     >
       <div class="p-6">
-        <h2 class="text-2xl font-bold mb-4">Cart Summary</h2>
+        <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
         <div class="space-y-2">
           @if(cartItems && cartItems.items){ @for(item of cartItems.items; track
           item.product._id || $index){
@@ -228,7 +228,10 @@
             >
           </div>
           }
-          <div class="flex justify-between my-3">
+          <div
+            class="flex justify-between my-3"
+            *ngIf="cartItems.items.length > 0"
+          >
             <span class="font-semibold">Shipping Fees</span>
             <span class="font-semibold text-primary"
               >EGP {{ deliveryFees | number : "1.2-2" }}</span
