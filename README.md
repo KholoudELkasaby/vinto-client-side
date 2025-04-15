@@ -1,60 +1,150 @@
-# VintoClientSide
+---
+# Vinto E-commerce Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
+The **Vinto E-commerce Frontend** is a powerful, feature-rich Angular application designed to deliver a seamless and modern shopping experience. It integrates tightly with the Vinto E-commerce API and provides interfaces for customers, administrators, and shipment companies.
 
-## Development server
 
-To start a local development server, run:
+---
+
+##  Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [Environment Configuration](#environment-configuration)
+- [Future Enhancements](#future-enhancements)
+- [License](#license)
+
+---
+
+##  Features
+
+###  Customer Features
+
+- User authentication (Register, Login, Verify via OTP)
+- Forgot and reset password
+- View products with filters and search
+- Add to cart, wishlist, and checkout flow
+- Order history and cancel order (if in progress)
+- Stripe integration for secure payments
+- Profile management and password update
+- Real-time notifications (status updates, confirmations)
+- “Bot Not Found” & “Not Authorized” custom pages
+- Skeleton loaders during data fetch
+
+###  Admin Features
+
+- Manage products, users, orders, and categories
+- Update order status (shipped, delivered, canceled)
+
+###  Shipment Company Dashboard
+
+- Shipment company login and access
+- Manage and track shipment assignments
+- Update delivery status and confirmations
+
+---
+
+##  Technologies Used
+
+- **Angular** (v19)
+- **TypeScript**
+- **RxJS**
+- **TailwindCSS**
+- **Stripe.js** (Payment integration)
+- **ngx-skeleton-loader**
+- **FontAwesome**
+- **JWT-based Authentication**
+- **REST API Integration**
+
+---
+
+##  Getting Started
+
+###  Prerequisites
+
+- [Node.js](https://nodejs.org/)
+- [Angular CLI](https://angular.io/cli)
+
+###  Installation
+
+```bash
+git clone https://github.com/Ereh11/Vinto-client-side.git
+cd Vinto-client-side
+npm install
+```
+
+###  Running the Application
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Visit: [http://localhost:4200](http://localhost:4200)
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📁 Project Structure
 
-```bash
-ng generate component component-name
+```
+Vinto-client-side/
+├── public/                    # Public assets (images, logos)
+├── src/
+│   ├── app/
+│   │   ├── components/        # Shared/reusable components
+│   │   ├── models/            # Interfaces and models
+│   │   ├── services/          # API & utility services
+│   │   ├── guards/            # Route guards for auth, admin, etc.
+│   │   ├── app.component.*    # Root component
+│   │   ├── app.module.ts      # Root module
+│   │   ├── app.routes.ts      # Main routes definition
+│   │   ├── app.config.ts      # Configurations
+│   ├── environments/          # Environment settings
+│   ├── styles.css             # Global styles
+│   ├── output.css             # Tailwind output (if used)
+│   ├── index.html             # Main HTML file
+│   └── main.ts                # Bootstrap logic
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+##  Environment Configuration
+
+Modify `src/environments/environment.ts` as needed:
+
+```ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:4000/api',
+  stripeKey: 'your_public_stripe_key'
+};
 ```
 
-## Building
+---
 
-To build the project run:
+##  Future Enhancements
 
-```bash
-ng build
-```
+- Dark mode toggle
+- Admin analytics dashboard (charts, reports)
+- Review and rating system
+- Multi-language support
+- Real-time chat for customer support
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+##  Contact
 
-```bash
-ng test
-```
+For any questions or suggestions, feel free to reach out:
 
-## Running end-to-end tests
+📧 **Email**: [kholoudellkasaby@gmail.com](mailto:kholoudellkasaby@gmail.com)
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## 📜 License
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# vinto-client-side
+This project is licensed under the **MIT License**.
