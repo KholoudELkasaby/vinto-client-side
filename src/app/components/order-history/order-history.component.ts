@@ -14,10 +14,16 @@ import { ProgressComponent } from '../progress/progress.component';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { StripeService } from '../../services/stripe.service';
+import { OrderSkeletonComponent } from '../order-skeleton/order-skeleton.component';
 
 @Component({
   selector: 'app-order-history',
-  imports: [CommonModule, OrederItemComponent, ProgressComponent],
+  imports: [
+    CommonModule,
+    OrederItemComponent,
+    ProgressComponent,
+    OrderSkeletonComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CartService],
   templateUrl: './order-history.component.html',
@@ -43,6 +49,7 @@ export class OrderHistoryComponent {
   private authSubscription!: Subscription;
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
+  loadingHistory: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -61,15 +68,18 @@ export class OrderHistoryComponent {
   }
 
   private loadData() {
+    this.loadingHistory = true;
     this.cartService.getHistory(this.user).subscribe({
       next: (data) => {
         console.log('history', data);
         this.history = data;
         this.historyDisplayed = this.cartService.filterHistory(this.activeTab);
         this.cdr.markForCheck();
+        this.loadingHistory = false;
       },
       error: (err) => {
         console.error('Error fetching the history:', err);
+        this.loadingHistory = false;
       },
     });
   }
