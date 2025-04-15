@@ -20,6 +20,9 @@ import { ProgressComponent } from './components/progress/progress.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { ShipmentManagementComponent } from './components/shipment-management/shipment-management.component';
+import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
+import { AdminSelectionComponent } from './components/admin/admin-selection/admin-selection.component';
+import { ServerFailComponent } from './components/server-fail/server-fail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -61,8 +64,8 @@ export const routes: Routes = [
     component: ChangePasswordComponent,
     canActivate: [authGuard],
   },
-  { path: 'cart', component: CartComponent },
-  { path: 'wishlist', component: WishListComponent },
+  { path: 'cart', component: CartComponent, canActivate: [authGuard] },
+  { path: 'wishlist', component: WishListComponent, canActivate: [authGuard] },
   { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard] }, //
   {
     path: 'history',
@@ -76,9 +79,21 @@ export const routes: Routes = [
   }, //
   {
     path: 'shipments',
-    component: ShipmentManagementComponent,
+    component: ShipmentManagementComponent
+  },
+  {
+    path: 'admin',
+    component: AdminHomeComponent,
     canActivate: [authGuard],
-    data: { roles: ['admin'] }, // Only allow access to users with the 'admin' role
+  },
+  {
+    path: 'admin/:model',
+    component: AdminSelectionComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'fail',
+    component: ServerFailComponent,
   },
   { path: 'not-auth', component: NotAuthorizedComponent },
   { path: '**', component: NotFoundComponent }, //

@@ -13,12 +13,12 @@ export class ShipingInfoService {
   constructor(public http: HttpClient) { }
 
 
-  createShipment(info: any) {
+  createShipment(info: any, id: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(`${this.URL}/67b87e4bee6c8c97157670ed`, info, { headers })
+    return this.http.post(`${this.URL}/${id}`, info, { headers })
   }
 
   getAllShipingInfo(): Observable<ShipmentInfo[]> {

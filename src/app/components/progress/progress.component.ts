@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ShipmentService } from '../../services/shipment-management.service';
 
 @Component({
   selector: 'app-progress',
@@ -8,10 +9,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ProgressComponent {
   @Input() status!: any;
+  @Input() cartId!: any;
+  @Input() cart!: any;
   @Output() goBack = new EventEmitter<void>();
 
   currentStatus: string = 'ordered';
-
+  deliveryDate: string = '';
 
   steps = [
     {
@@ -22,7 +25,7 @@ export class ProgressComponent {
       message2: "We are confirming your order details.",
     },
     {
-      id: 'processing',
+      id: 'In-Proccess',
       label: 'Processing',
       image: "delivery-car.png",
       message: "Your order is being processed.",
@@ -44,13 +47,24 @@ export class ProgressComponent {
     }
   ]
 
-
+  constructor(private getShipment: ShipmentService) { }
 
   ngOnInit(): void {
-    if (this.status) {
-      this.currentStatus = this.status;
+
+    if (this.cartId) {
+      this.getShipment.getShipmentOrderByCart(this.cartId).subscribe({
+        next: (data) => {
+          this.currentStatus = data.status
+          console.log(data)
+          this.deliveryDate = data.dateOfDelivery
+        },
+        error: (err) => {
+          console.error('Error fetching shipment:', err);
+        }
+      });
+    } else {
+      console.warn('No cart ID provided');
     }
-    console.log(this.currentStatus)
   }
 
   getCurrentStep() {

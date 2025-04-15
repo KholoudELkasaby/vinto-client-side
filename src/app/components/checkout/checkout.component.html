@@ -1,7 +1,7 @@
 <div class="pt-16 md:pt-0 bg-white min-h-screen">
   <form
     [formGroup]="checkoutForm"
-    (ngSubmit)="checkout()"
+    (ngSubmit)="checkout(); onCheckout()"
     class="min-h-screen flex flex-col md:flex-row mx-auto"
   >
     <div class="min-h-screen p-6 bg-white md:w-[65%] w-full">
@@ -89,17 +89,17 @@
           </div>
           <div>
             <label for="state" class="block text-sm font-semibold mb-1"
-              >State</label
+              >City</label
             >
             <select
               formControlName="city"
-              id="state"
+              id="city"
               class="w-full p-2 border rounded-md"
               onkeydown=""
             >
               <option value="">Select a city</option>
               @for(city of citiesInEgypt; track city) {
-              <option [value]="city.isoCode">{{ city.name }}</option>
+              <option [value]="city.name">{{ city.name }}</option>
               }
             </select>
             @if (!cityValid && checkoutForm.controls['city'].touched) {
@@ -211,7 +211,7 @@
       class="min-h-screen pt-5 p-4 bg-background-color w-full md:w-[35%] order-none"
     >
       <div class="p-6">
-        <h2 class="text-2xl font-bold mb-4">Cart Summary</h2>
+        <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
         <div class="space-y-2">
           @if(cartItems && cartItems.items){ @for(item of cartItems.items; track
           item.product._id || $index){
@@ -228,7 +228,10 @@
             >
           </div>
           }
-          <div class="flex justify-between my-3">
+          <div
+            class="flex justify-between my-3"
+            *ngIf="cartItems.items.length > 0"
+          >
             <span class="font-semibold">Shipping Fees</span>
             <span class="font-semibold text-primary"
               >EGP {{ deliveryFees | number : "1.2-2" }}</span
@@ -248,6 +251,12 @@
 
         <button
           type="submit"
+          [disabled]="isDisabled"
+          [ngClass]="
+            isDisabled
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-black text-white'
+          "
           class="w-full bg-black text-white px-10 mt-7 mb-8 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
         >
           Checkout

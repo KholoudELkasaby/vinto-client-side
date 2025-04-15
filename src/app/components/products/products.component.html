@@ -1,8 +1,8 @@
-<div class="relative min-h-screen">
+<div class="relative min-h-screen pt-16 md:pt-0">
   <div class="flex h-full">
     <div
       id="xx"
-      class="text-white absolute top-[1%] left-0 z-20 w-72 cursor-pointer"
+      class="bg-background-color fixed h-full overflow-y-auto top-[70px] left-0 z-10 text-white"
     >
       <app-sidebar
         id="slider"
@@ -14,7 +14,7 @@
       ></app-sidebar>
     </div>
 
-    <div class="flex-1 ml-[calc(85px)]">
+    <div class="flex-1 ml-[calc(50px)]">
       <div class="block">
         <button
           (mouseenter)="onHover(true)"
@@ -29,14 +29,27 @@
           ></b>
         </button>
 
-        @for (item of x; track item._id) {
-        <app-productitem
-          [products]="item"
-          [rate]="item.rate"
-          class="products-item"
+        <div
+          *ngIf="loading"
+          class="flex flex-wrap gap-10 justify-center products-item"
         >
-        </app-productitem>
-        }
+
+          <app-product-item-skeleton
+            *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8]"
+          ></app-product-item-skeleton>
+
+
+        </div>
+
+        <!-- Actual Products -->
+        <div *ngIf="!loading">
+          <app-productitem
+            *ngFor="let item of x"
+            [products]="item"
+            [rate]="item.rate"
+            class="products-item"
+          ></app-productitem>
+        </div>
 
         <!-- ///////////////////////////////////////// -->
 

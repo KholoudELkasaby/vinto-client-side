@@ -5,6 +5,8 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Product } from '../../../models/product.model';
@@ -15,10 +17,12 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { GenralService } from '../../../services/genral.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-card',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterModule, NgxSkeletonLoaderModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css',
@@ -26,10 +30,15 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 export class CardComponent implements OnInit, OnChanges {
   @Input() activeTab: string = 'New Arrivals';
   userId: any;
-  quantity: number = 1;
   wishlistItems: any[] = [];
   products: Product[] = [];
   imageIntervals: { [productId: string]: any } = {}; // Store intervals per product
+  imageLoading: { [productId: string]: boolean } = {}; // Track loading state of images
+
+  imageLoaded(productId: string): void {
+    this.imageLoading[productId] = false;
+    this.cdr.markForCheck();
+  }
 
   deleteMode: 'single' | 'all' = 'all';
   itemToDeleteId: string = '';
@@ -37,13 +46,19 @@ export class CardComponent implements OnInit, OnChanges {
   isLoggedIn: boolean = false;
   private authSub!: Subscription;
 
+  isOutOfStock(quantity: number): boolean {
+    return quantity === 0;
+  }
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
     private wishService: WishService,
     private authService: AuthService,
-    private genral: GenralService
+    private genral: GenralService,
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +69,7 @@ export class CardComponent implements OnInit, OnChanges {
       if (loggedIn && this.userId) {
         console.log(this.userId);
         this.fetchProducts();
+        this.cdr.detectChanges();
       } else {
       }
     });
@@ -64,14 +80,26 @@ export class CardComponent implements OnInit, OnChanges {
       this.fetchProducts();
       this.updateLikedState();
     }
+
     // if (changes['product'] && this.products) {
     // }
   }
 
   addToCart(id: string, productId: string, quantity: number): void {
+    if (this.isOutOfStock(quantity)) {
+      this.notificationService.showNotification({
+        message: 'This item is out of Stock for now!',
+        type: 'error', // You can use 'error' to indicate it's an issue
+      });
+      return; // Don't proceed if out of stock
+    }
     this.cartService.addToCart(id, productId, quantity).subscribe({
       next: (response) => {
         this.genral.increment();
+        this.notificationService.showNotification({
+          message: 'added to Cart Successfully!',
+          type: 'success', // or 'info', 'error', based on your style
+        });
       },
     });
   }
@@ -108,6 +136,7 @@ export class CardComponent implements OnInit, OnChanges {
             };
           }
         });
+        this.cdr.detectChanges();
         if (this.userId) {
           this.fetchWishlist();
         }
@@ -119,6 +148,8 @@ export class CardComponent implements OnInit, OnChanges {
   toggleFavorite(productId: string): void {
     this.productStates[productId].isFavorite =
       !this.productStates[productId].isFavorite;
+    console.log('Toggle favorite:', productId);
+
     this.toggleWish(this.userId, productId);
   }
   //   loadCartState(): void {
@@ -145,12 +176,17 @@ export class CardComponent implements OnInit, OnChanges {
   // }
   ////
 
+  trackByProductId(index: number, product: Product): string {
+    return product._id;
+  }
+
   startImageRotation(productId: string, images: string[]): void {
     if (this.imageIntervals[productId] || images.length <= 1) return;
 
     this.imageIntervals[productId] = setInterval(() => {
       const state = this.productStates[productId];
       state.currentIndex = (state.currentIndex + 1) % images.length;
+      this.cdr.detectChanges();
     }, 1000);
   }
 
@@ -184,6 +220,8 @@ export class CardComponent implements OnInit, OnChanges {
   }
 
   toggleWish(userId: string, productId: string): void {
+    console.log('Toggle wishlist:', productId);
+    console.log('userId:', userId);
     this.wishService.getAll(userId).subscribe({
       next: (response) => {
         const wishlist = response.data.wishlist;
@@ -191,11 +229,23 @@ export class CardComponent implements OnInit, OnChanges {
         const exists = this.wishlistItems.some(
           (item) => item._id === productId
         );
-
+        console.log('Exists:', exists);
+        console.log('uswe:', userId);
         if (exists) {
+          console.log('from f');
           this.removefromWish(userId, productId);
+          this.notificationService.showNotification({
+            message: 'Removed from Wishlist Successfully!',
+            type: 'success', // or 'info', 'error', based on your style
+          });
         } else {
+          console.log('from e');
+
           this.addToWish(userId, productId);
+          this.notificationService.showNotification({
+            message: 'Added to Wishlist Successfully!',
+            type: 'success', // or 'info', 'error', based on your style
+          });
         }
       },
       error: (err) => {

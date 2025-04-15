@@ -11,6 +11,7 @@ import { ShipmentResponse } from '../models/ShipmentResponse.model';
 export class ShipmentService {
   private apiUrl = 'https://vinto-ecommerce-api-production.up.railway.app/api';
 
+
   constructor(private http: HttpClient) { }
 
   getShipmentOrders(): Observable<ShipmentOrder[]> {
@@ -22,6 +23,18 @@ export class ShipmentService {
     return this.http.get<ShipmentResponse>(`${this.apiUrl}/shipmentOrder`, { headers })
       .pipe(
         map(response => response.data.shipmentOrder)
+      );
+  }
+
+  getShipmentOrderByCart(cartId: string): Observable<any> {
+
+    // const token = localStorage.getItem('token');
+    console.log("test")
+    return this.http.get<any>(`${this.apiUrl}/shipmentOrder/progress/${cartId}`)
+      .pipe(
+        map(response => ({
+          ...response.data.shipmentOrder,
+        }))
       );
   }
 

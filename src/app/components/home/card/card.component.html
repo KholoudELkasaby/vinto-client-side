@@ -3,13 +3,20 @@
 >
   <ng-container *ngIf="products.length > 0; else loadingProducts">
     <div
-      *ngFor="let product of products"
+      *ngFor="let product of products; trackBy: trackByProductId"
       class="card relative cursor-pointer rounded-lg shadow-sm flex flex-col gap-5 bg-background-color border border-background-color overflow-hidden h-96 w-72"
       [routerLink]="['/details', product._id]"
     >
       <p
         *ngIf="activeTab.trim().toLowerCase() === 'offers'"
-        class="offer absolute top-2 left-2 bg-red-500 text-white font-medium text-sm px-1 text-center z-10"
+        class="offer absolute top-0 left-0 transform -rotate-45 bg-red-500 text-white font-medium text-sm px-4 py-1 z-10"
+        style="
+          transform-origin: top left;
+          width: 100px;
+          top: 50px;
+          left: -20px;
+          text-align: center;
+        "
       >
         {{ product.discount }}% OFF
       </p>
@@ -23,27 +30,25 @@
           loading="lazy"
           [alt]="product.title"
           class="product-img w-full h-full object-cover"
+          (load)="imageLoaded(product._id)"
         />
       </figure>
       <div class="card-body flex justify-between px-3">
         <h2 class="card-title font-medium w-full truncate">
           {{ product.title }}
         </h2>
-        <div class="flex gap-3">
+        <div class="flex gap-3" *ngIf="isLoggedIn">
           <i
             class="cart fa-solid fa-cart-shopping cursor-pointer hover:scale-110 transition-all active:scale-95"
             (click)="
-              addToCart(userId, product._id, quantity); $event.stopPropagation()
+              addToCart(userId, product._id, product.quantity);
+              $event.stopPropagation()
             "
-            [ngClass]="{
-              'text-green-500': productStates[product._id].isInCart,
-              'text-black': !productStates[product._id].isInCart
-            }"
           ></i>
           <i
             [ngClass]="{
               'fa-regular': !productStates[product._id].isFavorite,
-              'fa-solid': productStates[product._id].isFavorite
+              'fa-solid text-red-500': productStates[product._id].isFavorite
             }"
             class="wish-list fa-heart cursor-pointer hover:scale-125 scale-105 transition-all active:scale-95"
             (click)="toggleFavorite(product._id); $event.stopPropagation()"
@@ -122,8 +127,7 @@
           <i
             *ngFor="let i of [1, 2, 3, 4, 5]"
             class="fa-solid fa-star text-[#E2E0E0]"
-          ></i
-          >>
+          ></i>
         </div>
       </div>
     </div>
