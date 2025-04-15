@@ -105,7 +105,7 @@ Vinto-client-side/
 │   │   ├── app.config.ts      # Configurations
 │   ├── environments/          # Environment settings
 │   ├── styles.css             # Global styles
-│   ├── output.css             # Tailwind output (if used)
+│   ├── output.css             # Tailwind output 
 │   ├── index.html             # Main HTML file
 │   └── main.ts                # Bootstrap logic
 ```
