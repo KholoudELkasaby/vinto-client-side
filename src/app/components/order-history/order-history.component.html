@@ -98,15 +98,20 @@
         </div>
       </div>
 
+      <!-- Orders -->
       <div class="flex justify-start items-start flex-col">
-        @if(history.data.carts){ @for(cart of historyDisplayed; track
-        cart.cartId){
+        @if (loadingHistory) {
+
+        <app-order-skeleton class="w-full"></app-order-skeleton>
+
+        } @else if (history.data.carts) { @for (cart of historyDisplayed; track
+        cart.cartId) {
         <app-oreder-item
           class="w-full"
           [cart]="cart"
           (statusSelected)="onStatusSelected($event, cart.cartId)"
-        >
-        </app-oreder-item>
+        ></app-oreder-item>
+
         <!-- use a "pill" style -->
         <!-- <span class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-sm font-medium"> -->
         <!-- {{cart.status}} -->

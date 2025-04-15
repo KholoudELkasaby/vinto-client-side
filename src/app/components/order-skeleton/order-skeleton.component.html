@@ -1,0 +1,57 @@
+<div *ngFor="let i of [1, 2]">
+  <div
+    class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 sm:p-6 p-4 bg-white border-b border-gray-200 rounded-lg shadow-sm animate-pulse"
+  >
+    <div class="w-24 flex-shrink-0 mb-4 sm:mb-0">
+      <ngx-skeleton-loader
+        [theme]="{
+          'background-color': '#E2E0E0',
+          width: '6rem',
+          height: '7rem',
+          'border-radius': '0.5rem'
+        }"
+      ></ngx-skeleton-loader>
+    </div>
+
+    <div class="flex flex-col sm:flex-row flex-1 gap-4 w-full sm:w-auto">
+      <ngx-skeleton-loader
+        [theme]="{
+          'background-color': '#E2E0E0',
+          width: '25ch',
+          height: '1rem',
+          'border-radius': '0.25rem'
+        }"
+      ></ngx-skeleton-loader>
+
+      <div class="flex-1 flex-col mb-4 sm:mb-0 text-center">
+        <ngx-skeleton-loader
+          [theme]="{
+            'background-color': '#E2E0E0',
+            width: '5rem',
+            height: '0.875rem',
+            'border-radius': '0.25rem'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+
+      <div class="text-center sm:text-right flex-col flex items-center">
+        <ngx-skeleton-loader
+          [theme]="{
+            'background-color': '#E2E0E0',
+            width: '5rem',
+            height: '0.875rem',
+            'border-radius': '0.25rem'
+          }"
+        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader
+          [theme]="{
+            'background-color': '#E2E0E0',
+            width: '4rem',
+            height: '0.875rem',
+            'border-radius': '0.25rem'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+    </div>
+  </div>
+</div>
