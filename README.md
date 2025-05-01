@@ -145,6 +145,5 @@ For any questions or suggestions, feel free to reach out:
 
 ---
 
-## 📜 License
-
-This project is licensed under the **MIT License**.
+## 📄 License
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
